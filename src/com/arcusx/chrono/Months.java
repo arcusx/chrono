@@ -212,7 +212,7 @@ public class Months implements Serializable, Collection
 
 	public int size()
 	{
-		// FIXME very inefficient
+		// FIXME this could be done more efficiently
 		int i = 0;
 		Iterator iter = iterator();
 		while (iter.hasNext())

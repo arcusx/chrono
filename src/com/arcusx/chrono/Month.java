@@ -20,8 +20,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * 
- * FIXME make Comparable
+ * A concrete month of a concrete year.
  * 
  * Created 30.05.2003, 12:36:44.
  * 
