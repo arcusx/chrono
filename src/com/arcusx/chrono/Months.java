@@ -73,7 +73,7 @@ public class Months implements Serializable, Collection, Interval
 	 * @param lastMonth Last month in period.
 	 * @throws IllegalArgumentException if one is null or lastMonth is before firstMonth.
 	 */
-	public Months(Month firstMonth, Month lastMonth)
+	public Months(Month firstMonth, Month lastMonth) throws IllegalArgumentException
 	{
 		if (firstMonth == null)
 			throw new IllegalArgumentException("Start month may not be null.");
@@ -97,7 +97,7 @@ public class Months implements Serializable, Collection, Interval
 	 * @param size Count of months in period.
 	 * @throws IllegalArgumentException if firstMonth is null or size < 0.
 	 */
-	public Months(Month firstMonth, int size)
+	public Months(Month firstMonth, int size) throws IllegalArgumentException
 	{
 		if (firstMonth == null)
 			throw new IllegalArgumentException("Start month may not be null.");
@@ -120,7 +120,7 @@ public class Months implements Serializable, Collection, Interval
 	 * 
 	 * @param firstMonth 
 	 */
-	Months(Month firstMonth)
+	Months(Month firstMonth) throws IllegalArgumentException
 	{
 		if (firstMonth == null)
 			throw new IllegalArgumentException("Start month may not be null.");
