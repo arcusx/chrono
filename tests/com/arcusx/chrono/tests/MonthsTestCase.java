@@ -108,11 +108,11 @@ public class MonthsTestCase extends TestCase
 		while (testCurrDay.beforeOrEqual(testEndDay))
 		{
 			if (testCurrDay.equals(testStartDay) || testCurrDay.equals(testEndDay))
-				assertFalse("Curr month " + testCurrDay.getMonth() + " must not be in period." + period, period
-						.contains(testCurrDay.getMonth()));
+				assertFalse("Curr month " + testCurrDay.getMonth() + " must not be in period." + period,
+						period.contains(testCurrDay.getMonth()));
 			else
-				assertTrue("Curr month " + testCurrDay.getMonth() + " must be in period." + period, period
-						.contains(testCurrDay.getMonth()));
+				assertTrue("Curr month " + testCurrDay.getMonth() + " must be in period." + period,
+						period.contains(testCurrDay.getMonth()));
 
 			testCurrDay = testCurrDay.add(1);
 		}
@@ -301,6 +301,12 @@ public class MonthsTestCase extends TestCase
 		assertFalse(one.equals(other));
 		assertFalse(other.equals(one));
 	}
-	
-	
+
+	public void testValueOf() throws Exception
+	{
+		Months x = new Months(new Month(2001, 0), new Month(2025, 8));
+		Months result = Months.valueOf(x.toString());
+		assertEquals(x, result);
+	}
+
 }
