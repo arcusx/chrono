@@ -32,6 +32,11 @@
 		<property name="build.doc.dir" location="${build.dist.dir}/doc"/>
 		<property name="build.javadoc.dir" location="${build.doc.dir}/api"/>
 		<property name="build.classes.dir" location="${build.dir}/classes"/>
+
+		<!-- create dirs missing due to cvs checkout -->
+		<mkdir dir="${basedir}/resources"/>
+		<mkdir dir="${basedir}/src"/>
+		<mkdir dir="${basedir}/lib"/>
 		
 		<!-- prepare build structure -->
 		<delete dir="${build.dir}"/>
