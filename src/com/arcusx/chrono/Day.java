@@ -186,6 +186,9 @@ public class Day implements Serializable, Comparable
 	 */
 	public static Day valueOf(String s) throws ParseException
 	{
+		if (s.startsWith("Day{") && s.endsWith("}"))
+			s = s.substring("Day{".length(), s.length() - 1);
+
 		return SimpleDayFormat.INSTANCE.parse(s);
 	}
 
@@ -199,10 +202,9 @@ public class Day implements Serializable, Comparable
 	 */
 	public Day(int year, MonthOfYear month, int day)
 	{
-		this( year, month.getMonthValue(), day );
+		this(year, month.getMonthValue(), day);
 	}
-	
-	
+
 	/**
 	 * Create a day instance.
 	 * 
@@ -392,6 +394,6 @@ public class Day implements Serializable, Comparable
 
 	public String toString()
 	{
-		return "Day{" + this.year + ", " + MonthOfYear.valueOf(this.month).getShortName() + ", " + this.day + "}";
+		return "Day{" + SimpleDayFormat.INSTANCE.format(this) + "}";
 	}
 }

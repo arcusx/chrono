@@ -124,6 +124,9 @@ public class Month implements Serializable, Comparable
 	 */
 	public static Month valueOf(String s) throws ParseException
 	{
+		if (s.startsWith("Month{") && s.endsWith("}"))
+			s = s.substring("Month{".length(), s.length() - 1);
+
 		return SimpleMonthFormat.INSTANCE.parse(s);
 	}
 
@@ -396,6 +399,6 @@ public class Month implements Serializable, Comparable
 
 	public String toString()
 	{
-		return "Month{" + MonthOfYear.valueOf(this.month).getShortName() + "/ " + this.year + "}";
+		return "Month{" + SimpleMonthFormat.INSTANCE.format(this) + "}";
 	}
 }

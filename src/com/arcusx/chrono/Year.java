@@ -40,6 +40,14 @@ public class Year implements Serializable, Comparable
 		return Year.valueOf(cal);
 	}
 
+	public static Year valueOf(String s)
+	{
+		if (s.startsWith("Year{") && s.endsWith("}"))
+			s = s.substring("Year{".length(), s.length() - 1);
+
+		return new Year(Integer.parseInt(s));
+	}
+
 	public static Year valueOf(Date date)
 	{
 		GregorianCalendar cal = new GregorianCalendar();

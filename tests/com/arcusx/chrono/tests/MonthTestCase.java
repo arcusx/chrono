@@ -35,10 +35,16 @@ public class MonthTestCase extends TestCase
 	{
 		Month one = new Month(2000, 0);
 		Month other = new Month(2000, 1);
-		assertEquals("Month must be before", -1, one.compareTo(other) );
-		assertEquals("Month must be after", 1, other.compareTo(one) );
-		assertEquals("Months must be equal", 0, one.compareTo(one) );
-		assertEquals("Months must be after", 0, other.compareTo(other) );
+		assertEquals("Month must be before", -1, one.compareTo(other));
+		assertEquals("Month must be after", 1, other.compareTo(one));
+		assertEquals("Months must be equal", 0, one.compareTo(one));
+		assertEquals("Months must be after", 0, other.compareTo(other));
+	}
 
+	public void testValueOf() throws Exception
+	{
+		Month x = new Month(2001, 0);
+		Month result = Month.valueOf(x.toString());
+		assertEquals(x, result);
 	}
 }

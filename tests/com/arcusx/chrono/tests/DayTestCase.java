@@ -81,4 +81,12 @@ public class DayTestCase extends TestCase
 			// all right
 		}
 	}
+
+	public void testValueOf() throws Exception
+	{
+		Day x = new Day(2001, 0, 14);
+		Day result = Day.valueOf(x.toString());
+		assertEquals(x, result);
+	}
+
 }
