@@ -13,12 +13,13 @@
 
 		<!-- project -->
 		<property name="src.dir" location="${basedir}/src"/>
+		<property name="doc.dir" location="${basedir}/doc"/>
 		<property name="tests.dir" location="${basedir}/tests"/>
 		<property name="resources.dir" location="${basedir}/resources"/>
 		<property name="lib.dir" location="${basedir}/lib"/>
 
 		<!-- build -->
-		<property name="build.version" value="0_1"/>
+		<property name="build.version" value="1.0"/>
 		<property name="build.dir" location="${basedir}/.build"/>
 		<property name="build.dist.dir" location="${build.dir}/dist"/>
 		<property name="build.doc.dir" location="${build.dist.dir}/doc"/>
@@ -33,6 +34,14 @@
 		<mkdir dir="${build.dist.dir}"/>
 		<mkdir dir="${build.doc.dir}"/>
 		<mkdir dir="${build.javadoc.dir}"/>
+		
+		<!-- version tag props -->
+		<tstamp />
+		<buildnumber file="${basedir}/build_seq-${build.version}"/>
+		<property name="now" value="${DSTAMP}-${TSTAMP}" />
+		<property name="build.file" value="VERSION-${build.version}-${build.number}" />
+		<echo file="${build.classes.dir}/${build.file}">${now}</echo>
+		<copy todir="${build.dist.dir}" file="${build.classes.dir}/${build.file}"/>
 	</target>
 
 	<target name="build" depends="__init">
@@ -50,13 +59,40 @@
 		</javac>
 
 		<!-- jar it up -->
-		<jar jarfile="${build.dist.dir}/${ant.project.name}-${build.version}.jar" compress="false">
+		<jar jarfile="${build.dist.dir}/${ant.project.name}-${build.version}.jar" compress="true">
 		    <fileset dir="${build.classes.dir}" includes="**"/>
 		    <fileset dir="${resources.dir}" includes="**"/>
 		</jar>
 	</target>
 
 	<target name="build-all" depends="build,build-javadoc"/>
+
+	<target name="build-dist" depends="__init,build,build-javadoc">
+		<!-- filtered files -->
+		<copy todir="${build.dist.dir}/doc" filtering="true">
+			<fileset dir="${doc.dir}" includes="**/*.html"/>
+			<filterset>
+		      <filter token="version" value="${build.version}-${build.number}" />
+		    </filterset>
+		</copy>
+		
+		<!-- unfiltered files -->
+		<copy todir="${build.dist.dir}/doc">
+			<fileset dir="${doc.dir}" includes="**" excludes="**/*.html"/>
+		</copy>
+
+		<!-- zip up sources -->
+		<zip zipfile="${build.dist.dir}/${ant.project.name}-${build.version}-src.zip" compress="true">
+		    <fileset dir="${src.dir}" includes="**"/>
+		    <fileset dir="${tests.dir}" includes="**"/>
+		</zip>
+
+		<!-- zip all up -->
+		<zip zipfile="${build.dir}/${ant.project.name}-${build.version}.zip" compress="true">
+		    <fileset dir="${build.dist.dir}" includes="**"/>
+		    <fileset dir="${basedir}" includes="lib/*.jar"/>
+		</zip>
+	</target>
 
 	<target name="build-javadoc" depends="__init">
 		<javadoc destdir="${build.javadoc.dir}"
