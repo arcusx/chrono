@@ -91,7 +91,7 @@ public class OpenMonths extends Months implements Serializable
 		if (min == null)
 			newMin = getFirstMonth();
 		else
-			newMin = Month.max(getFirstMonth(), min);
+			newMin = Month.maxOf(getFirstMonth(), min);
 
 		Month newMax = null;
 		if (max != null)

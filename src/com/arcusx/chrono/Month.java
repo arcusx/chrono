@@ -258,17 +258,44 @@ public class Month implements Serializable, Comparable
 	 * @param one Othe month, not null.
 	 * @return The smaller month.
 	 */
-	public static Month min(Month one, Month other)
+	public static Month minOf(Month one, Month other)
 	{
-		if (one == null)
-			throw new IllegalArgumentException("One ist null.");
-		if (other == null)
-			throw new IllegalArgumentException("Other ist null.");
+		return minOf(new Month[]
+		{ one, other }, false);
+	}
 
-		if (one.before(other))
-			return one;
+	/**
+	 * Get the smallest one of three months.
+	 * 
+	 * @param one One month, not null.
+	 * @param second Othe month, not null.
+	 * @param third Othe month, not null.
+	 * @return The smallest month.
+	 */
+	public static Month minOf(Month one, Month second, Month third)
+	{
+		return minOf(new Month[]
+		{ one, second, third }, false);
+	}
 
-		return other;
+	public static Month minOf(Month[] months)
+	{
+		return minOf(months, false);
+	}
+
+	public static Month minOf(Month[] months, boolean nullAllowed)
+	{
+		Month min = null;
+		for (int i = 0; i < months.length; ++i)
+		{
+			if (!nullAllowed && months[i] == null)
+				throw new IllegalArgumentException("Month may not be null.");
+
+			if (min == null || (months[i] != null && months[i].before(min)))
+				min = months[i];
+		}
+
+		return min;
 	}
 
 	/**
@@ -278,17 +305,36 @@ public class Month implements Serializable, Comparable
 	 * @param one Othe month, not null.
 	 * @return The latest month.
 	 */
-	public static Month max(Month one, Month other)
+	public static Month maxOf(Month one, Month other)
 	{
-		if (one == null)
-			throw new IllegalArgumentException("One ist null.");
-		if (other == null)
-			throw new IllegalArgumentException("Other ist null.");
+		return maxOf(new Month[]
+		{ one, other }, false);
+	}
 
-		if (one.after(other))
-			return one;
+	public static Month maxOf(Month one, Month second, Month third)
+	{
+		return maxOf(new Month[]
+		{ one, second, third }, false);
+	}
 
-		return other;
+	public static Month maxOf(Month[] months)
+	{
+		return maxOf(months, false);
+	}
+
+	public static Month maxOf(Month[] months, boolean nullAllowed)
+	{
+		Month max = null;
+		for (int i = 0; i < months.length; ++i)
+		{
+			if (!nullAllowed && months[i] == null)
+				throw new IllegalArgumentException("Month may not be null.");
+
+			if (max == null || (months[i] != null && months[i].after(max)))
+				max = months[i];
+		}
+
+		return max;
 	}
 
 	/**

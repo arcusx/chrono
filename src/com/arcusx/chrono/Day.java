@@ -47,17 +47,36 @@ public class Day implements Serializable, Comparable
 	 * @param one Othe day, not null.
 	 * @return The smaller day.
 	 */
-	public static Day min(Day one, Day other)
+	public static Day minOf(Day one, Day other)
 	{
-		if (one == null)
-			throw new IllegalArgumentException("One ist null.");
-		if (other == null)
-			throw new IllegalArgumentException("Other ist null.");
+		return minOf(new Day[]
+		{ one, other }, false);
+	}
 
-		if (one.before(other))
-			return one;
+	public static Day minOf(Day one, Day second, Day third)
+	{
+		return minOf(new Day[]
+		{ one, second, third }, false);
+	}
 
-		return other;
+	public static Day minOf(Day[] months)
+	{
+		return minOf(months, false);
+	}
+
+	public static Day minOf(Day[] days, boolean nullAllowed)
+	{
+		Day min = null;
+		for (int i = 0; i < days.length; ++i)
+		{
+			if (!nullAllowed && days[i] == null)
+				throw new IllegalArgumentException("Day may not be null.");
+
+			if (min == null || (days[i] != null && days[i].before(min)))
+				min = days[i];
+		}
+
+		return min;
 	}
 
 	/**
@@ -67,17 +86,36 @@ public class Day implements Serializable, Comparable
 	 * @param one Othe day, not null.
 	 * @return The later day.
 	 */
-	public static Day max(Day one, Day other)
+	public static Day maxOf(Day one, Day other)
 	{
-		if (one == null)
-			throw new IllegalArgumentException("One ist null.");
-		if (other == null)
-			throw new IllegalArgumentException("Other ist null.");
+		return maxOf(new Day[]
+		{ one, other }, false);
+	}
 
-		if (one.after(other))
-			return one;
+	public static Day maxOf(Day one, Day second, Day third)
+	{
+		return maxOf(new Day[]
+		{ one, second, third }, false);
+	}
 
-		return other;
+	public static Day maxOf(Day[] days)
+	{
+		return maxOf(days, false);
+	}
+
+	public static Day maxOf(Day[] days, boolean nullAllowed)
+	{
+		Day max = null;
+		for (int i = 0; i < days.length; ++i)
+		{
+			if (!nullAllowed && days[i] == null)
+				throw new IllegalArgumentException("Day may not be null.");
+
+			if (max == null || (days[i] != null && days[i].after(max)))
+				max = days[i];
+		}
+
+		return max;
 	}
 
 	public static Day today()
