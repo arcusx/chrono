@@ -177,6 +177,6 @@ public class MonthOfYear implements Serializable
 
 	public MonthOfYear add(int months)
 	{
-		return MonthOfYear.valueOf(months % 12 + this.month);
+		return MonthOfYear.valueOf((months + this.month) % 12);
 	}
 }
