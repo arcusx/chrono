@@ -32,9 +32,34 @@ import junit.framework.*;
 public class SimpleDayFormatTestCase extends TestCase
 {
 
-	public void testParse() throws Exception
+	public void testParseWithZeros() throws Exception
 	{
 		Day day = SimpleDayFormat.INSTANCE.parse("2003-03-01");
-		assertEquals(day, new Day(2003, 2, 1));
+		assertEquals(new Day(2003, 2, 1), day);
+	}
+
+	public void testParseNoZeros() throws Exception
+	{
+		Day day = SimpleDayFormat.INSTANCE.parse("2003-3-1");
+		assertEquals(new Day(2003, 2, 1), day);
+	}
+
+	public void testParseWithMonthZero() throws Exception
+	{
+		Day day = SimpleDayFormat.INSTANCE.parse("2003-03-1");
+		assertEquals(new Day(2003, 2, 1), day);
+	}
+
+	public void testParseWithDayZero() throws Exception
+	{
+		Day day = SimpleDayFormat.INSTANCE.parse("2003-3-01");
+		assertEquals(new Day(2003, 2, 1), day);
+	}
+
+	public void testFormat() throws Exception
+	{
+		Day day = new Day(2003, 2, 1);
+		String dayStr = SimpleDayFormat.INSTANCE.format(day);
+		assertEquals("2003-03-01", dayStr);
 	}
 }

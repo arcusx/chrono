@@ -55,7 +55,7 @@ public class SimpleMonthFormat extends MonthFormat
 		int month = -1;
 		try
 		{
-			month = Integer.parseInt(s.substring(slashPos + 1));
+			month = Integer.parseInt(s.substring(slashPos + 1))-1;
 		}
 		catch (NumberFormatException ex)
 		{
