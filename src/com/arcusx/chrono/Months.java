@@ -63,6 +63,9 @@ public class Months implements Serializable, Collection, Interval
 	 */
 	public static Months valueOf(String s) throws ParseException
 	{
+		if (s.startsWith("Months{") && s.endsWith("}"))
+			s = s.substring("Months{".length(), s.length() - 1);
+
 		return SimpleMonthsFormat.INSTANCE.parse(s);
 	}
 
@@ -154,7 +157,7 @@ public class Months implements Serializable, Collection, Interval
 
 	public boolean contains(Day day)
 	{
-		if( isEmpty() )
+		if (isEmpty())
 			return false;
 
 		return day.afterOrEqual(this.firstMonth.getFirstDay()) && day.beforeOrEqual(getLastMonth().getLastDay());
@@ -162,9 +165,9 @@ public class Months implements Serializable, Collection, Interval
 
 	public boolean contains(Month month)
 	{
-		if( isEmpty() )
+		if (isEmpty())
 			return false;
-		
+
 		return month.afterOrEqual(this.firstMonth) && month.beforeOrEqual(getLastMonth());
 	}
 
@@ -181,11 +184,11 @@ public class Months implements Serializable, Collection, Interval
 	public MonthSequence toMonthSequence()
 	{
 		MonthSequence seq = new MonthSequence();
-		seq.addMonths( this );
-		
+		seq.addMonths(this);
+
 		return seq;
 	}
-	
+
 	/**
 	 * Limit the months period so it is between min and max.
 	 * 
@@ -212,7 +215,7 @@ public class Months implements Serializable, Collection, Interval
 		if (min == null)
 			newFirstMonth = this.firstMonth;
 		else
-			newFirstMonth = Month.maxOf(min,this.firstMonth);
+			newFirstMonth = Month.maxOf(min, this.firstMonth);
 
 		// check if max is given and keep it if it is set before lastMonth
 		Month newLastMonth = null;
@@ -262,10 +265,7 @@ public class Months implements Serializable, Collection, Interval
 
 	public String toString()
 	{
-		if( this.size == 0 )
-			return "Months{"+this.firstMonth+";EMPTY}";
-		else
-			return "Months{" + this.firstMonth + "-" + getLastMonth() + "}";
+		return "Months{" + SimpleMonthsFormat.INSTANCE.format(this) + "}";
 	}
 
 	//
