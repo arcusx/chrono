@@ -29,41 +29,46 @@ import java.util.*;
  */
 public class MonthOfYear implements Serializable
 {
+
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * All month of year instances.
 	 */
-	private static final MonthOfYear[] MONTHS_OF_YEAR =
-		new MonthOfYear[] {
-			new MonthOfYear(Calendar.JANUARY, "JAN"),
-			new MonthOfYear(Calendar.FEBRUARY, "FEB"),
-			new MonthOfYear(Calendar.MARCH, "MAR"),
-			new MonthOfYear(Calendar.APRIL, "APR"),
-			new MonthOfYear(Calendar.MAY, "MAY"),
-			new MonthOfYear(Calendar.JUNE, "JUN"),
-			new MonthOfYear(Calendar.JULY, "JUL"),
-			new MonthOfYear(Calendar.AUGUST, "AUG"),
-			new MonthOfYear(Calendar.SEPTEMBER, "SEP"),
-			new MonthOfYear(Calendar.OCTOBER, "OCT"),
-			new MonthOfYear(Calendar.NOVEMBER, "NOV"),
-			new MonthOfYear(Calendar.DECEMBER, "DEC"),
-			};
+	private static final MonthOfYear[] MONTHS_OF_YEAR = new MonthOfYear[]
+	{ new MonthOfYear(Calendar.JANUARY, "JAN"), new MonthOfYear(Calendar.FEBRUARY, "FEB"),
+			new MonthOfYear(Calendar.MARCH, "MAR"), new MonthOfYear(Calendar.APRIL, "APR"),
+			new MonthOfYear(Calendar.MAY, "MAY"), new MonthOfYear(Calendar.JUNE, "JUN"),
+			new MonthOfYear(Calendar.JULY, "JUL"), new MonthOfYear(Calendar.AUGUST, "AUG"),
+			new MonthOfYear(Calendar.SEPTEMBER, "SEP"), new MonthOfYear(Calendar.OCTOBER, "OCT"),
+			new MonthOfYear(Calendar.NOVEMBER, "NOV"), new MonthOfYear(Calendar.DECEMBER, "DEC"), };
 
 	public static final MonthOfYear JANUARY = MONTHS_OF_YEAR[Calendar.JANUARY];
+
 	public static final MonthOfYear FEBRUARY = MONTHS_OF_YEAR[Calendar.FEBRUARY];
+
 	public static final MonthOfYear MARCH = MONTHS_OF_YEAR[Calendar.MARCH];
+
 	public static final MonthOfYear APRIL = MONTHS_OF_YEAR[Calendar.APRIL];
+
 	public static final MonthOfYear MAY = MONTHS_OF_YEAR[Calendar.MAY];
+
 	public static final MonthOfYear JUNE = MONTHS_OF_YEAR[Calendar.JUNE];
+
 	public static final MonthOfYear JULY = MONTHS_OF_YEAR[Calendar.JULY];
+
 	public static final MonthOfYear AUGUST = MONTHS_OF_YEAR[Calendar.AUGUST];
+
 	public static final MonthOfYear SEPTEMBER = MONTHS_OF_YEAR[Calendar.SEPTEMBER];
+
 	public static final MonthOfYear OCTOBER = MONTHS_OF_YEAR[Calendar.OCTOBER];
+
 	public static final MonthOfYear NOVEMBER = MONTHS_OF_YEAR[Calendar.NOVEMBER];
+
 	public static final MonthOfYear DECEMBER = MONTHS_OF_YEAR[Calendar.DECEMBER];
 
 	private int month;
+
 	private String shortName;
 
 	/**
@@ -141,6 +146,6 @@ public class MonthOfYear implements Serializable
 
 	public MonthOfYear add(int months)
 	{
-		return MonthOfYear.valueOf((months + this.month) % 12);
+		return MonthOfYear.valueOf(months % 12 + this.month);
 	}
 }

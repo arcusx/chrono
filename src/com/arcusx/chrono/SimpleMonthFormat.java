@@ -29,8 +29,9 @@ import java.text.*;
  */
 public class SimpleMonthFormat extends MonthFormat
 {
+
 	public static final SimpleMonthFormat INSTANCE = new SimpleMonthFormat();
-	
+
 	public SimpleMonthFormat()
 	{
 	}

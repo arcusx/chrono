@@ -28,6 +28,7 @@ import java.text.*;
  */
 public class SimpleMonthsFormat extends MonthsFormat
 {
+
 	public static final SimpleMonthsFormat INSTANCE = new SimpleMonthsFormat();
 
 	public SimpleMonthsFormat()
@@ -46,16 +47,13 @@ public class SimpleMonthsFormat extends MonthsFormat
 	/**
 	 * <b>FIXME Not implemented, yet.</b>
 	 */
-	public Months parse( String s ) throws ParseException
+	public Months parse(String s) throws ParseException
 	{
 		throw new UnsupportedOperationException();
 	}
 
 	public void format(Months period, StringBuffer buf)
 	{
-		if (!(period instanceof Months))
-			throw new IllegalArgumentException("Invalid period. Not months.");
-
 		SimpleMonthFormat monthFormat = new SimpleMonthFormat();
 
 		Months months = (Months) period;

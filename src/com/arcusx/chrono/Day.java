@@ -21,7 +21,8 @@ import java.util.*;
 
 /**
  * A day is a date describing a day by
- * its day of month, a month of year and a year.
+ * its day of month, a month of year and a year.<br>
+ * A day has value semantics, i.e. it is immutable.
  * 
  * Created 02.10.2003, 16:06:03.
  * 
@@ -30,6 +31,7 @@ import java.util.*;
  */
 public class Day implements Serializable, Comparable
 {
+
 	private static final long serialVersionUID = 1L;
 
 	private int year;
@@ -63,8 +65,27 @@ public class Day implements Serializable, Comparable
 		return new Day(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
 	}
 
+	/**
+	 * Create a day instance.
+	 * 
+	 * @param year The year. 1970 is the year 1970.
+	 * @param month The month. 0 ist January, 1 February, 2 ...
+	 * @param day The day of month, the first is 1.
+	 * @throws IllegalArgumentException if the given values are no valid date.
+	 */
 	public Day(int year, int month, int day)
 	{
+		Calendar cal = new GregorianCalendar();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month);
+		cal.set(Calendar.DATE, day);
+
+		int calYear = cal.get(Calendar.YEAR);
+		int calMonth = cal.get(Calendar.MONTH);
+		int calDay = cal.get(Calendar.DATE);
+		if (calYear != year || calMonth != month || calDay != day)
+			throw new IllegalArgumentException(year + "/" + month + "/" + day + " is not a valid date.");
+
 		this.year = year;
 		this.month = month;
 		this.day = day;

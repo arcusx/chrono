@@ -29,9 +29,11 @@ import java.util.*;
  */
 public class Days implements Serializable, Collection
 {
+
 	private static final long serialVersionUID = 1L;
 
 	private Day firstDay;
+
 	private Day lastDay;
 
 	public Days(Day firstDay, Day lastDay)
@@ -67,6 +69,17 @@ public class Days implements Serializable, Collection
 	public boolean contain(Day day)
 	{
 		return this.firstDay.beforeOrEqual(day) && this.lastDay.afterOrEqual(day);
+	}
+
+	public boolean overlaps(Days otherDays)
+	{
+		if (otherDays.firstDay.before(this.firstDay) && otherDays.lastDay.before(this.firstDay))
+			return false;
+
+		if (otherDays.firstDay.after(otherDays.lastDay))
+			return false;
+
+		return true;
 	}
 
 	//
@@ -233,7 +246,9 @@ public class Days implements Serializable, Collection
 
 	private static final class Iter implements Iterator
 	{
+
 		private Calendar cal;
+
 		private Day lastDay;
 
 		private Iter(Day firstDay, Day lastDay)

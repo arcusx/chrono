@@ -20,7 +20,8 @@ import java.io.*;
 import java.util.*;
 
 /**
- * A concrete month of a concrete year.
+ * A concrete month of a concrete year.<br>
+ * A months has value semantics, i.e. it is immutable.
  * 
  * Created 30.05.2003, 12:36:44.
  * 
@@ -213,6 +214,7 @@ public class Month implements Serializable, Comparable
 	 * @param periodLenInMonths Length in months of a period. Must split the year into equal pieces.
 	 * @param offMonth The month offset.
 	 * @return Sequence of months.
+	 * @deprecated Is in wrong place.
 	 */
 	public static int[] getPeriodStartMonths(int periodLenInMonths, int offMonth)
 	{

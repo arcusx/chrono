@@ -29,9 +29,11 @@ import java.util.*;
  */
 public class Months implements Serializable, Collection
 {
+
 	private static final long serialVersionUID = 1L;
 
 	private Month firstMonth;
+
 	private Month lastMonth;
 
 	public Months(Month firstMonth, Month lastMonth)
@@ -50,6 +52,10 @@ public class Months implements Serializable, Collection
 
 	public Months(Month firstMonth, int count)
 	{
+		// FIXME broken with years <= 0
+		if (firstMonth.getYearValue() <= 0)
+			throw new UnsupportedOperationException("Calculating with years equal or less than zero is broken.");
+
 		if (count <= 0)
 			throw new IllegalArgumentException("Count must be 1 or more.");
 
@@ -106,8 +112,8 @@ public class Months implements Serializable, Collection
 		// create new months period if firstMonth and lastMonth changed
 		if (this.firstMonth.equals(newFirstMonth) && this.lastMonth.equals(newLastMonth))
 			return this;
-		else
-			return new Months(newFirstMonth, newLastMonth);
+
+		return new Months(newFirstMonth, newLastMonth);
 	}
 
 	public boolean overlaps(Months otherMonths)
@@ -240,7 +246,9 @@ public class Months implements Serializable, Collection
 
 	private static final class Iter implements Iterator
 	{
+
 		private Calendar cal;
+
 		private Month lastMonth;
 
 		private Iter(Month firstMonth, Month lastMonth)
