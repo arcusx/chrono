@@ -190,7 +190,7 @@ public class Months implements Serializable, Collection
 		if (min == null)
 			newFirstMonth = this.firstMonth;
 		else
-			newFirstMonth = min;
+			newFirstMonth = Month.max(min,this.firstMonth);
 
 		// check if max is given and keep it if it is set before lastMonth
 		Month newLastMonth = null;
