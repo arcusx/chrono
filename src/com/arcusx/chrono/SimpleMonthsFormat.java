@@ -19,7 +19,7 @@ package com.arcusx.chrono;
 import java.text.*;
 
 /**
- * This a very simple months format.
+ * This a very simple month based timespan format.
  * 
  * Created 30.05.2003, 13:15:23.
  * 

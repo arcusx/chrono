@@ -20,8 +20,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * 
- * 
+ * Month based timespan.
  * 
  * Created 02.10.2003, 16:47:07.
  * 

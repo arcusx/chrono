@@ -19,8 +19,8 @@ package com.arcusx.chrono;
 import java.text.*;
 
 /**
- * 
- * 
+ * Simple implementation of formatting parsing of
+ * months.
  * 
  * Created 05.10.2003, 16:58:48.
  * 

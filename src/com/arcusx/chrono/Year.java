@@ -20,6 +20,7 @@ import java.io.*;
 import java.util.*;
 
 /**
+ * A date with year part only.
  * 
  * Created 02.10.2003, 16:34:42.
  * 

@@ -20,8 +20,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * 
- * 
+ * A days based timespan.
  * 
  * Created 02.10.2003, 17:01:04.
  * 
