@@ -36,12 +36,18 @@ public class MonthOfYear implements Serializable
 	 * All month of year instances.
 	 */
 	private static final MonthOfYear[] MONTHS_OF_YEAR = new MonthOfYear[]
-	{ new MonthOfYear(Calendar.JANUARY, "JAN"), new MonthOfYear(Calendar.FEBRUARY, "FEB"),
-			new MonthOfYear(Calendar.MARCH, "MAR"), new MonthOfYear(Calendar.APRIL, "APR"),
-			new MonthOfYear(Calendar.MAY, "MAY"), new MonthOfYear(Calendar.JUNE, "JUN"),
-			new MonthOfYear(Calendar.JULY, "JUL"), new MonthOfYear(Calendar.AUGUST, "AUG"),
-			new MonthOfYear(Calendar.SEPTEMBER, "SEP"), new MonthOfYear(Calendar.OCTOBER, "OCT"),
-			new MonthOfYear(Calendar.NOVEMBER, "NOV"), new MonthOfYear(Calendar.DECEMBER, "DEC"), };
+	{ new MonthOfYear(Calendar.JANUARY, "JANUARY", "JAN"), //
+			new MonthOfYear(Calendar.FEBRUARY, "FEBRUARY", "FEB"), //
+			new MonthOfYear(Calendar.MARCH, "MARCH", "MAR"), //
+			new MonthOfYear(Calendar.APRIL, "APRIL", "APR"), //
+			new MonthOfYear(Calendar.MAY, "MAY", "MAY"), //
+			new MonthOfYear(Calendar.JUNE, "JUNE", "JUN"), //
+			new MonthOfYear(Calendar.JULY, "JULY", "JUL"), //
+			new MonthOfYear(Calendar.AUGUST, "AUGUST", "AUG"), //
+			new MonthOfYear(Calendar.SEPTEMBER, "SEPTEMBER", "SEP"), //
+			new MonthOfYear(Calendar.OCTOBER, "OCTOBER", "OCT"), //
+			new MonthOfYear(Calendar.NOVEMBER, "NOVEMBER", "NOV"), //
+			new MonthOfYear(Calendar.DECEMBER, "DECEMBER", "DEC"), };
 
 	public static final MonthOfYear JANUARY = MONTHS_OF_YEAR[Calendar.JANUARY];
 
@@ -71,6 +77,8 @@ public class MonthOfYear implements Serializable
 
 	private String shortName;
 
+	private String longName;
+
 	/**
 	 * @throws IllegalArgumentException if the string could not be parsed.
 	 */
@@ -78,7 +86,7 @@ public class MonthOfYear implements Serializable
 	{
 		for (int i = 0; i < MONTHS_OF_YEAR.length; ++i)
 		{
-			if (MONTHS_OF_YEAR[i].shortName.equalsIgnoreCase(s))
+			if (MONTHS_OF_YEAR[i].shortName.equalsIgnoreCase(s) || MONTHS_OF_YEAR[i].longName.equalsIgnoreCase(s))
 				return MONTHS_OF_YEAR[i];
 		}
 
@@ -93,9 +101,10 @@ public class MonthOfYear implements Serializable
 		return MONTHS_OF_YEAR[month];
 	}
 
-	private MonthOfYear(int month, String shortName)
+	private MonthOfYear(int month, String longName, String shortName)
 	{
 		this.month = month;
+		this.longName = longName;
 		this.shortName = shortName;
 	}
 
@@ -107,6 +116,11 @@ public class MonthOfYear implements Serializable
 	public String getShortName()
 	{
 		return this.shortName;
+	}
+
+	public String getLongName()
+	{
+		return this.longName;
 	}
 
 	//
