@@ -12,36 +12,36 @@
 		<property name="build.initialized" value="done"/>
 
 		<!-- project -->
-		<property name="src.dir" location="${basedir}/src"/>
+   		<property name="src.dir" location="${basedir}/src"/>
 		<property name="doc.dir" location="${basedir}/doc"/>
+		<property name="xdoc.src.dir" value="${doc.dir}/xdoc"/>
 		<property name="tests.dir" location="${basedir}/tests"/>
 		<property name="resources.dir" location="${basedir}/resources"/>
 		<property name="lib.dir" location="${basedir}/lib"/>
 
-		<!-- build -->
-		<property name="build.version" value="1.0"/>
+		<!-- build (I) -->
 		<property name="build.dir" location="${basedir}/.build"/>
-		<property name="build.dist.dir" location="${build.dir}/dist"/>
+		
+		<!-- version tag props -->
+		<property name="build.version" value="1.0"/>
+		<tstamp/>
+		<buildnumber file="${basedir}/build_seq-${build.version}"/>
+		<property name="now" value="${DSTAMP}-${TSTAMP}" />
+		<property name="build.file" value="VERSION-${build.version}-${build.number}" />
+		<property name="build.dist.dir" location="${build.dir}/dist/${ant.project.name}-${build.version}"/>
 		<property name="build.doc.dir" location="${build.dist.dir}/doc"/>
 		<property name="build.javadoc.dir" location="${build.doc.dir}/api"/>
 		<property name="build.classes.dir" location="${build.dir}/classes"/>
 		
 		<!-- prepare build structure -->
+		<delete dir="${build.dir}"/>
 		<mkdir dir="${build.dir}"/>
-		<delete dir="${build.classes.dir}"/>
 		<mkdir dir="${build.classes.dir}"/>
-		<delete dir="${build.dist.dir}"/>
+		<echo file="${build.classes.dir}/${build.file}">${now}</echo>
+		<copy todir="${build.dist.dir}" file="${build.classes.dir}/${build.file}"/>
 		<mkdir dir="${build.dist.dir}"/>
 		<mkdir dir="${build.doc.dir}"/>
 		<mkdir dir="${build.javadoc.dir}"/>
-		
-		<!-- version tag props -->
-		<tstamp />
-		<buildnumber file="${basedir}/build_seq-${build.version}"/>
-		<property name="now" value="${DSTAMP}-${TSTAMP}" />
-		<property name="build.file" value="VERSION-${build.version}-${build.number}" />
-		<echo file="${build.classes.dir}/${build.file}">${now}</echo>
-		<copy todir="${build.dist.dir}" file="${build.classes.dir}/${build.file}"/>
 	</target>
 
 	<target name="build" depends="__init">
@@ -89,7 +89,7 @@
 
 		<!-- zip all up -->
 		<zip zipfile="${build.dir}/${ant.project.name}-${build.version}.zip" compress="true">
-		    <fileset dir="${build.dist.dir}" includes="**"/>
+		    <fileset dir="${build.dist.dir}/.." includes="**"/>
 		    <!-- libs not reuqired -->
 		    <!--<fileset dir="${basedir}" includes="lib/*.jar"/>-->
 		</zip>
