@@ -164,6 +164,14 @@ public class Months implements Serializable, Collection, Interval
 		return limitBy(months.getFirstMonth(), months.getLastMonth());
 	}
 
+	public MonthSequence toMonthSequence()
+	{
+		MonthSequence seq = new MonthSequence();
+		seq.addMonths( this );
+		
+		return seq;
+	}
+	
 	/**
 	 * Limit the months period so it is between min and max.
 	 * 
