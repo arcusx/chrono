@@ -49,6 +49,8 @@ public class MonthOfYear implements Serializable
 			new MonthOfYear(Calendar.NOVEMBER, "NOVEMBER", "NOV"), //
 			new MonthOfYear(Calendar.DECEMBER, "DECEMBER", "DEC"), };
 
+	public static final List ALL = Collections.unmodifiableList(Arrays.asList(MONTHS_OF_YEAR));
+
 	public static final MonthOfYear JANUARY = MONTHS_OF_YEAR[Calendar.JANUARY];
 
 	public static final MonthOfYear FEBRUARY = MONTHS_OF_YEAR[Calendar.FEBRUARY];
@@ -78,6 +80,11 @@ public class MonthOfYear implements Serializable
 	private String shortName;
 
 	private String longName;
+
+	public static MonthOfYear[] all()
+	{
+		return (MonthOfYear[]) ALL.toArray(new MonthOfYear[ALL.size()]);
+	}
 
 	/**
 	 * @throws IllegalArgumentException if the string could not be parsed.
@@ -121,6 +128,16 @@ public class MonthOfYear implements Serializable
 	public String getLongName()
 	{
 		return this.longName;
+	}
+
+	public MonthOfYear next()
+	{
+		return add(1);
+	}
+
+	public MonthOfYear previous()
+	{
+		return add(-1);
 	}
 
 	//
