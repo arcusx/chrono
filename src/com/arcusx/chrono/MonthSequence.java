@@ -130,4 +130,15 @@ public class MonthSequence implements Sequence
 	{
 		return "MonthSequence{parts=" + parts + "}";
 	}
+	
+	public boolean contains( Month month )
+	{
+		for(int i=0; i<this.parts.size(); ++i)
+		{
+			if( ((Months)parts.get(i)).contains(month) )
+				return true;
+		}
+		
+		return false;
+	}
 }
