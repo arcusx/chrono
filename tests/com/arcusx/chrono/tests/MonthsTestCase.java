@@ -31,6 +31,7 @@ import com.arcusx.chrono.*;
  */
 public class MonthsTestCase extends TestCase
 {
+
 	public void testInnerYearMonths() throws Exception
 	{
 		Months period = new Months(new Month(2000, Calendar.JANUARY), new Month(2000, Calendar.DECEMBER));
@@ -69,7 +70,8 @@ public class MonthsTestCase extends TestCase
 		// check count
 		assertEquals("Iterating on one months must return 1 month.", monthList.size(), 1);
 
-		assertEquals("Month at " + 0 + " must have month " + Month.JANUARY, ((Month) monthList.get(0)).getMonthValue(), Month.JANUARY);
+		assertEquals("Month at " + 0 + " must have month " + Month.JANUARY, ((Month) monthList.get(0)).getMonthValue(),
+				Month.JANUARY);
 	}
 
 	public void testMonthsIteratorMany()
@@ -106,10 +108,82 @@ public class MonthsTestCase extends TestCase
 		while (testCurrDay.beforeOrEqual(testEndDay))
 		{
 			if (testCurrDay.equals(testStartDay) || testCurrDay.equals(testEndDay))
-				assertFalse("Curr month " + testCurrDay.getMonth() + " must not be in period." + period, period.contains(testCurrDay.getMonth()));
+				assertFalse("Curr month " + testCurrDay.getMonth() + " must not be in period." + period, period
+						.contains(testCurrDay.getMonth()));
 			else
-				assertTrue("Curr month " + testCurrDay.getMonth() + " must be in period." + period, period.contains(testCurrDay.getMonth()));
-				
-			testCurrDay = testCurrDay.add( 1 );
+				assertTrue("Curr month " + testCurrDay.getMonth() + " must be in period." + period, period
+						.contains(testCurrDay.getMonth()));
+
+			testCurrDay = testCurrDay.add(1);
 		}
-	}}
+	}
+
+	/**
+	 * This has been reported by Flo.
+	 */
+	public void testNewMonths1() throws Exception
+	{
+		Months months = new Months(new Month(2004, 0), 1);
+		final int expectedStartYear = 2004;
+		final int expectedStartMonth = 0;
+		final int expectedEndYear = 2004;
+		final int expectedEndMonth = 0;
+		assertEquals(expectedStartYear, months.getFirstMonth().getYearValue());
+		assertEquals(expectedStartMonth, months.getFirstMonth().getMonthValue());
+		assertEquals(expectedEndYear, months.getLastMonth().getYearValue());
+		assertEquals(expectedEndMonth, months.getLastMonth().getMonthValue());
+	}
+
+	/**
+	 * This has been reported by Flo.
+	 */
+	public void testNewMonths12() throws Exception
+	{
+		Months months = new Months(new Month(2004, 0), 12);
+		final int expectedStartYear = 2004;
+		final int expectedStartMonth = 0;
+		final int expectedEndYear = 2004;
+		final int expectedEndMonth = 11;
+		assertEquals(expectedStartYear, months.getFirstMonth().getYearValue());
+		assertEquals(expectedStartMonth, months.getFirstMonth().getMonthValue());
+		assertEquals(expectedEndYear, months.getLastMonth().getYearValue());
+		assertEquals(expectedEndMonth, months.getLastMonth().getMonthValue());
+	}
+
+	/**
+	 * This has been reported by Flo.
+	 */
+	/*
+	 public void testNewMonthsWithZeroYear() throws Exception
+	 {
+	 Months months = new Months(new Month(0,0),5);
+	 final int expectedStartYear = 0;
+	 final int expectedStartMonth = 0;
+	 final int expectedEndYear = 0;
+	 final int expectedEndMonth = 5;
+	 assertEquals(expectedStartYear, months.getFirstMonth().getYearValue());
+	 assertEquals(expectedStartMonth, months.getFirstMonth().getMonthValue());
+	 assertEquals(expectedEndYear, months.getLastMonth().getYearValue());
+	 assertEquals(expectedEndMonth, months.getLastMonth().getMonthValue());
+	 }
+	 */
+
+	/**
+	 * This has been reported by Flo.
+	 */
+	/*
+	 public void testInvalidNegativeCalc1() throws Exception
+	 {
+	 Months months = new Months(new Month(-10, 1), 10);
+	 final int expectedStartYear = -10;
+	 final int expectedStartMonth = 1;
+	 final int expectedEndYear = -10;
+	 final int expectedEndMonth = 11;
+	 assertEquals(expectedStartYear, months.getFirstMonth().getYearValue());
+	 assertEquals(expectedStartMonth, months.getFirstMonth().getMonthValue());
+	 assertEquals(expectedEndYear, months.getLastMonth().getYearValue());
+	 assertEquals(expectedEndMonth, months.getLastMonth().getMonthValue());
+	 }
+	 */
+
+}
