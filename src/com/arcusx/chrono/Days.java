@@ -27,7 +27,7 @@ import java.util.*;
  * @author conni
  * @version $Id$
  */
-public class Days implements Serializable, Collection
+public class Days implements Serializable, Collection, Interval
 {
 
 	private static final long serialVersionUID = 1L;
