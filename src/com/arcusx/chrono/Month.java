@@ -283,12 +283,20 @@ public class Month implements Serializable, Comparable
 		return minOf(months, false);
 	}
 
-	public static Month minOf(Month[] months, boolean nullAllowed)
+	/**
+	 * Get minimum of multiple months.
+	 * 
+	 * @param months Array of months to get minimum from.
+	 * @return ignoreNulls If false null leads to an error.
+	 * @return The minimum or null if array is of length 0 or contains nulls only.
+	 * @throws IllegalArgumentException if ignoreNulls is false and an array element is null.
+	 */
+	public static Month minOf(Month[] months, boolean ignoreNulls)
 	{
 		Month min = null;
 		for (int i = 0; i < months.length; ++i)
 		{
-			if (!nullAllowed && months[i] == null)
+			if (!ignoreNulls && months[i] == null)
 				throw new IllegalArgumentException("Month may not be null.");
 
 			if (min == null || (months[i] != null && months[i].before(min)))
