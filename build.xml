@@ -28,7 +28,7 @@
 		<buildnumber file="${basedir}/build_seq-${build.version}"/>
 		<property name="now" value="${DSTAMP}-${TSTAMP}" />
 		<property name="build.file" value="VERSION-${build.version}-${build.number}" />
-		<property name="build.dist.dir" location="${build.dir}/dist/${ant.project.name}-${build.version}"/>
+		<property name="build.dist.dir" location="${build.dir}/dist/${ant.project.name}-${build.version}-${build.number}"/>
 		<property name="build.doc.dir" location="${build.dist.dir}/doc"/>
 		<property name="build.javadoc.dir" location="${build.doc.dir}/api"/>
 		<property name="build.classes.dir" location="${build.dir}/classes"/>
@@ -59,7 +59,7 @@
 		</javac>
 
 		<!-- jar it up -->
-		<jar jarfile="${build.dist.dir}/${ant.project.name}-${build.version}.jar" compress="true">
+		<jar jarfile="${build.dist.dir}/${ant.project.name}-${build.version}-${build.number}.jar" compress="true">
 		    <fileset dir="${build.classes.dir}" includes="**"/>
 		    <fileset dir="${resources.dir}" includes="**"/>
 		</jar>
@@ -82,13 +82,13 @@
 		</copy>
 
 		<!-- zip up sources -->
-		<zip zipfile="${build.dist.dir}/${ant.project.name}-${build.version}-src.zip" compress="true">
+		<zip zipfile="${build.dist.dir}/${ant.project.name}-${build.version}-${build.number}-src.zip" compress="true">
 		    <fileset dir="${src.dir}" includes="**"/>
 		    <fileset dir="${tests.dir}" includes="**"/>
 		</zip>
 
 		<!-- zip all up -->
-		<zip zipfile="${build.dir}/${ant.project.name}-${build.version}.zip" compress="true">
+		<zip zipfile="${build.dir}/${ant.project.name}-${build.version}-${build.number}.zip" compress="true">
 		    <fileset dir="${build.dist.dir}/.." includes="**"/>
 		    <!-- libs not reuqired -->
 		    <!--<fileset dir="${basedir}" includes="lib/*.jar"/>-->
