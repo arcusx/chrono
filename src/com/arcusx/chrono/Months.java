@@ -36,6 +36,29 @@ public class Months implements Serializable, Collection
 
 	private int size;
 
+	/**
+	 * Get a months period.
+	 * 
+	 * @param firstMonth The first month in period. 
+	 * @param lastMonth The last month in period, possibly null.
+	 * @return A month period from firstMonth to lastMonth or an open period starting
+	 * with firstMonth if lastMonth is null.
+	 */
+	public static Months valueOf(Month firstMonth, Month lastMonth)
+	{
+		if (lastMonth == null)
+			return new OpenMonths(firstMonth);
+
+		return new Months(firstMonth, lastMonth);
+	}
+
+	/**
+	 * Create a new months period.
+	 * 
+	 * @param firstMonth First month in period.
+	 * @param lastMonth Last month in period.
+	 * @throws IllegalArgumentException if one is null or lastMonth is before firstMonth.
+	 */
 	public Months(Month firstMonth, Month lastMonth)
 	{
 		if (firstMonth == null)
@@ -53,6 +76,13 @@ public class Months implements Serializable, Collection
 		this.size = distanceBetween(firstMonth, lastMonth);
 	}
 
+	/**
+	 * Create a new months period by start month and size.
+	 * 
+	 * @param firstMonth First month in period.
+	 * @param size Count of months in period.
+	 * @throws IllegalArgumentException if firstMonth is null or size < 0.
+	 */
 	public Months(Month firstMonth, int size)
 	{
 		if (firstMonth == null)
@@ -72,9 +102,11 @@ public class Months implements Serializable, Collection
 	/**
 	 * Create a months instance withount last month.
 	 * 
+	 * <b>For internal use only.</b>
+	 * 
 	 * @param firstMonth 
 	 */
-	protected Months(Month firstMonth)
+	Months(Month firstMonth)
 	{
 		if (firstMonth == null)
 			throw new IllegalArgumentException("Start month may not be null.");
@@ -84,6 +116,11 @@ public class Months implements Serializable, Collection
 			throw new UnsupportedOperationException("Calculating with years equal or less than zero is broken.");
 
 		this.firstMonth = firstMonth;
+	}
+
+	public boolean isOpen()
+	{
+		return false;
 	}
 
 	public Month getFirstMonth()
@@ -111,6 +148,11 @@ public class Months implements Serializable, Collection
 		return month.afterOrEqual(this.firstMonth) && month.beforeOrEqual(getLastMonth());
 	}
 
+	public Months limit(Months months)
+	{
+		return limit(months.getFirstMonth(), months.getLastMonth());
+	}
+
 	/**
 	 * Limit the months period so it is between min and max.
 	 * 
@@ -120,6 +162,9 @@ public class Months implements Serializable, Collection
 	 */
 	public Months limit(Month min, Month max)
 	{
+		if( min == null && max == null )
+			return this;
+		
 		if (min != null && max != null && !min.beforeOrEqual(max))
 			throw new IllegalArgumentException("Min may not be after max.");
 
