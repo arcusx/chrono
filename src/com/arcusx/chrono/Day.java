@@ -197,6 +197,20 @@ public class Day implements Serializable, Comparable
 	 * @param day The day of month, the first is 1.
 	 * @throws IllegalArgumentException if the given values are no valid date.
 	 */
+	public Day(int year, MonthOfYear month, int day)
+	{
+		this( year, month.getMonthValue(), day );
+	}
+	
+	
+	/**
+	 * Create a day instance.
+	 * 
+	 * @param year The year. 1970 is the year 1970.
+	 * @param month The month. 0 ist January, 1 February, 2 ...
+	 * @param day The day of month, the first is 1.
+	 * @throws IllegalArgumentException if the given values are no valid date.
+	 */
 	public Day(int year, int month, int day)
 	{
 		Calendar cal = new GregorianCalendar();
