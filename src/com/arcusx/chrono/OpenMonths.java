@@ -79,7 +79,7 @@ public class OpenMonths extends Months implements Serializable
 	 * @param max The maximum month the period may contain, if null it means let period as is.
 	 * @return The new months period.
 	 */
-	public Months limit(Month min, Month max)
+	public Months limitBy(Month min, Month max)
 	{
 		if (min != null && max != null && !min.beforeOrEqual(max))
 			throw new IllegalArgumentException("Min may not be after max.");

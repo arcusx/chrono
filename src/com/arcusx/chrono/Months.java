@@ -159,9 +159,9 @@ public class Months implements Serializable, Collection
 		return !(months instanceof OpenMonths) && contains(months.getFirstMonth()) && contains(months.getLastMonth());
 	}
 
-	public Months limit(Months months)
+	public Months limitBy(Months months)
 	{
-		return limit(months.getFirstMonth(), months.getLastMonth());
+		return limitBy(months.getFirstMonth(), months.getLastMonth());
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class Months implements Serializable, Collection
 	 * @param max The maximum month the period may contain, if null it means let period as is.
 	 * @return The new months period.
 	 */
-	public Months limit(Month min, Month max)
+	public Months limitBy(Month min, Month max)
 	{
 		if (min == null && max == null)
 			return this;
