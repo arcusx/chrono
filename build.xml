@@ -18,7 +18,7 @@
 		<property name="lib.dir" location="${basedir}/lib"/>
 
 		<!-- build -->
-		<property name="build.version" value="0.1"/>
+		<property name="build.version" value="0_1"/>
 		<property name="build.dir" location="${basedir}/.build"/>
 		<property name="build.dist.dir" location="${build.dir}/dist"/>
 		<property name="build.doc.dir" location="${build.dist.dir}/doc"/>
