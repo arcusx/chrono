@@ -113,6 +113,11 @@ public class Month implements Serializable, Comparable
 		return Month.valueOf(cal);
 	}
 
+	public Month(int year, MonthOfYear month)
+	{
+		this(year, month.getMonthValue());
+	}
+
 	public Month(int year, int month)
 	{
 		if (month < JANUARY || month > DECEMBER)
