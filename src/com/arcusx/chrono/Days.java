@@ -38,6 +38,11 @@ public class Days implements Serializable, Collection
 
 	public Days(Day firstDay, Day lastDay)
 	{
+		if (firstDay == null)
+			throw new IllegalArgumentException("First day may not be null.");
+		if (lastDay == null)
+			throw new IllegalArgumentException("Last day may not be null.");
+
 		// swap if necessary
 		if (firstDay.after(lastDay))
 		{

@@ -188,21 +188,20 @@ public class MonthsTestCase extends TestCase
 
 	public void testOpenMonths() throws Exception
 	{
-		Months openMonths = new Months(new Month(2003, 0));
+		Months openMonths = new OpenMonths(new Month(2003, 0));
 
 		assertNotNull(openMonths.getFirstMonth());
-		assertTrue(openMonths.isOpen());
 	}
 
 	public void testOpenMonthsGetLastMonthFails() throws Exception
 	{
-		Months openMonths = new Months(new Month(2003, 0));
+		Months openMonths = new OpenMonths(new Month(2003, 0));
 		assertNull(openMonths.getLastMonth());
 	}
 
 	public void testOpenMonthsContains() throws Exception
 	{
-		Months openMonths = new Months(new Month(2003, 0));
+		Months openMonths = new OpenMonths(new Month(2003, 0));
 		assertTrue(openMonths.contains(new Day(2003, 0, 1)));
 		assertTrue(openMonths.contains(new Month(2003, 0)));
 		assertFalse(openMonths.contains(new Day(2002, 0, 1)));
@@ -211,19 +210,19 @@ public class MonthsTestCase extends TestCase
 
 	public void testOpenMonthsEquals() throws Exception
 	{
-		Months oneOpenMonths = new Months(new Month(2003, 0));
-		Months otherOpenMonths = new Months(new Month(2003, 0));
+		Months oneOpenMonths = new OpenMonths(new Month(2003, 0));
+		Months otherOpenMonths = new OpenMonths(new Month(2003, 0));
 		assertEquals(oneOpenMonths, otherOpenMonths);
 	}
 
 	public void testOpenMonthsLimit() throws Exception
 	{
-		Months openMonths = new Months(new Month(2003, 0));
+		Months openMonths = new OpenMonths(new Month(2003, 0));
 
 		// limited min, open max
 		Month min = new Month(2003, 1);
 		Months limitedMonths = openMonths.limit(min, null);
-		Months expectedMonths = new Months(new Month(2003, 1));
+		Months expectedMonths = new OpenMonths(new Month(2003, 1));
 		assertEquals(expectedMonths, limitedMonths);
 
 		// limited min and max
@@ -235,7 +234,7 @@ public class MonthsTestCase extends TestCase
 
 		// limited none
 		limitedMonths = openMonths.limit(null, null);
-		expectedMonths = new Months(new Month(2003, 0));
+		expectedMonths = new OpenMonths(new Month(2003, 0));
 		assertEquals(expectedMonths, limitedMonths);
 
 		// open min, limited max
