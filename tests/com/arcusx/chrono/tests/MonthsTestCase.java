@@ -118,6 +118,17 @@ public class MonthsTestCase extends TestCase
 		}
 	}
 
+	public void testContainsMonths() throws Exception
+	{
+		Months year = new Months(new Month(2003, Month.JANUARY), new Month(2003, Month.DECEMBER));
+		Months firstQuarter = new Months(new Month(2003, Month.JANUARY), new Month(2003, Month.MARCH));
+		Months secondQuarter = new Months(new Month(2003, Month.APRIL), new Month(2003, Month.JUNE));
+		assertTrue(year.contains(firstQuarter));
+		assertTrue(year.contains(secondQuarter));
+		assertFalse(firstQuarter.contains(year));
+		assertFalse(secondQuarter.contains(year));
+	}
+
 	/**
 	 * This has been reported by Flo.
 	 */
@@ -269,25 +280,25 @@ public class MonthsTestCase extends TestCase
 
 	public void testEquals() throws Exception
 	{
-		Months one = new Months(new Month(2003, Month.JANUARY),new Month(2003, Month.DECEMBER));
-		Months other = new Months(new Month(2003, Month.JANUARY),new Month(2003, Month.DECEMBER));
-		assertEquals( one, other );
-		assertEquals( other, one );
+		Months one = new Months(new Month(2003, Month.JANUARY), new Month(2003, Month.DECEMBER));
+		Months other = new Months(new Month(2003, Month.JANUARY), new Month(2003, Month.DECEMBER));
+		assertEquals(one, other);
+		assertEquals(other, one);
 	}
 
 	public void testNotEquals() throws Exception
 	{
-		Months one = new Months(new Month(2003, Month.JANUARY),new Month(2003, Month.DECEMBER));
-		Months other = new Months(new Month(2003, Month.FEBRUARY),new Month(2003, Month.DECEMBER));
-		assertFalse( one.equals(other) );
-		assertFalse( other.equals(one) );
+		Months one = new Months(new Month(2003, Month.JANUARY), new Month(2003, Month.DECEMBER));
+		Months other = new Months(new Month(2003, Month.FEBRUARY), new Month(2003, Month.DECEMBER));
+		assertFalse(one.equals(other));
+		assertFalse(other.equals(one));
 	}
 
 	public void testNotEqualsOpenAndLimitedMonths() throws Exception
 	{
 		Months one = new OpenMonths(new Month(2002, Month.DECEMBER));
-		Months other = new Months(new Month(2002, Month.DECEMBER),new Month(2003, Month.DECEMBER));
-		assertFalse( one.equals(other) );
-		assertFalse( other.equals(one) );
+		Months other = new Months(new Month(2002, Month.DECEMBER), new Month(2003, Month.DECEMBER));
+		assertFalse(one.equals(other));
+		assertFalse(other.equals(one));
 	}
 }

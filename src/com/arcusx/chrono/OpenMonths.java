@@ -67,6 +67,11 @@ public class OpenMonths extends Months implements Serializable
 		return month.afterOrEqual(getFirstMonth());
 	}
 
+	public boolean contains(Months months)
+	{
+		return months.getFirstMonth().afterOrEqual(getFirstMonth());
+	}
+
 	/**
 	 * Limit the months period so it is between min and max.
 	 * 
@@ -95,7 +100,7 @@ public class OpenMonths extends Months implements Serializable
 		return newMax == null ? new OpenMonths(newMin) : new Months(newMin, newMax);
 	}
 
-	public boolean overlaps(OpenMonths otherMonths)
+	public boolean overlaps(Months otherMonths)
 	{
 		throw new UnsupportedOperationException("Not implemented,yet."); // FIXME implement for open Months
 	}

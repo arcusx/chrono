@@ -148,6 +148,13 @@ public class Months implements Serializable, Collection
 		return month.afterOrEqual(this.firstMonth) && month.beforeOrEqual(getLastMonth());
 	}
 
+	public boolean contains(Months months)
+	{
+		return this.firstMonth.beforeOrEqual(months.getFirstMonth())
+				&& getLastMonth().afterOrEqual(months.getFirstMonth())
+				&& getLastMonth().afterOrEqual(months.getLastMonth());
+	}
+
 	public Months limit(Months months)
 	{
 		return limit(months.getFirstMonth(), months.getLastMonth());
@@ -168,15 +175,24 @@ public class Months implements Serializable, Collection
 		if (min != null && max != null && !min.beforeOrEqual(max))
 			throw new IllegalArgumentException("Min may not be after max.");
 
-		if (min != null && max != null && !min.beforeOrEqual(max))
-			throw new IllegalArgumentException("Min may not be before max.");
+		if (min != null)
+		{
+			Months limitPeriod = Months.valueOf(min, max);
+			if (!this.overlaps(limitPeriod))
+			{
+				if (limitPeriod.getFirstMonth().before(this.firstMonth))
+					return new Months(limitPeriod.getFirstMonth(), 0);
+				else
+					return new Months(this.firstMonth, 0);
+			}
+		}
 
 		// check if min is given and keep it if it is set after firstMonth
 		Month newFirstMonth = null;
 		if (min == null)
 			newFirstMonth = this.firstMonth;
 		else
-			newFirstMonth = min.after(this.firstMonth) ? min : this.firstMonth;
+			newFirstMonth = min.after(this.firstMonth) && min.before(getLastMonth()) ? min : this.firstMonth;
 
 		// check if max is given and keep it if it is set before lastMonth
 		Month newLastMonth = null;
@@ -257,6 +273,8 @@ public class Months implements Serializable, Collection
 	{
 		if (o instanceof Month)
 			return contains((Month) o);
+		if (o instanceof Months)
+			return contains((Months) o);
 
 		return false;
 	}
