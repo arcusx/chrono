@@ -61,6 +61,11 @@ public class Month implements Serializable, Comparable
 
 	private int month;
 
+	/**
+	 * Get the month of the current day.
+	 * 
+	 * @return Instance of current month.
+	 */
 	public static Month current()
 	{
 		Calendar cal = new GregorianCalendar();
@@ -68,6 +73,12 @@ public class Month implements Serializable, Comparable
 		return Month.valueOf(cal);
 	}
 
+	/**
+	 * Get month from Calendar.
+	 * 
+	 * @param cal Calendar to get month from.
+	 * @return The month.
+	 */
 	public static Month valueOf(Calendar cal)
 	{
 		if (cal == null)
@@ -76,6 +87,13 @@ public class Month implements Serializable, Comparable
 		return new Month(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH));
 	}
 
+	/**
+	 * Get month from a date or default value if date is null.
+	 * 
+	 * @param date Date to get month from.
+	 * @param defaultValue The default vakleu to use if date is null.
+	 * @return Month or default value.
+	 */
 	public static Month valueOf(Date date, Month defaultValue)
 	{
 		if (date == null)

@@ -184,5 +184,15 @@ public class MonthsTestCase2 extends TestCase
 		assertEquals("MonthsPeriod must end in Feb", Calendar.FEBRUARY, period.getLastMonth().getMonthValue());
 		assertEquals("MonthsPeriod must be cut.", 1, period.size());
 	}
+	
+	
+	public void testLimitClosedPeriodWithOpen() throws Exception
+	{
+		Months period = new Months(new Month(2001, Calendar.JANUARY), 10);
+		Months limitPeriod = new OpenMonths(new Month(2001,Month.FEBRUARY));
+		Months expectedPeriod = new Months(new Month(2001, Month.FEBRUARY), 9);
+		Months calculatedPeriod = period.limit(limitPeriod);
+		assertEquals( expectedPeriod, calculatedPeriod );
+	}
 
 }
