@@ -40,6 +40,46 @@ public class Day implements Serializable, Comparable
 
 	private int day;
 
+	/**
+	 * Get the smaller one of two days.
+	 * 
+	 * @param one One day, not null.
+	 * @param one Othe day, not null.
+	 * @return The smaller day.
+	 */
+	public static Day min(Day one, Day other)
+	{
+		if (one == null)
+			throw new IllegalArgumentException("One ist null.");
+		if (other == null)
+			throw new IllegalArgumentException("Other ist null.");
+
+		if (one.before(other))
+			return one;
+
+		return other;
+	}
+
+	/**
+	 * Get the later one of two days.
+	 * 
+	 * @param one One day, not null.
+	 * @param one Othe day, not null.
+	 * @return The later day.
+	 */
+	public static Day max(Day one, Day other)
+	{
+		if (one == null)
+			throw new IllegalArgumentException("One ist null.");
+		if (other == null)
+			throw new IllegalArgumentException("Other ist null.");
+
+		if (one.after(other))
+			return one;
+
+		return other;
+	}
+
 	public static Day today()
 	{
 		return Day.current();
@@ -56,6 +96,22 @@ public class Day implements Serializable, Comparable
 	{
 		Calendar cal = new GregorianCalendar();
 		cal.setTime(date);
+
+		return Day.valueOf(cal);
+	}
+
+	public static Day valueOf(Date date, Day defaultDay)
+	{
+		if (date == null)
+			return defaultDay;
+
+		return Day.valueOf(date);
+	}
+
+	public static Day valueOf(Calendar cal, Day defaultDay)
+	{
+		if (cal == null)
+			return defaultDay;
 
 		return Day.valueOf(cal);
 	}

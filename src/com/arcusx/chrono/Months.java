@@ -38,8 +38,11 @@ public class Months implements Serializable, Collection
 
 	public Months(Month firstMonth, Month lastMonth)
 	{
+		if (firstMonth == null)
+			throw new IllegalArgumentException("Start month may not be null.");
+
 		// swap if necessary
-		if (firstMonth.after(lastMonth))
+		if (lastMonth != null && firstMonth.after(lastMonth))
 		{
 			Month tmp = lastMonth;
 			lastMonth = firstMonth;
@@ -52,6 +55,9 @@ public class Months implements Serializable, Collection
 
 	public Months(Month firstMonth, int count)
 	{
+		if (firstMonth == null)
+			throw new IllegalArgumentException("Start month may not be null.");
+
 		// FIXME broken with years <= 0
 		if (firstMonth.getYearValue() <= 0)
 			throw new UnsupportedOperationException("Calculating with years equal or less than zero is broken.");
@@ -66,6 +72,19 @@ public class Months implements Serializable, Collection
 		this.lastMonth = Month.valueOf(cal);
 	}
 
+	public Months(Month firstMonth)
+	{
+		if (firstMonth == null)
+			throw new IllegalArgumentException("Start month may not be null.");
+
+		this.firstMonth = firstMonth;
+	}
+
+	public boolean isOpen()
+	{
+		return this.lastMonth == null;
+	}
+
 	public Month getFirstMonth()
 	{
 		return this.firstMonth;
@@ -73,17 +92,25 @@ public class Months implements Serializable, Collection
 
 	public Month getLastMonth()
 	{
+		checkNotIsOpen();
+
 		return this.lastMonth;
 	}
 
 	public boolean contains(Day day)
 	{
-		return day.afterOrEqual(this.firstMonth.getFirstDay()) && day.beforeOrEqual(this.lastMonth.getLastDay());
+		if (!isOpen())
+			return day.afterOrEqual(this.firstMonth.getFirstDay()) && day.beforeOrEqual(this.lastMonth.getLastDay());
+
+		return day.afterOrEqual(this.firstMonth.getFirstDay());
 	}
 
 	public boolean contains(Month month)
 	{
-		return month.afterOrEqual(this.firstMonth) && month.beforeOrEqual(this.lastMonth);
+		if (!isOpen())
+			return month.afterOrEqual(this.firstMonth) && month.beforeOrEqual(this.lastMonth);
+
+		return month.afterOrEqual(this.firstMonth);
 	}
 
 	/**
@@ -94,6 +121,14 @@ public class Months implements Serializable, Collection
 	 * @return The new months period.
 	 */
 	public Months limit(Month min, Month max)
+	{
+		if (isOpen())
+			return limitOpen(min, max);
+
+		return limitNotOpen(min, max);
+	}
+
+	private Months limitNotOpen(Month min, Month max)
 	{
 		// check if min is given and keep it if it is set after firstMonth
 		Month newFirstMonth = null;
@@ -116,8 +151,21 @@ public class Months implements Serializable, Collection
 		return new Months(newFirstMonth, newLastMonth);
 	}
 
+	private Months limitOpen(Month min, Month max)
+	{
+		if (min == null && max == null)
+			return this;
+
+		if (max != null)
+			return new Months(min != null ? Month.max(min, this.firstMonth) : this.firstMonth, max);
+
+		return new Months(Month.max(min, this.firstMonth));
+	}
+
 	public boolean overlaps(Months otherMonths)
 	{
+		checkNotIsOpen(); // FIXME implement for open Months
+
 		if (otherMonths.firstMonth.before(this.firstMonth) && otherMonths.lastMonth.before(this.firstMonth))
 			return false;
 
@@ -137,12 +185,18 @@ public class Months implements Serializable, Collection
 
 		Months otherMonths = (Months) other;
 
-		return this.firstMonth.equals(otherMonths.firstMonth) && this.lastMonth.equals(otherMonths.lastMonth);
+		if (!isOpen() && !otherMonths.isOpen())
+			return this.firstMonth.equals(otherMonths.firstMonth) && this.lastMonth.equals(otherMonths.lastMonth);
+
+		return otherMonths.isOpen() && this.firstMonth.equals(otherMonths.firstMonth);
 	}
 
 	public int hashCode()
 	{
-		return this.firstMonth.hashCode() ^ this.lastMonth.hashCode();
+		if (!isOpen())
+			return this.firstMonth.hashCode() ^ this.lastMonth.hashCode();
+
+		return this.firstMonth.hashCode();
 	}
 
 	public String toString()
@@ -217,6 +271,8 @@ public class Months implements Serializable, Collection
 
 	public int size()
 	{
+		checkNotIsOpen();
+
 		// FIXME this could be done more efficiently
 		int i = 0;
 		Iterator iter = iterator();
@@ -230,11 +286,15 @@ public class Months implements Serializable, Collection
 
 	public Object[] toArray()
 	{
+		checkNotIsOpen();
+
 		return toArray(new Object[size()]);
 	}
 
 	public Object[] toArray(Object[] array)
 	{
+		checkNotIsOpen();
+
 		Iterator iter = iterator();
 		for (int i = 0; iter.hasNext(); ++i)
 		{
@@ -242,6 +302,12 @@ public class Months implements Serializable, Collection
 		}
 
 		return array;
+	}
+
+	private void checkNotIsOpen()
+	{
+		if (isOpen())
+			throw new UnsupportedOperationException("Months has open end.");
 	}
 
 	private static final class Iter implements Iterator
@@ -259,7 +325,7 @@ public class Months implements Serializable, Collection
 
 		public boolean hasNext()
 		{
-			return Month.valueOf(cal).beforeOrEqual(this.lastMonth);
+			return this.lastMonth == null || Month.valueOf(cal).beforeOrEqual(this.lastMonth);
 		}
 
 		public Object next()

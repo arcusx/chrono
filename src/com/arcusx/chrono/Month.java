@@ -30,31 +30,44 @@ import java.util.*;
  */
 public class Month implements Serializable, Comparable
 {
+
 	private static final long serialVersionUID = 1L;
 
 	public static final int JANUARY = Calendar.JANUARY;
+
 	public static final int FEBRUARY = Calendar.FEBRUARY;
+
 	public static final int MARCH = Calendar.MARCH;
+
 	public static final int APRIL = Calendar.APRIL;
+
 	public static final int MAY = Calendar.MAY;
+
 	public static final int JUNE = Calendar.JUNE;
+
 	public static final int JULY = Calendar.JULY;
+
 	public static final int AUGUST = Calendar.AUGUST;
+
 	public static final int SEPTEMBER = Calendar.SEPTEMBER;
+
 	public static final int OCTOBER = Calendar.OCTOBER;
+
 	public static final int NOVEMBER = Calendar.NOVEMBER;
+
 	public static final int DECEMBER = Calendar.DECEMBER;
 
 	private int year;
+
 	private int month;
 
 	public static Month current()
 	{
 		Calendar cal = new GregorianCalendar();
-		
+
 		return Month.valueOf(cal);
 	}
-	
+
 	public static Month valueOf(Calendar cal)
 	{
 		if (cal == null)
@@ -100,9 +113,9 @@ public class Month implements Serializable, Comparable
 
 	public MonthOfYear getMonthOfYear()
 	{
-		return MonthOfYear.valueOf( this.month );
+		return MonthOfYear.valueOf(this.month);
 	}
-	
+
 	public Day getFirstDay()
 	{
 		Calendar cal = new GregorianCalendar();
@@ -158,7 +171,7 @@ public class Month implements Serializable, Comparable
 
 		return before(otherMonth) ? -1 : equals(otherMonth) ? 0 : 1;
 	}
-	
+
 	/**
 	 * Month is equal to any other month of same year and month value.
 	 * 
@@ -206,6 +219,46 @@ public class Month implements Serializable, Comparable
 	//
 	// misc
 	//
+
+	/**
+	 * Get the smaller one of two months.
+	 * 
+	 * @param one One month, not null.
+	 * @param one Othe month, not null.
+	 * @return The smaller month.
+	 */
+	public static Month min(Month one, Month other)
+	{
+		if (one == null)
+			throw new IllegalArgumentException("One ist null.");
+		if (other == null)
+			throw new IllegalArgumentException("Other ist null.");
+
+		if (one.before(other))
+			return one;
+
+		return other;
+	}
+
+	/**
+	 * Get the later one of two months.
+	 * 
+	 * @param one One month, not null.
+	 * @param one Othe month, not null.
+	 * @return The latest month.
+	 */
+	public static Month max(Month one, Month other)
+	{
+		if (one == null)
+			throw new IllegalArgumentException("One ist null.");
+		if (other == null)
+			throw new IllegalArgumentException("Other ist null.");
+
+		if (one.after(other))
+			return one;
+
+		return other;
+	}
 
 	/**
 	 * Calculate a sequence of n months that are first of a period splitting
