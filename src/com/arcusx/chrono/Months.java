@@ -90,10 +90,13 @@ public class Months implements Serializable, Collection
 		return this.firstMonth;
 	}
 
+	/**
+	 * The last month or null if not defined, i.e. open period.
+	 * 
+	 * @return The last month or null.
+	 */
 	public Month getLastMonth()
 	{
-		checkNotIsOpen();
-
 		return this.lastMonth;
 	}
 
