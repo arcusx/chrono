@@ -28,7 +28,7 @@
 		<buildnumber file="${basedir}/build_seq-${build.version}"/>
 		<property name="now" value="${DSTAMP}-${TSTAMP}" />
 		<property name="build.file" value="VERSION-${build.version}-${build.number}" />
-		<property name="build.dist.dir" location="${build.dir}/dist/${ant.project.name}-${build.version}-${build.number}"/>
+		<property name="build.dist.dir" location="${build.dir}/dist/${ant.project.name}"/>
 		<property name="build.doc.dir" location="${build.dist.dir}/doc"/>
 		<property name="build.javadoc.dir" location="${build.doc.dir}/api"/>
 		<property name="build.classes.dir" location="${build.dir}/classes"/>
@@ -59,7 +59,7 @@
 		</javac>
 
 		<!-- jar it up -->
-		<jar jarfile="${build.dist.dir}/${ant.project.name}-${build.version}-${build.number}.jar" compress="true">
+		<jar jarfile="${build.dist.dir}/${ant.project.name}.jar" compress="true">
 		    <fileset dir="${build.classes.dir}" includes="**"/>
 		    <fileset dir="${resources.dir}" includes="**"/>
 		</jar>
