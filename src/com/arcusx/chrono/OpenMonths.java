@@ -52,6 +52,11 @@ public class OpenMonths extends Months implements Serializable
 		return null;
 	}
 
+	public boolean isOpen()
+	{
+		return true;
+	}
+
 	public boolean contains(Day day)
 	{
 		return day.afterOrEqual(getFirstMonth().getFirstDay());
