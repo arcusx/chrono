@@ -330,6 +330,14 @@ public class Month implements Serializable, Comparable
 		return maxOf(months, false);
 	}
 
+	/**
+	 * Get maximum of multiple months.
+	 * 
+	 * @param months Array of months to get maximum from.
+	 * @return ignoreNulls If false null leads to an error.
+	 * @return The maximum or null if array is of length 0 or contains nulls only.
+	 * @throws IllegalArgumentException if ignoreNulls is false and an array element is null.
+	 */
 	public static Month maxOf(Month[] months, boolean nullAllowed)
 	{
 		Month max = null;

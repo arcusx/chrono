@@ -64,6 +64,14 @@ public class Day implements Serializable, Comparable
 		return minOf(months, false);
 	}
 
+	/**
+	 * Get minimum of multiple days.
+	 * 
+	 * @param days Array of days to get minimum from.
+	 * @return ignoreNulls If false null leads to an error.
+	 * @return The minimum or null if array is of length 0 or contains nulls only.
+	 * @throws IllegalArgumentException if ignoreNulls is false and an array element is null.
+	 */
 	public static Day minOf(Day[] days, boolean nullAllowed)
 	{
 		Day min = null;
@@ -103,6 +111,14 @@ public class Day implements Serializable, Comparable
 		return maxOf(days, false);
 	}
 
+	/**
+	 * Get maximum of multiple days.
+	 * 
+	 * @param days Array of days to get maximum from.
+	 * @return ignoreNulls If false null leads to an error.
+	 * @return The maximum or null if array is of length 0 or contains nulls only.
+	 * @throws IllegalArgumentException if ignoreNulls is false and an array element is null.
+	 */
 	public static Day maxOf(Day[] days, boolean nullAllowed)
 	{
 		Day max = null;
