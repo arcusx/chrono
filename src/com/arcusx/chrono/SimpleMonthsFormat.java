@@ -49,7 +49,12 @@ public class SimpleMonthsFormat extends MonthsFormat
 	 */
 	public Months parse(String s) throws ParseException
 	{
-		throw new UnsupportedOperationException();
+		String[] parts = s.split("-");
+		if( parts.length != 2 )
+			throw new ParseException("Not of the form yyyy/mm-yyyy/mm",-1);
+		Month start = SimpleMonthFormat.INSTANCE.parse(parts[0]);
+		Month end = SimpleMonthFormat.INSTANCE.parse(parts[1]);
+		return Months.valueOf(start,end);
 	}
 
 	public void format(Months period, StringBuffer buf)
