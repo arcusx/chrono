@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1"?> 
+
+<!-- $Id$ -->
+
+<project name="arcusx-chrono" default="build">
+
+  <!-- =================================================================== -->
+  <!-- Initialize what other targets rely on (only once).                  -->
+  <!-- =================================================================== -->
+	<target name="__init" unless="build.initialized">
+		
+		<property name="build.initialized" value="done"/>
+
+		<!-- project -->
+		<property name="src.dir" location="${basedir}/src"/>
+		<property name="tests.dir" location="${basedir}/tests"/>
+		<property name="resources.dir" location="${basedir}/resources"/>
+		<property name="lib.dir" location="${basedir}/lib"/>
+
+		<!-- build -->
+		<property name="build.version" value="0.1"/>
+		<property name="build.dir" location="${basedir}/.build"/>
+		<property name="build.dist.dir" location="${build.dir}/dist"/>
+		<property name="build.doc.dir" location="${build.dist.dir}/doc"/>
+		<property name="build.javadoc.dir" location="${build.doc.dir}/api"/>
+		<property name="build.classes.dir" location="${build.dir}/classes"/>
+		
+		<!-- prepare build structure -->
+		<mkdir dir="${build.dir}"/>
+		<delete dir="${build.classes.dir}"/>
+		<mkdir dir="${build.classes.dir}"/>
+		<delete dir="${build.dist.dir}"/>
+		<mkdir dir="${build.dist.dir}"/>
+		<mkdir dir="${build.doc.dir}"/>
+		<mkdir dir="${build.javadoc.dir}"/>
+	</target>
+
+	<target name="build" depends="__init">
+		<!-- compile all to .build/classes -->
+		<javac source="1.4"
+			destdir="${build.classes.dir}"
+			debug="on"
+			deprecation="off"
+			optimize="off"
+			includes="**/*.java"
+			srcdir="${src.dir}">
+			<classpath>
+				<fileset dir="${lib.dir}" includes="*.jar"/>
+ 			</classpath>
+		</javac>
+
+		<!-- jar it up -->
+		<jar jarfile="${build.dist.dir}/${ant.project.name}-${build.version}.jar" compress="false">
+		    <fileset dir="${build.classes.dir}" includes="**"/>
+		    <fileset dir="${resources.dir}" includes="**"/>
+		</jar>
+	</target>
+
+	<target name="build-all" depends="build,build-javadoc"/>
+
+	<target name="build-javadoc" depends="__init">
+		<javadoc destdir="${build.javadoc.dir}"
+           author="true" source="1.4" version="true" use="true" private="´false"
+           windowtitle="${ant.project.name}" defaultexcludes="yes">
+			<fileset dir="${src.dir}">
+				<include name="**/*.java" />
+			</fileset>
+		</javadoc>
+	</target>
+	
+</project>
