@@ -252,7 +252,7 @@ public class Months implements Serializable, Collection
 
 	public Iterator iterator()
 	{
-		return new Iter(this.firstMonth, getLastMonth());
+		return new Iter(this.firstMonth, size);
 	}
 
 	public boolean add(Object o)
@@ -371,23 +371,24 @@ public class Months implements Serializable, Collection
 
 		private Calendar cal;
 
-		private Month lastMonth;
+		private int count;
 
-		private Iter(Month firstMonth, Month lastMonth)
+		private Iter(Month firstMonth, int count)
 		{
 			this.cal = firstMonth.getFirstDay().toCalendar();
-			this.lastMonth = lastMonth;
+			this.count = count;
 		}
 
 		public boolean hasNext()
 		{
-			return this.lastMonth == null || Month.valueOf(cal).beforeOrEqual(this.lastMonth);
+			return this.count > 0;
 		}
 
 		public Object next()
 		{
 			Month month = Month.valueOf(cal);
 			cal.add(Calendar.MONTH, 1);
+			count--;
 
 			return month;
 		}
