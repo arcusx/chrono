@@ -232,25 +232,25 @@ public class MonthsTestCase extends TestCase
 
 		// limited min, open max
 		Month min = new Month(2003, 1);
-		Months limitedMonths = openMonths.limit(min, null);
+		Months limitedMonths = openMonths.limitBy(min, null);
 		Months expectedMonths = new OpenMonths(new Month(2003, 1));
 		assertEquals(expectedMonths, limitedMonths);
 
 		// limited min and max
 		min = new Month(2003, 1);
 		Month max = new Month(2003, 6);
-		limitedMonths = openMonths.limit(min, max);
+		limitedMonths = openMonths.limitBy(min, max);
 		expectedMonths = new Months(new Month(2003, 1), new Month(2003, 6));
 		assertEquals(expectedMonths, limitedMonths);
 
 		// limited none
-		limitedMonths = openMonths.limit(null, null);
+		limitedMonths = openMonths.limitBy(null, null);
 		expectedMonths = new OpenMonths(new Month(2003, 0));
 		assertEquals(expectedMonths, limitedMonths);
 
 		// open min, limited max
 		max = new Month(2003, 6);
-		limitedMonths = openMonths.limit(null, max);
+		limitedMonths = openMonths.limitBy(null, max);
 		expectedMonths = new Months(new Month(2003, 0), max);
 		assertEquals(expectedMonths, limitedMonths);
 	}
@@ -260,7 +260,7 @@ public class MonthsTestCase extends TestCase
 		try
 		{
 			Months months = new Months(new Month(2003, Month.JANUARY), 12);
-			months.limit(new Month(2003, Month.MAY), new Month(2003, Month.JANUARY));
+			months.limitBy(new Month(2003, Month.MAY), new Month(2003, Month.JANUARY));
 
 			fail("Limit by wrong period should raise an exception.");
 		}
@@ -273,7 +273,7 @@ public class MonthsTestCase extends TestCase
 	public void testOneMonthLimit() throws Exception
 	{
 		Months months = new Months(new Month(2003, Month.JANUARY), 12);
-		Months limitedMonths = months.limit(new Month(2003, Month.MAY), new Month(2003, Month.MAY));
+		Months limitedMonths = months.limitBy(new Month(2003, Month.MAY), new Month(2003, Month.MAY));
 		Months expectedMonths = new Months(new Month(2003, Month.MAY), 1);
 		assertEquals(expectedMonths, limitedMonths);
 	}

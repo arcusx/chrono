@@ -64,7 +64,7 @@ public class MonthsTestCase2 extends TestCase
 
 		// limit
 		Month minMonth = new Month(2001, Month.MARCH);
-		period = period.limit(minMonth, null);
+		period = period.limitBy(minMonth, null);
 
 		assertEquals("MonthsPeriod must keep year.", 2001, period.getFirstMonth().getYearValue());
 		assertEquals("MonthsPeriod must start in March.", Calendar.MARCH, period.getFirstMonth().getMonthValue());
@@ -148,7 +148,7 @@ public class MonthsTestCase2 extends TestCase
 		assertEquals("MonthsPeriod must be aligned.", 3, origPeriod.size());
 
 		// limit to lower border
-		Months period = origPeriod.limit(new Month(2001, Calendar.JANUARY), new Month(2001, Calendar.FEBRUARY));
+		Months period = origPeriod.limitBy(new Month(2001, Calendar.JANUARY), new Month(2001, Calendar.FEBRUARY));
 
 		assertEquals("MonthsPeriod must keep year.", 2001, period.getFirstMonth().getYearValue());
 		assertEquals("MonthsPeriod must start in Jan.", Calendar.JANUARY, period.getFirstMonth().getMonthValue());
@@ -157,7 +157,7 @@ public class MonthsTestCase2 extends TestCase
 		assertEquals("MonthsPeriod must be cut.", 2, period.size());
 
 		// limit to upper border
-		period = origPeriod.limit(new Month(2001, Calendar.FEBRUARY), new Month(2001, Calendar.MARCH));
+		period = origPeriod.limitBy(new Month(2001, Calendar.FEBRUARY), new Month(2001, Calendar.MARCH));
 
 		assertEquals("MonthsPeriod must keep year.", 2001, period.getFirstMonth().getYearValue());
 		assertEquals("MonthsPeriod must start in Feb.", Calendar.FEBRUARY, period.getFirstMonth().getMonthValue());
@@ -166,7 +166,7 @@ public class MonthsTestCase2 extends TestCase
 		assertEquals("MonthsPeriod must be cut.", 2, period.size());
 
 		// outer limit
-		period = origPeriod.limit(new Month(2000, Calendar.DECEMBER), new Month(2001, Calendar.APRIL));
+		period = origPeriod.limitBy(new Month(2000, Calendar.DECEMBER), new Month(2001, Calendar.APRIL));
 
 		assertEquals("MonthsPeriod must keep year.", 2001, origPeriod.getFirstMonth().getYearValue());
 		assertEquals("MonthsPeriod must start in January.", Calendar.JANUARY, origPeriod.getFirstMonth()
@@ -176,7 +176,7 @@ public class MonthsTestCase2 extends TestCase
 		assertEquals("MonthsPeriod must be aligned.", 3, origPeriod.size());
 
 		// limit to one
-		period = origPeriod.limit(new Month(2001, Calendar.FEBRUARY), new Month(2001, Calendar.FEBRUARY));
+		period = origPeriod.limitBy(new Month(2001, Calendar.FEBRUARY), new Month(2001, Calendar.FEBRUARY));
 
 		assertEquals("MonthsPeriod must keep year.", 2001, period.getFirstMonth().getYearValue());
 		assertEquals("MonthsPeriod must start in Feb.", Calendar.FEBRUARY, period.getFirstMonth().getMonthValue());
@@ -191,7 +191,7 @@ public class MonthsTestCase2 extends TestCase
 		Months period = new Months(new Month(2001, Calendar.JANUARY), 10);
 		Months limitPeriod = new OpenMonths(new Month(2001,Month.FEBRUARY));
 		Months expectedPeriod = new Months(new Month(2001, Month.FEBRUARY), 9);
-		Months calculatedPeriod = period.limit(limitPeriod);
+		Months calculatedPeriod = period.limitBy(limitPeriod);
 		assertEquals( expectedPeriod, calculatedPeriod );
 	}
 
