@@ -272,6 +272,7 @@ public class MonthsTestCase extends TestCase
 		Months one = new Months(new Month(2003, Month.JANUARY),new Month(2003, Month.DECEMBER));
 		Months other = new Months(new Month(2003, Month.JANUARY),new Month(2003, Month.DECEMBER));
 		assertEquals( one, other );
+		assertEquals( other, one );
 	}
 
 	public void testNotEquals() throws Exception
@@ -279,6 +280,7 @@ public class MonthsTestCase extends TestCase
 		Months one = new Months(new Month(2003, Month.JANUARY),new Month(2003, Month.DECEMBER));
 		Months other = new Months(new Month(2003, Month.FEBRUARY),new Month(2003, Month.DECEMBER));
 		assertFalse( one.equals(other) );
+		assertFalse( other.equals(one) );
 	}
 
 	public void testNotEqualsOpenAndLimitedMonths() throws Exception
