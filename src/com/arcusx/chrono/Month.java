@@ -76,6 +76,14 @@ public class Month implements Serializable, Comparable
 		return new Month(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH));
 	}
 
+	public static Month valueOf(Date date, Month defaultValue)
+	{
+		if (date == null)
+			return defaultValue;
+
+		return Month.valueOf(date);
+	}
+
 	public static Month valueOf(Date date)
 	{
 		if (date == null)

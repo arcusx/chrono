@@ -162,9 +162,9 @@ public class Months implements Serializable, Collection
 	 */
 	public Months limit(Month min, Month max)
 	{
-		if( min == null && max == null )
+		if (min == null && max == null)
 			return this;
-		
+
 		if (min != null && max != null && !min.beforeOrEqual(max))
 			throw new IllegalArgumentException("Min may not be after max.");
 
@@ -216,7 +216,7 @@ public class Months implements Serializable, Collection
 		if (size() == 0 && otherMonths.size() == 0)
 			return this.firstMonth.equals(otherMonths.firstMonth);
 
-		return this.firstMonth.equals(otherMonths.firstMonth);
+		return this.firstMonth.equals(otherMonths.firstMonth) && this.size == otherMonths.size;
 	}
 
 	public int hashCode()
