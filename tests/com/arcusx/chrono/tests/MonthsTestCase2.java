@@ -15,7 +15,9 @@
  */
 
 package com.arcusx.chrono.tests;
+
 import java.util.*;
+
 import junit.framework.*;
 import com.arcusx.chrono.*;
 
@@ -30,6 +32,7 @@ import com.arcusx.chrono.*;
  */
 public class MonthsTestCase2 extends TestCase
 {
+
 	public void testInnerYearMonths() throws Exception
 	{
 		Months period = new Months(new Month(2000, Calendar.JANUARY), new Month(2000, Calendar.DECEMBER));
@@ -56,11 +59,11 @@ public class MonthsTestCase2 extends TestCase
 
 	public void testLimitMonthsMinNoMax() throws Exception
 	{
-		Months period = new Months(new Month(2001,Month.JANUARY), new Month(2001,Month.MARCH));
+		Months period = new Months(new Month(2001, Month.JANUARY), new Month(2001, Month.MARCH));
 		assertEquals(3, period.size());
-		
+
 		// limit
-		Month minMonth = new Month(2001,Month.MARCH);
+		Month minMonth = new Month(2001, Month.MARCH);
 		period = period.limit(minMonth, null);
 
 		assertEquals("MonthsPeriod must keep year.", 2001, period.getFirstMonth().getYearValue());
@@ -84,7 +87,8 @@ public class MonthsTestCase2 extends TestCase
 		// check count
 		assertEquals("Iterating on one months must return 1 month.", monthList.size(), 1);
 
-		assertEquals("Month at " + 0 + " must have month " + Month.JANUARY, ((Month) monthList.get(0)).getMonthValue(), Month.JANUARY);
+		assertEquals("Month at " + 0 + " must have month " + Month.JANUARY, ((Month) monthList.get(0)).getMonthValue(),
+				Month.JANUARY);
 	}
 
 	public void testMonthsIteratorMany()
@@ -121,10 +125,64 @@ public class MonthsTestCase2 extends TestCase
 		while (testCurrDay.beforeOrEqual(testEndDay))
 		{
 			if (testCurrDay.equals(testStartDay) || testCurrDay.equals(testEndDay))
-				assertFalse("Curr month " + testCurrDay.getMonth() + " must not be in period." + period, period.contains(testCurrDay.getMonth()));
+				assertFalse("Curr month " + testCurrDay.getMonth() + " must not be in period." + period, period
+						.contains(testCurrDay.getMonth()));
 			else
-				assertTrue("Curr month " + testCurrDay.getMonth() + " must be in period." + period, period.contains(testCurrDay.getMonth()));
-				
-			testCurrDay = testCurrDay.add( 1 );
+				assertTrue("Curr month " + testCurrDay.getMonth() + " must be in period." + period, period
+						.contains(testCurrDay.getMonth()));
+
+			testCurrDay = testCurrDay.add(1);
 		}
-	}}
+	}
+
+	public void testLimitMonthsMinAndMax() throws Exception
+	{
+		Months origPeriod = new Months(new Month(2001, Calendar.JANUARY), 3);
+
+		// check period
+		assertEquals("MonthsPeriod must keep year.", 2001, origPeriod.getFirstMonth().getYearValue());
+		assertEquals("MonthsPeriod must start in January.", Calendar.JANUARY, origPeriod.getFirstMonth()
+				.getMonthValue());
+		assertEquals("MonthsPeriod must keep year,", 2001, origPeriod.getLastMonth().getYearValue());
+		assertEquals("MonthsPeriod must end in Marchl", Calendar.MARCH, origPeriod.getLastMonth().getMonthValue());
+		assertEquals("MonthsPeriod must be aligned.", 3, origPeriod.size());
+
+		// limit to lower border
+		Months period = origPeriod.limit(new Month(2001, Calendar.JANUARY), new Month(2001, Calendar.FEBRUARY));
+
+		assertEquals("MonthsPeriod must keep year.", 2001, period.getFirstMonth().getYearValue());
+		assertEquals("MonthsPeriod must start in Jan.", Calendar.JANUARY, period.getFirstMonth().getMonthValue());
+		assertEquals("MonthsPeriod must keep year,", 2001, period.getLastMonth().getYearValue());
+		assertEquals("MonthsPeriod must end in Feb", Calendar.FEBRUARY, period.getLastMonth().getMonthValue());
+		assertEquals("MonthsPeriod must be cut.", 2, period.size());
+
+		// limit to upper border
+		period = origPeriod.limit(new Month(2001, Calendar.FEBRUARY), new Month(2001, Calendar.MARCH));
+
+		assertEquals("MonthsPeriod must keep year.", 2001, period.getFirstMonth().getYearValue());
+		assertEquals("MonthsPeriod must start in Feb.", Calendar.FEBRUARY, period.getFirstMonth().getMonthValue());
+		assertEquals("MonthsPeriod must keep year,", 2001, period.getLastMonth().getYearValue());
+		assertEquals("MonthsPeriod must end in March", Calendar.MARCH, period.getLastMonth().getMonthValue());
+		assertEquals("MonthsPeriod must be cut.", 2, period.size());
+
+		// outer limit
+		period = origPeriod.limit(new Month(2000, Calendar.DECEMBER), new Month(2001, Calendar.APRIL));
+
+		assertEquals("MonthsPeriod must keep year.", 2001, origPeriod.getFirstMonth().getYearValue());
+		assertEquals("MonthsPeriod must start in January.", Calendar.JANUARY, origPeriod.getFirstMonth()
+				.getMonthValue());
+		assertEquals("MonthsPeriod must keep year,", 2001, origPeriod.getLastMonth().getYearValue());
+		assertEquals("MonthsPeriod must end in Marchl", Calendar.MARCH, origPeriod.getLastMonth().getMonthValue());
+		assertEquals("MonthsPeriod must be aligned.", 3, origPeriod.size());
+
+		// limit to one
+		period = origPeriod.limit(new Month(2001, Calendar.FEBRUARY), new Month(2001, Calendar.FEBRUARY));
+
+		assertEquals("MonthsPeriod must keep year.", 2001, period.getFirstMonth().getYearValue());
+		assertEquals("MonthsPeriod must start in Feb.", Calendar.FEBRUARY, period.getFirstMonth().getMonthValue());
+		assertEquals("MonthsPeriod must keep year,", 2001, period.getLastMonth().getYearValue());
+		assertEquals("MonthsPeriod must end in Feb", Calendar.FEBRUARY, period.getLastMonth().getMonthValue());
+		assertEquals("MonthsPeriod must be cut.", 1, period.size());
+	}
+
+}
