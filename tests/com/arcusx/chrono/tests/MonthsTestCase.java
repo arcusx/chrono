@@ -197,15 +197,7 @@ public class MonthsTestCase extends TestCase
 	public void testOpenMonthsGetLastMonthFails() throws Exception
 	{
 		Months openMonths = new Months(new Month(2003, 0));
-		try
-		{
-			openMonths.getLastMonth();
-
-			fail("Open months must fail on getLastMontj()");
-		}
-		catch (UnsupportedOperationException ex)
-		{
-		}
+		assertNull(openMonths.getLastMonth());
 	}
 
 	public void testOpenMonthsContains() throws Exception
@@ -249,7 +241,31 @@ public class MonthsTestCase extends TestCase
 		// open min, limited max
 		max = new Month(2003, 6);
 		limitedMonths = openMonths.limit(null, max);
-		expectedMonths = new Months(new Month(2003, 0),max);
+		expectedMonths = new Months(new Month(2003, 0), max);
 		assertEquals(expectedMonths, limitedMonths);
-}
+	}
+
+	public void testHeadDownMonthLimit() throws Exception
+	{
+		try
+		{
+			Months months = new Months(new Month(2003, Month.JANUARY), 12);
+			months.limit(new Month(2003, Month.MAY), new Month(2003, Month.JANUARY));
+
+			fail("Limit by wrong period should raise an exception.");
+		}
+		catch (Exception ex)
+		{
+		}
+	}
+
+	public void testOneMonthLimit() throws Exception
+	{
+			Months months = new Months(new Month(2003, Month.JANUARY), 12);
+			Months limitedMonths = months.limit(new Month(2003, Month.MAY), new Month(2003, Month.MAY));
+			Months expectedMonths = new Months(new Month(2003, Month.MAY), 1);
+			assertEquals(expectedMonths, limitedMonths);
+	}
+
+
 }
