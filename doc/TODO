@@ -1,0 +1,10 @@
+The following feature will be implemented in future:
+- Date and Period parsing
+- Examples
+- Documentation
+- BusinessCalendar
+
+The following issues have to be discussed:
+- Months.overlap(Days)
+- common Period interface
+- Time support
