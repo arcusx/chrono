@@ -32,25 +32,27 @@ public class Months implements Serializable, Collection
 
 	private static final long serialVersionUID = 1L;
 
+	private static final Integer ZERO = new Integer(0);
+
+	private static final Integer ONE = new Integer(1);
+
 	private Month firstMonth;
 
-	private Month lastMonth;
+	private Month lastMonth; // initialized on demand
+
+	private Integer count;
 
 	public Months(Month firstMonth, Month lastMonth)
 	{
 		if (firstMonth == null)
 			throw new IllegalArgumentException("Start month may not be null.");
 
-		// swap if necessary
-		if (lastMonth != null && firstMonth.after(lastMonth))
-		{
-			Month tmp = lastMonth;
-			lastMonth = firstMonth;
-			firstMonth = tmp;
-		}
+		if (lastMonth != null && lastMonth.before(firstMonth))
+			throw new IllegalArgumentException("First month (" + firstMonth + ") may not be before last month ("
+					+ lastMonth + ").");
 
 		this.firstMonth = firstMonth;
-		this.lastMonth = lastMonth;
+		this.count = distanceBetween(firstMonth, lastMonth);
 	}
 
 	public Months(Month firstMonth, int count)
@@ -62,14 +64,11 @@ public class Months implements Serializable, Collection
 		if (firstMonth.getYearValue() <= 0)
 			throw new UnsupportedOperationException("Calculating with years equal or less than zero is broken.");
 
-		if (count <= 0)
-			throw new IllegalArgumentException("Count must be 1 or more.");
+		if (count < 0)
+			throw new IllegalArgumentException("Count must be 0 or greater.");
 
 		this.firstMonth = firstMonth;
-
-		Calendar cal = firstMonth.getFirstDay().toCalendar();
-		cal.add(Calendar.MONTH, count - 1);
-		this.lastMonth = Month.valueOf(cal);
+		this.count = new Integer(count);
 	}
 
 	public Months(Month firstMonth)
@@ -82,7 +81,7 @@ public class Months implements Serializable, Collection
 
 	public boolean isOpen()
 	{
-		return this.lastMonth == null;
+		return this.count == null;
 	}
 
 	public Month getFirstMonth()
@@ -91,29 +90,32 @@ public class Months implements Serializable, Collection
 	}
 
 	/**
-	 * The last month or null if not defined, i.e. open period.
+	 * The last month or null if period has zero length or is open.
 	 * 
 	 * @return The last month or null.
 	 */
 	public Month getLastMonth()
 	{
+		if (!isOpen() && this.count.intValue() > 0)
+			this.lastMonth = monthFor(this.firstMonth, this.count.intValue());
+
 		return this.lastMonth;
 	}
 
 	public boolean contains(Day day)
 	{
 		if (!isOpen())
-			return day.afterOrEqual(this.firstMonth.getFirstDay()) && day.beforeOrEqual(this.lastMonth.getLastDay());
-
-		return day.afterOrEqual(this.firstMonth.getFirstDay());
+			return day.afterOrEqual(this.firstMonth.getFirstDay()) && day.beforeOrEqual(getLastMonth().getLastDay());
+		else
+			return day.afterOrEqual(this.firstMonth.getFirstDay());
 	}
 
 	public boolean contains(Month month)
 	{
 		if (!isOpen())
-			return month.afterOrEqual(this.firstMonth) && month.beforeOrEqual(this.lastMonth);
-
-		return month.afterOrEqual(this.firstMonth);
+			return month.afterOrEqual(this.firstMonth) && month.beforeOrEqual(getLastMonth());
+		else
+			return month.afterOrEqual(this.firstMonth);
 	}
 
 	/**
@@ -125,9 +127,9 @@ public class Months implements Serializable, Collection
 	 */
 	public Months limit(Month min, Month max)
 	{
-		if( min != null && max != null && !min.beforeOrEqual(max) )
+		if (min != null && max != null && !min.beforeOrEqual(max))
 			throw new IllegalArgumentException("Min may not be after max.");
-		
+
 		if (isOpen())
 			return limitOpen(min, max);
 
@@ -136,6 +138,9 @@ public class Months implements Serializable, Collection
 
 	private Months limitNotOpen(Month min, Month max)
 	{
+		if (min != null && max != null && !min.beforeOrEqual(max))
+			throw new IllegalArgumentException("Min may not be before max.");
+
 		// check if min is given and keep it if it is set after firstMonth
 		Month newFirstMonth = null;
 		if (min == null)
@@ -146,9 +151,9 @@ public class Months implements Serializable, Collection
 		// check if max is given and keep it if it is set before lastMonth
 		Month newLastMonth = null;
 		if (max == null)
-			newLastMonth = this.lastMonth;
+			newLastMonth = getLastMonth();
 		else
-			newLastMonth = max.before(this.lastMonth) ? max : this.lastMonth;
+			newLastMonth = max.before(getLastMonth()) ? max : getLastMonth();
 
 		// create new months period if firstMonth and lastMonth changed
 		if (this.firstMonth.equals(newFirstMonth) && this.lastMonth.equals(newLastMonth))
@@ -191,8 +196,11 @@ public class Months implements Serializable, Collection
 
 		Months otherMonths = (Months) other;
 
+		if (size() == 0 && otherMonths.size() == 0)
+			return this.firstMonth.equals(otherMonths.firstMonth);
+
 		if (!isOpen() && !otherMonths.isOpen())
-			return this.firstMonth.equals(otherMonths.firstMonth) && this.lastMonth.equals(otherMonths.lastMonth);
+			return this.firstMonth.equals(otherMonths.firstMonth) && getLastMonth().equals(otherMonths.getLastMonth());
 
 		return otherMonths.isOpen() && this.firstMonth.equals(otherMonths.firstMonth);
 	}
@@ -216,7 +224,7 @@ public class Months implements Serializable, Collection
 
 	public Iterator iterator()
 	{
-		return new Iter(this.firstMonth, this.lastMonth);
+		return new Iter(this.firstMonth, getLastMonth());
 	}
 
 	public boolean add(Object o)
@@ -279,15 +287,7 @@ public class Months implements Serializable, Collection
 	{
 		checkNotIsOpen();
 
-		// FIXME this could be done more efficiently
-		int i = 0;
-		Iterator iter = iterator();
-		while (iter.hasNext())
-		{
-			++i;
-			iter.next();
-		}
-		return i;
+		return count.intValue();
 	}
 
 	public Object[] toArray()
@@ -314,6 +314,39 @@ public class Months implements Serializable, Collection
 	{
 		if (isOpen())
 			throw new UnsupportedOperationException("Months has open end.");
+	}
+
+	private static Month monthFor(Month firstMonth, int count)
+	{
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(firstMonth.getFirstDay().toDate());
+		cal.add(Calendar.MONTH, count - 1);
+
+		return Month.valueOf(cal.getTime());
+	}
+
+	private static Integer distanceBetween(Month one, Month other)
+	{
+		if (other == null)
+			return null;
+
+		if (one.equals(other))
+			return ONE;
+
+		if (!one.before(other))
+			throw new IllegalArgumentException("First month must be before or equal to last month.");
+
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(one.getFirstDay().toDate());
+		Date otherDate = other.getFirstDay().toDate();
+		int count = 1;
+		while (!cal.getTime().equals(otherDate))
+		{
+			cal.add(Calendar.MONTH, 1);
+			count++;
+		}
+
+		return new Integer(count);
 	}
 
 	private static final class Iter implements Iterator

@@ -68,7 +68,7 @@ public class MonthsTestCase extends TestCase
 		}
 
 		// check count
-		assertEquals("Iterating on one months must return 1 month.", monthList.size(), 1);
+		assertEquals("Iterating on one months must return 1 month.", 1, monthList.size());
 
 		assertEquals("Month at " + 0 + " must have month " + Month.JANUARY, ((Month) monthList.get(0)).getMonthValue(),
 				Month.JANUARY);
@@ -261,11 +261,10 @@ public class MonthsTestCase extends TestCase
 
 	public void testOneMonthLimit() throws Exception
 	{
-			Months months = new Months(new Month(2003, Month.JANUARY), 12);
-			Months limitedMonths = months.limit(new Month(2003, Month.MAY), new Month(2003, Month.MAY));
-			Months expectedMonths = new Months(new Month(2003, Month.MAY), 1);
-			assertEquals(expectedMonths, limitedMonths);
+		Months months = new Months(new Month(2003, Month.JANUARY), 12);
+		Months limitedMonths = months.limit(new Month(2003, Month.MAY), new Month(2003, Month.MAY));
+		Months expectedMonths = new Months(new Month(2003, Month.MAY), 1);
+		assertEquals(expectedMonths, limitedMonths);
 	}
-
 
 }
