@@ -35,26 +35,14 @@ public class SimpleMonthsFormat extends MonthsFormat
 	{
 	}
 
-	public String format(Months period)
-	{
-		StringBuffer buf = new StringBuffer();
-
-		format(period, buf);
-
-		return buf.toString();
-	}
-
-	/**
-	 * <b>FIXME Not implemented, yet.</b>
-	 */
 	public Months parse(String s) throws ParseException
 	{
 		String[] parts = s.split("-");
-		if( parts.length != 2 )
-			throw new ParseException("Not of the form yyyy/mm-yyyy/mm",-1);
+		if (parts.length != 2)
+			throw new ParseException("Not of the form yyyy/mm-yyyy/mm", -1);
 		Month start = SimpleMonthFormat.INSTANCE.parse(parts[0]);
 		Month end = SimpleMonthFormat.INSTANCE.parse(parts[1]);
-		return Months.valueOf(start,end);
+		return Months.valueOf(start, end);
 	}
 
 	public void format(Months period, StringBuffer buf)
