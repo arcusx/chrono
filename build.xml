@@ -90,7 +90,8 @@
 		<!-- zip all up -->
 		<zip zipfile="${build.dir}/${ant.project.name}-${build.version}.zip" compress="true">
 		    <fileset dir="${build.dist.dir}" includes="**"/>
-		    <fileset dir="${basedir}" includes="lib/*.jar"/>
+		    <!-- libs not reuqired -->
+		    <!--<fileset dir="${basedir}" includes="lib/*.jar"/>-->
 		</zip>
 	</target>
 
