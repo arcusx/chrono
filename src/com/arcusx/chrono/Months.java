@@ -140,11 +140,17 @@ public class Months implements Serializable, Collection
 
 	public boolean contains(Day day)
 	{
+		if( isEmpty() )
+			return false;
+
 		return day.afterOrEqual(this.firstMonth.getFirstDay()) && day.beforeOrEqual(getLastMonth().getLastDay());
 	}
 
 	public boolean contains(Month month)
 	{
+		if( isEmpty() )
+			return false;
+		
 		return month.afterOrEqual(this.firstMonth) && month.beforeOrEqual(getLastMonth());
 	}
 
@@ -234,7 +240,10 @@ public class Months implements Serializable, Collection
 
 	public String toString()
 	{
-		return "Months{" + this.firstMonth + "-" + getLastMonth() + "}";
+		if( this.size == 0 )
+			return "Months{"+this.firstMonth+";EMPTY}";
+		else
+			return "Months{" + this.firstMonth + "-" + getLastMonth() + "}";
 	}
 
 	//
