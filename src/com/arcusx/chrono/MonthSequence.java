@@ -125,4 +125,9 @@ public class MonthSequence implements Sequence
 
 		return false;
 	}
+
+	public String toString()
+	{
+		return "MonthSequence{parts=" + parts + "}";
+	}
 }
