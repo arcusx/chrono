@@ -17,6 +17,7 @@
 package com.arcusx.chrono;
 
 import java.io.*;
+import java.text.*;
 import java.util.*;
 
 /**
@@ -173,6 +174,19 @@ public class Day implements Serializable, Comparable
 	public static Day valueOf(Calendar cal)
 	{
 		return new Day(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+	}
+
+	/**
+	 * A factory method to build this type via refelction
+	 * from string.
+	 * 
+	 * @param s The string.
+	 * @return The day.
+	 * @throws ParseException if the string could not be parsed.
+	 */
+	public static Day valueOf(String s) throws ParseException
+	{
+		return SimpleDayFormat.INSTANCE.parse(s);
 	}
 
 	/**

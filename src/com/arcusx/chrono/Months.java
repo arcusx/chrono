@@ -17,6 +17,7 @@
 package com.arcusx.chrono;
 
 import java.io.*;
+import java.text.*;
 import java.util.*;
 
 /**
@@ -50,6 +51,19 @@ public class Months implements Serializable, Collection, Interval
 			return new OpenMonths(firstMonth);
 
 		return new Months(firstMonth, lastMonth);
+	}
+
+	/**
+	 * A factory method to build this type via refelction
+	 * from string.
+	 * 
+	 * @param s The string.
+	 * @return The months.
+	 * @throws ParseException if the string could not be parsed.
+	 */
+	public static Months valueOf(String s) throws ParseException
+	{
+		return SimpleMonthsFormat.INSTANCE.parse(s);
 	}
 
 	/**

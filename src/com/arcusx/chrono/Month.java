@@ -17,6 +17,7 @@
 package com.arcusx.chrono;
 
 import java.io.*;
+import java.text.*;
 import java.util.*;
 
 /**
@@ -111,6 +112,19 @@ public class Month implements Serializable, Comparable
 		cal.setTime(date);
 
 		return Month.valueOf(cal);
+	}
+
+	/**
+	 * A factory method to build this type via refelction
+	 * from string.
+	 * 
+	 * @param s The string.
+	 * @return The month.
+	 * @throws ParseException if the string could not be parsed.
+	 */
+	public static Month valueOf(String s) throws ParseException
+	{
+		return SimpleMonthFormat.INSTANCE.parse(s);
 	}
 
 	public Month(int year, MonthOfYear month)
