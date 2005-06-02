@@ -117,6 +117,23 @@ public class MonthSequence implements Sequence
 		return Collections.unmodifiableCollection(this.parts);
 	}
 
+	public boolean isContinous()
+	{
+		boolean continous = true;
+		Months lastPart = null;
+		for (int i = 0; continous && i < this.parts.size(); i++)
+		{
+			Months currPart = (Months) this.parts.get(i);
+			if (lastPart != null)
+			{
+				if (!lastPart.getLastMonth().add(1).equals(currPart.getFirstMonth()))
+					continous = false;
+			}
+			lastPart = currPart;
+		}
+		return continous;
+	}
+
 	private boolean overlapOrMeet(Months earlier, Months later)
 	{
 		if (later.getFirstMonth().beforeOrEqual(earlier.getLastMonth())
@@ -130,15 +147,15 @@ public class MonthSequence implements Sequence
 	{
 		return "MonthSequence{parts=" + parts + "}";
 	}
-	
-	public boolean contains( Month month )
+
+	public boolean contains(Month month)
 	{
-		for(int i=0; i<this.parts.size(); ++i)
+		for (int i = 0; i < this.parts.size(); ++i)
 		{
-			if( ((Months)parts.get(i)).contains(month) )
+			if (((Months) parts.get(i)).contains(month))
 				return true;
 		}
-		
+
 		return false;
 	}
 }

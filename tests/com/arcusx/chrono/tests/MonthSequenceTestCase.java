@@ -136,4 +136,58 @@ public class MonthSequenceTestCase extends TestCase
 		assertTrue(seq.contains(new Month(2004, MonthOfYear.MAY)));
 		assertFalse(seq.contains(new Month(2004, MonthOfYear.JUNE)));
 	}
+	
+	public void testContinous() throws Exception
+	{
+		MonthSequence seq = new MonthSequence();
+		seq.addMonth(new Month(2005, MonthOfYear.JANUARY));
+		seq.addMonth(new Month(2005, MonthOfYear.FEBRUARY));
+		seq.addMonth(new Month(2005, MonthOfYear.MARCH));
+		seq.addMonth(new Month(2005, MonthOfYear.APRIL));
+		assertTrue(seq.isContinous());
+	}
+
+	public void testNotContinous() throws Exception
+	{
+		MonthSequence seq = new MonthSequence();
+		seq.addMonth(new Month(2005, MonthOfYear.JANUARY));
+		seq.addMonth(new Month(2005, MonthOfYear.FEBRUARY));
+		seq.addMonth(new Month(2005, MonthOfYear.APRIL));
+		assertFalse(seq.isContinous());
+	}
+
+	public void testContinousReverseOrder() throws Exception
+	{
+		MonthSequence seq = new MonthSequence();
+		seq.addMonth(new Month(2005, MonthOfYear.APRIL));
+		seq.addMonth(new Month(2005, MonthOfYear.MARCH));
+		seq.addMonth(new Month(2005, MonthOfYear.FEBRUARY));
+		seq.addMonth(new Month(2005, MonthOfYear.JANUARY));
+		assertTrue(seq.isContinous());
+	}
+
+	public void testNotContinousReverseOrder() throws Exception
+	{
+		MonthSequence seq = new MonthSequence();
+		seq.addMonth(new Month(2005, MonthOfYear.APRIL));
+		seq.addMonth(new Month(2005, MonthOfYear.FEBRUARY));
+		seq.addMonth(new Month(2005, MonthOfYear.JANUARY));
+		assertFalse(seq.isContinous());
+	}
+
+	public void testMonthsContinous() throws Exception
+	{
+		MonthSequence seq = new MonthSequence();
+		seq.addMonths(new Months(new Month(2005, MonthOfYear.JANUARY),5));
+		seq.addMonths(new Months(new Month(2005, MonthOfYear.JUNE),4));
+		assertTrue(seq.isContinous());
+	}
+
+	public void testMonthsNotContinous() throws Exception
+	{
+		MonthSequence seq = new MonthSequence();
+		seq.addMonths(new Months(new Month(2005, MonthOfYear.JANUARY),5));
+		seq.addMonths(new Months(new Month(2005, MonthOfYear.JULY),4));
+		assertFalse(seq.isContinous());
+	}
 }
