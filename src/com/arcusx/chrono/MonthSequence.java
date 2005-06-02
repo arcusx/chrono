@@ -21,6 +21,8 @@ package com.arcusx.chrono;
 import java.util.*;
 
 /**
+ * Month sequence is an possibly uncontinuos sequence of months,
+ * technically {@see Month} and {@see Months} objects.
  * 
  * Created on 22.02.2005, 16:33:23.
  *
@@ -31,6 +33,9 @@ public class MonthSequence implements Sequence
 {
 	private List parts = new ArrayList();
 
+	/**
+	 * Create a new empty month sequence.
+	 */
 	public MonthSequence()
 	{
 	}
@@ -112,18 +117,34 @@ public class MonthSequence implements Sequence
 		return this.parts.isEmpty() ? null : ((Months) this.parts.get(this.parts.size() - 1)).getLastMonth();
 	}
 
+	/**
+	 * Get the months parts of the sequence.
+	 * 
+	 * @return Collection of Month and Months objects.
+	 */
 	public Collection getMonthsParts()
 	{
 		return Collections.unmodifiableCollection(this.parts);
 	}
 
+	/**
+	 * Test if the month sequence is continuos.
+	 * 
+	 * @return True if it is, else false.
+	 */
 	public boolean isContinous()
 	{
 		boolean continous = true;
 		Months lastPart = null;
 		for (int i = 0; continous && i < this.parts.size(); i++)
 		{
-			Months currPart = (Months) this.parts.get(i);
+			Object currPartObj = this.parts.get(i);
+
+			// convert Month to Months for simplicity
+			if (currPartObj instanceof Month)
+				currPartObj = new Months((Month) currPartObj, 1);
+
+			Months currPart = (Months) currPartObj;
 			if (lastPart != null)
 			{
 				if (!lastPart.getLastMonth().add(1).equals(currPart.getFirstMonth()))
@@ -134,10 +155,17 @@ public class MonthSequence implements Sequence
 		return continous;
 	}
 
+	/**
+	 * Test if to months parts meet or overlap. Helper for
+	 * compaction.
+	 * 
+	 * @param earlier The earlier part.
+	 * @param later The later part.
+	 * @return True if they meet or overlap, else false.
+	 */
 	private boolean overlapOrMeet(Months earlier, Months later)
 	{
-		if (later.getFirstMonth().beforeOrEqual(earlier.getLastMonth())
-				|| later.getFirstMonth().add(-1).equals(earlier.getLastMonth()))
+		if (later.getFirstMonth().beforeOrEqual(earlier.getLastMonth()) || later.getFirstMonth().add(-1).equals(earlier.getLastMonth()))
 			return true;
 
 		return false;
@@ -148,6 +176,12 @@ public class MonthSequence implements Sequence
 		return "MonthSequence{parts=" + parts + "}";
 	}
 
+	/**
+	 * Test if the sequence contains a month.
+	 * 
+	 * @param month Month to test for.
+	 * @return True if contains, else false.
+	 */
 	public boolean contains(Month month)
 	{
 		for (int i = 0; i < this.parts.size(); ++i)
