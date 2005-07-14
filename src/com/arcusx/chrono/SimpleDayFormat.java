@@ -29,22 +29,22 @@ import java.text.*;
  */
 public class SimpleDayFormat extends DayFormat
 {
+	public static final SimpleDayFormat INSTANCE = new SimpleDayFormat("yyyy-MM-dd");
 
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	private DateFormat dateFormat;
 
-	public static final SimpleDayFormat INSTANCE = new SimpleDayFormat();
-
-	public SimpleDayFormat()
+	public SimpleDayFormat(String pattern)
 	{
+		this.dateFormat = new SimpleDateFormat(pattern);
 	}
 
 	public Day parse(String s) throws ParseException
 	{
-		return Day.valueOf(DATE_FORMAT.parse(s));
+		return Day.valueOf(dateFormat.parse(s));
 	}
 
 	public void format(Day day, StringBuffer buf)
 	{
-		buf.append(DATE_FORMAT.format(day.toDate()));
+		buf.append(dateFormat.format(day.toDate()));
 	}
 }
