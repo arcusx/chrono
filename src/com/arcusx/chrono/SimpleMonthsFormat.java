@@ -47,7 +47,7 @@ public class SimpleMonthsFormat extends MonthsFormat
 
 	public void format(Months period, StringBuffer buf)
 	{
-		SimpleMonthFormat monthFormat = new SimpleMonthFormat();
+		SimpleMonthFormat monthFormat = SimpleMonthFormat.INSTANCE;
 
 		Months months = (Months) period;
 
