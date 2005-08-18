@@ -29,11 +29,18 @@ import java.text.*;
  */
 public class SimpleMonthFormat extends MonthFormat
 {
+	public static final SimpleMonthFormat INSTANCE = new SimpleMonthFormat(new SimpleDateFormat("yyyy/MM"));
 
-	public static final SimpleMonthFormat INSTANCE = new SimpleMonthFormat();
+	private DateFormat dateFormat;
 
-	public SimpleMonthFormat()
+	public SimpleMonthFormat(String pattern)
 	{
+		this(new SimpleDateFormat(pattern));
+	}
+
+	private SimpleMonthFormat(DateFormat dateFormat)
+	{
+		this.dateFormat = dateFormat;
 	}
 
 	public Month parse(String s) throws ParseException
@@ -55,7 +62,7 @@ public class SimpleMonthFormat extends MonthFormat
 		int month = -1;
 		try
 		{
-			month = Integer.parseInt(s.substring(slashPos + 1))-1;
+			month = Integer.parseInt(s.substring(slashPos + 1)) - 1;
 		}
 		catch (NumberFormatException ex)
 		{
