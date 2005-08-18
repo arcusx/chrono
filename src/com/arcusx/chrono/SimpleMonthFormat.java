@@ -29,7 +29,9 @@ import java.text.*;
  */
 public class SimpleMonthFormat extends MonthFormat
 {
-	public static final SimpleMonthFormat INSTANCE = new SimpleMonthFormat(new SimpleDateFormat("yyyy/MM"));
+	private static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy/MM");
+
+	public static final SimpleMonthFormat INSTANCE = new SimpleMonthFormat(DEFAULT_DATE_FORMAT);
 
 	private DateFormat dateFormat;
 
@@ -45,35 +47,47 @@ public class SimpleMonthFormat extends MonthFormat
 
 	public Month parse(String s) throws ParseException
 	{
-		int slashPos = s.indexOf('/');
-		if (slashPos == -1)
-			throw new ParseException("Invalid format. Expected yyyy/mm; is " + s, 0);
+		// FIXME this is for compatibility, check it (care for MonthSequenceFormat!)
+		if (this.dateFormat == DEFAULT_DATE_FORMAT)
+		{
+			int slashPos = s.indexOf('/');
+			if (slashPos == -1)
+				throw new ParseException("Invalid format. Expected yyyy/mm; is " + s, 0);
 
-		int year = -1;
-		try
-		{
-			year = Integer.parseInt(s.substring(0, slashPos));
-		}
-		catch (NumberFormatException ex)
-		{
-			throw new ParseException("Invalid format. Expected yyyy/mm; is " + s, 0);
-		}
+			int year = -1;
+			try
+			{
+				year = Integer.parseInt(s.substring(0, slashPos));
+			}
+			catch (NumberFormatException ex)
+			{
+				throw new ParseException("Invalid format. Expected yyyy/mm; is " + s, 0);
+			}
 
-		int month = -1;
-		try
-		{
-			month = Integer.parseInt(s.substring(slashPos + 1)) - 1;
-		}
-		catch (NumberFormatException ex)
-		{
-			throw new ParseException("Invalid format. Expected yyyy/mm; is " + s, 0);
-		}
+			int month = -1;
+			try
+			{
+				month = Integer.parseInt(s.substring(slashPos + 1)) - 1;
+			}
+			catch (NumberFormatException ex)
+			{
+				throw new ParseException("Invalid format. Expected yyyy/mm; is " + s, 0);
+			}
 
-		return new Month(year, month);
+			return new Month(year, month);
+		}
+		else
+			return Month.valueOf(this.dateFormat.parse(s));
 	}
 
 	public void format(Month month, StringBuffer buf)
 	{
-		buf.append(month.getYearValue()).append("/").append(month.getMonthValue() + 1);
+		// FIXME this is for compatibility, check it (care for MonthSequenceFormat!)
+		if (this.dateFormat == DEFAULT_DATE_FORMAT)
+		{
+			buf.append(month.getYearValue()).append("/").append(month.getMonthValue() + 1);
+		}
+		else
+			buf.append(this.dateFormat.format(month.getFirstDay().toDate()));
 	}
 }
