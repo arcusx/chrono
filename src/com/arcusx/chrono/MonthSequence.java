@@ -90,6 +90,11 @@ public class MonthSequence implements Sequence
 		}
 	}
 
+	/**
+	 * Get collection of {@see Month Month objects}.
+	 * 
+	 * @return The collection.
+	 */
 	public Collection getMonths()
 	{
 		List months = new ArrayList();
