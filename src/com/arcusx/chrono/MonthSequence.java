@@ -18,6 +18,7 @@
 
 package com.arcusx.chrono;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -29,8 +30,10 @@ import java.util.*;
  * @author conni
  * @version $Id$
  */
-public class MonthSequence implements Sequence
+public class MonthSequence implements Sequence, Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private List parts = new ArrayList();
 
 	/**
