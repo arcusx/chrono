@@ -19,7 +19,7 @@
 		<property name="resources.dir" location="${basedir}/resources"/>
 		<property name="lib.dir" location="${basedir}/lib"/>
 
-		<!-- build (I) -->
+		<!-- build -->
 		<property name="build.dir" location="${basedir}/.build"/>
 		
 		<!-- version tag props -->
@@ -32,6 +32,8 @@
 		<property name="build.doc.dir" location="${build.dist.dir}/doc"/>
 		<property name="build.javadoc.dir" location="${build.doc.dir}/api"/>
 		<property name="build.classes.dir" location="${build.dir}/classes"/>
+		<property name="build.tests.dir" location="${build.dir}/tests"/>
+		<property name="build.report.dir" location="${user.home}/public_html/${ant.project.name}/"/>
 
 		<!-- create dirs missing due to cvs checkout -->
 		<mkdir dir="${basedir}/resources"/>
@@ -47,6 +49,8 @@
 		<mkdir dir="${build.dist.dir}"/>
 		<mkdir dir="${build.doc.dir}"/>
 		<mkdir dir="${build.javadoc.dir}"/>
+		<mkdir dir="${build.tests.dir}"/>
+		<mkdir dir="${build.report.dir}"/>
 	</target>
 
 	<target name="build" depends="__init">
@@ -55,9 +59,9 @@
 			destdir="${build.classes.dir}"
 			debug="on"
 			deprecation="off"
-			optimize="off"
-			includes="**/*.java"
-			srcdir="${src.dir}">
+			optimize="off">
+			<src path="${src.dir}"/>
+			<src path="${tests.dir}"/>
 			<classpath>
 				<fileset dir="${lib.dir}" includes="*.jar"/>
  			</classpath>
@@ -108,6 +112,22 @@
 				<include name="**/*.java" />
 			</fileset>
 		</javadoc>
+	</target>
+
+	<target name="run-tests" depends="build">
+		<junit fork="no" filtertrace="on"> <!--showoutput="yes" printsummary="withOutAndErr">-->
+			<classpath>
+				<fileset dir="${lib.dir}" includes="*.jar"/>
+				<pathelement location="${build.dist.dir}/${ant.project.name}.jar"/>
+			</classpath>
+	
+			<formatter type="xml"/>
+			<batchtest todir="${build.tests.dir}">
+				<fileset dir="${tests.dir}">
+					<include name="**/*Test*.java"/>
+				</fileset>
+			</batchtest>
+		</junit>
 	</target>
 	
 </project>
