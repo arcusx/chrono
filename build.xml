@@ -12,45 +12,37 @@
 		<property name="build.initialized" value="done"/>
 
 		<!-- project -->
-   		<property name="src.dir" location="${basedir}/src"/>
-		<property name="doc.dir" location="${basedir}/doc"/>
-		<property name="xdoc.src.dir" value="${doc.dir}/xdoc"/>
+		<property name="src.dir" location="${basedir}/src"/>
 		<property name="tests.dir" location="${basedir}/tests"/>
 		<property name="resources.dir" location="${basedir}/resources"/>
 		<property name="lib.dir" location="${basedir}/lib"/>
+		<property name="build-repository.dir" location="${basedir}/../../../build"/>
 
 		<!-- build -->
-		<property name="build.dir" location="${basedir}/.build"/>
-		
-		<!-- version tag props -->
 		<property name="build.version" value="1.0"/>
 		<tstamp/>
 		<buildnumber file="${basedir}/build_seq-${build.version}"/>
 		<property name="now" value="${DSTAMP}-${TSTAMP}" />
 		<property name="build.file" value="VERSION-${build.version}-${build.number}" />
-		<property name="build.dist.dir" location="${build.dir}/dist/${ant.project.name}"/>
-		<property name="build.doc.dir" location="${build.dist.dir}/doc"/>
-		<property name="build.javadoc.dir" location="${build.doc.dir}/api"/>
+		<property name="build.dir" location="${basedir}/.build"/>
 		<property name="build.classes.dir" location="${build.dir}/classes"/>
-		<property name="build.tests.dir" location="${build.dir}/tests"/>
-		<property name="build.report.dir" location="${user.home}/public_html/${ant.project.name}/"/>
-
+		
 		<!-- create dirs missing due to cvs checkout -->
 		<mkdir dir="${basedir}/resources"/>
 		<mkdir dir="${basedir}/src"/>
 		<mkdir dir="${basedir}/lib"/>
+
+		<!-- prepare build-repository structure -->
+		<mkdir dir="${build-repository.dir}"/>
 		
 		<!-- prepare build structure -->
-		<delete dir="${build.dir}"/>
 		<mkdir dir="${build.dir}"/>
+		<delete dir="${build.classes.dir}"/>
 		<mkdir dir="${build.classes.dir}"/>
 		<echo file="${build.classes.dir}/${build.file}">${now}</echo>
 		<copy todir="${build.dist.dir}" file="${build.classes.dir}/${build.file}"/>
+		<delete dir="${build.dist.dir}"/>
 		<mkdir dir="${build.dist.dir}"/>
-		<mkdir dir="${build.doc.dir}"/>
-		<mkdir dir="${build.javadoc.dir}"/>
-		<mkdir dir="${build.tests.dir}"/>
-		<mkdir dir="${build.report.dir}"/>
 	</target>
 
 	<target name="build" depends="__init">
@@ -59,50 +51,24 @@
 			destdir="${build.classes.dir}"
 			debug="on"
 			deprecation="off"
-			optimize="off">
-			<src path="${src.dir}"/>
-			<src path="${tests.dir}"/>
+			optimize="off"
+			includes="**/*.java"
+			srcdir="${src.dir}">
 			<classpath>
 				<fileset dir="${lib.dir}" includes="*.jar"/>
+				<fileset dir="${build-repository.dir}" includes="*.jar" excludes="${ant.project.name}.jar"/>
  			</classpath>
 		</javac>
 
 		<!-- jar it up -->
-		<jar jarfile="${build.dist.dir}/${ant.project.name}.jar" compress="true">
+		<jar jarfile="${build-repository.dir}/${ant.project.name}.jar" compress="false">
 		    <fileset dir="${build.classes.dir}" includes="**"/>
 		    <fileset dir="${resources.dir}" includes="**"/>
+		    <fileset dir="${src.dir}" includes="**/*.properties"/>
 		</jar>
 	</target>
 
 	<target name="build-all" depends="build,build-javadoc"/>
-
-	<target name="build-dist" depends="__init,build,build-javadoc">
-		<!-- filtered files -->
-		<copy todir="${build.dist.dir}/doc" filtering="true">
-			<fileset dir="${doc.dir}" includes="**/*.html"/>
-			<filterset>
-		      <filter token="version" value="${build.version}-${build.number}" />
-		    </filterset>
-		</copy>
-		
-		<!-- unfiltered files -->
-		<copy todir="${build.dist.dir}/doc">
-			<fileset dir="${doc.dir}" includes="**" excludes="**/*.html"/>
-		</copy>
-
-		<!-- zip up sources -->
-		<zip zipfile="${build.dist.dir}/${ant.project.name}-${build.version}-${build.number}-src.zip" compress="true">
-		    <fileset dir="${src.dir}" includes="**"/>
-		    <fileset dir="${tests.dir}" includes="**"/>
-		</zip>
-
-		<!-- zip all up -->
-		<zip zipfile="${build.dir}/${ant.project.name}-${build.version}-${build.number}.zip" compress="true">
-		    <fileset dir="${build.dist.dir}/.." includes="**"/>
-		    <!-- libs not reuqired -->
-		    <!--<fileset dir="${basedir}" includes="lib/*.jar"/>-->
-		</zip>
-	</target>
 
 	<target name="build-javadoc" depends="__init">
 		<javadoc destdir="${build.javadoc.dir}"
@@ -112,22 +78,6 @@
 				<include name="**/*.java" />
 			</fileset>
 		</javadoc>
-	</target>
-
-	<target name="run-tests" depends="build">
-		<junit fork="no" filtertrace="on"> <!--showoutput="yes" printsummary="withOutAndErr">-->
-			<classpath>
-				<fileset dir="${lib.dir}" includes="*.jar"/>
-				<pathelement location="${build.dist.dir}/${ant.project.name}.jar"/>
-			</classpath>
-	
-			<formatter type="xml"/>
-			<batchtest todir="${build.tests.dir}">
-				<fileset dir="${tests.dir}">
-					<include name="**/*Test*.java"/>
-				</fileset>
-			</batchtest>
-		</junit>
 	</target>
 	
 </project>
