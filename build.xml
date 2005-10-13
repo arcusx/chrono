@@ -12,10 +12,10 @@
 	
 	<target name="build" depends="__init">
 		<antcall target="simple::build-src"/>
-		<antcall target="simple::build-tests"/>
 	</target>
 
 	<target name="run-tests" depends="build">
+		<antcall target="simple::build-tests"/>
 		<antcall target="simple::run-tests"/>
 	</target>
 </project>
