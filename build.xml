@@ -8,6 +8,9 @@
 	
 	<target name="__init" depends="simple::__init">
 		<property name="build-repository.dir" location="${basedir}/../../../build"/>
+		<path id="lib.path">
+			<!-- empty -->
+		</path>
 	</target>
 	
 	<target name="build" depends="__init">
