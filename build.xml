@@ -3,81 +3,19 @@
 <!-- $Id$ -->
 
 <project name="arcusx-chrono" default="build">
-
-  <!-- =================================================================== -->
-  <!-- Initialize what other targets rely on (only once).                  -->
-  <!-- =================================================================== -->
-	<target name="__init" unless="build.initialized">
-		
-		<property name="build.initialized" value="done"/>
-
-		<!-- project -->
-		<property name="src.dir" location="${basedir}/src"/>
-		<property name="tests.dir" location="${basedir}/tests"/>
-		<property name="resources.dir" location="${basedir}/resources"/>
-		<property name="lib.dir" location="${basedir}/lib"/>
+	
+	<import file="${basedir}/../../../common/build/include/simple.xml"/>
+	
+	<target name="__init" depends="simple::__init">
 		<property name="build-repository.dir" location="${basedir}/../../../build"/>
-
-		<!-- build -->
-		<property name="build.version" value="1.0"/>
-		<tstamp/>
-		<buildnumber file="${basedir}/build_seq-${build.version}"/>
-		<property name="now" value="${DSTAMP}-${TSTAMP}" />
-		<property name="build.file" value="VERSION-${build.version}-${build.number}" />
-		<property name="build.dir" location="${basedir}/.build"/>
-		<property name="build.classes.dir" location="${build.dir}/classes"/>
-		
-		<!-- create dirs missing due to cvs checkout -->
-		<mkdir dir="${basedir}/resources"/>
-		<mkdir dir="${basedir}/src"/>
-		<mkdir dir="${basedir}/lib"/>
-
-		<!-- prepare build-repository structure -->
-		<mkdir dir="${build-repository.dir}"/>
-		
-		<!-- prepare build structure -->
-		<mkdir dir="${build.dir}"/>
-		<delete dir="${build.classes.dir}"/>
-		<mkdir dir="${build.classes.dir}"/>
-		<echo file="${build.classes.dir}/${build.file}">${now}</echo>
-		<copy todir="${build.dist.dir}" file="${build.classes.dir}/${build.file}"/>
-		<delete dir="${build.dist.dir}"/>
-		<mkdir dir="${build.dist.dir}"/>
-	</target>
-
-	<target name="build" depends="__init">
-		<!-- compile all to .build/classes -->
-		<javac source="1.4"
-			destdir="${build.classes.dir}"
-			debug="on"
-			deprecation="off"
-			optimize="off"
-			includes="**/*.java"
-			srcdir="${src.dir}">
-			<classpath>
-				<fileset dir="${lib.dir}" includes="*.jar"/>
-				<fileset dir="${build-repository.dir}" includes="*.jar" excludes="${ant.project.name}.jar"/>
- 			</classpath>
-		</javac>
-
-		<!-- jar it up -->
-		<jar jarfile="${build-repository.dir}/${ant.project.name}.jar" compress="false">
-		    <fileset dir="${build.classes.dir}" includes="**"/>
-		    <fileset dir="${resources.dir}" includes="**"/>
-		    <fileset dir="${src.dir}" includes="**/*.properties"/>
-		</jar>
-	</target>
-
-	<target name="build-all" depends="build,build-javadoc"/>
-
-	<target name="build-javadoc" depends="__init">
-		<javadoc destdir="${build.javadoc.dir}"
-           author="true" source="1.4" version="true" use="true" private="´false"
-           windowtitle="${ant.project.name}" defaultexcludes="yes">
-			<fileset dir="${src.dir}">
-				<include name="**/*.java" />
-			</fileset>
-		</javadoc>
 	</target>
 	
+	<target name="build" depends="__init">
+		<antcall target="simple::build-src"/>
+		<antcall target="simple::build-tests"/>
+	</target>
+
+	<target name="run-tests" depends="build">
+		<antcall target="simple::run-tests"/>
+	</target>
 </project>
