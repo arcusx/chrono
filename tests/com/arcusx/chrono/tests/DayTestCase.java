@@ -58,8 +58,8 @@ public class DayTestCase extends TestCase
 
 	public void testCompareTo() throws Exception
 	{
-		Day one = new Day(2000, 0, 1);
-		Day other = new Day(2000, 0, 2);
+		Day one = new Day(2000, MonthOfYear.JANUARY, 1);
+		Day other = new Day(2000, MonthOfYear.JANUARY, 2);
 		assertEquals("Day must be before", -1, one.compareTo(other));
 		assertEquals("Day must be after", 1, other.compareTo(one));
 		assertEquals("Days must be equal", 0, one.compareTo(one));
