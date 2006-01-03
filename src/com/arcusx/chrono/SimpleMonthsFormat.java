@@ -8,27 +8,28 @@
  * arcus(x) GmbH
  * Bergiusstrasse 27
  * D-22765 Hamburg, Germany
- * 
- * Tel.: +49 (0)40.333 102 92  
+ *
+ * Tel.: +49 (0)40.333 102 92 
+ * Fax.: +49 (0)40.333 102 93 
  * http://www.arcusx.com
  * mailto:info@arcusx.com
+ *
  */
 
 package com.arcusx.chrono;
 
 import java.text.*;
+import java.util.*;
 
 /**
- * This a very simple month based timespan format.
  * 
- * Created 30.05.2003, 13:15:23.
- * 
+ * Created on 22.02.2005, 17:14:57.
+ *
  * @author conni
  * @version $Id$
  */
 public class SimpleMonthsFormat extends MonthsFormat
 {
-
 	public static final SimpleMonthsFormat INSTANCE = new SimpleMonthsFormat();
 
 	public SimpleMonthsFormat()
@@ -37,29 +38,54 @@ public class SimpleMonthsFormat extends MonthsFormat
 
 	public Months parse(String s) throws ParseException
 	{
-		String[] parts = s.split("-");
-		if (parts.length != 2)
-			throw new ParseException("Not of the form yyyy/mm-yyyy/mm", -1);
-		Month start = SimpleMonthFormat.INSTANCE.parse(parts[0]);
-		Month end = SimpleMonthFormat.INSTANCE.parse(parts[1]);
-		return Months.valueOf(start, end);
+		Months seq = new Months();
+		int pos = 0;
+		String[] parts = s.split(",");
+		for (int i = 0; i < parts.length; ++i)
+		{
+			parts[i] = parts[i].trim();
+			
+			try
+			{
+				seq.addMonth(SimpleMonthFormat.INSTANCE.parse(parts[i]));
+				pos += parts[i].length() + 1;
+				continue;
+			}
+			catch (Exception ex)
+			{
+			}
+
+			try
+			{
+				seq.addMonths(SimpleMonthSequenceFormat.INSTANCE.parse(parts[i]));
+				pos += parts[i].length() + 1;
+				continue;
+			}
+			catch (Exception ex)
+			{
+			}
+
+			throw new ParseException("Invalid month or months format.", pos);
+		}
+
+		return seq;
 	}
 
-	public void format(Months period, StringBuffer buf)
+	public void format(Months seq, StringBuffer buf)
 	{
-		SimpleMonthFormat monthFormat = SimpleMonthFormat.INSTANCE;
-
-		Months months = (Months) period;
-
-		// format first month into buffer
-		monthFormat.format(months.getFirstMonth(), buf);
-
-		// if is "real" period (longer than one month),
-		// so format last month into, too
-		if (!months.getFirstMonth().equals(months.getLastMonth()))
+		Iterator iter = seq.getMonthsParts().iterator();
+		while (iter.hasNext())
 		{
-			buf.append('-');
-			monthFormat.format(months.getLastMonth(), buf);
+			Object curr = iter.next();
+			if (curr instanceof Month)
+				SimpleMonthFormat.INSTANCE.format((Month) curr, buf);
+			else if ((curr instanceof MonthSequence) && ((MonthSequence) curr).size() == 1)
+				SimpleMonthFormat.INSTANCE.format(((MonthSequence) curr).getFirstMonth(), buf);
+			else
+				SimpleMonthSequenceFormat.INSTANCE.format((MonthSequence) curr, buf);
+
+			if (iter.hasNext())
+				buf.append(", ");
 		}
 	}
 }

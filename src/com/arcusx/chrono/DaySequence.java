@@ -27,7 +27,7 @@ import java.util.*;
  * @author conni
  * @version $Id$
  */
-public class Days implements Serializable, Collection, Interval
+public class DaySequence implements Serializable, Collection
 {
 
 	private static final long serialVersionUID = 1L;
@@ -36,7 +36,7 @@ public class Days implements Serializable, Collection, Interval
 
 	private Day lastDay;
 
-	public Days(Day firstDay, Day lastDay)
+	public DaySequence(Day firstDay, Day lastDay)
 	{
 		if (firstDay == null)
 			throw new IllegalArgumentException("First day may not be null.");
@@ -76,7 +76,7 @@ public class Days implements Serializable, Collection, Interval
 		return this.firstDay.beforeOrEqual(day) && this.lastDay.afterOrEqual(day);
 	}
 
-	public boolean overlaps(Days otherDays)
+	public boolean overlaps(DaySequence otherDays)
 	{
 		if (otherDays.firstDay.before(this.firstDay) && otherDays.lastDay.before(this.firstDay))
 			return false;
@@ -96,10 +96,10 @@ public class Days implements Serializable, Collection, Interval
 		if (other == null)
 			return false;
 
-		if (!Days.class.equals(other.getClass()))
+		if (!DaySequence.class.equals(other.getClass()))
 			return false;
 
-		Days otherDays = (Days) other;
+		DaySequence otherDays = (DaySequence) other;
 
 		return this.firstDay.equals(otherDays.firstDay) && this.lastDay.equals(otherDays.lastDay);
 	}

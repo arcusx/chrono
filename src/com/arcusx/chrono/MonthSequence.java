@@ -8,196 +8,416 @@
  * arcus(x) GmbH
  * Bergiusstrasse 27
  * D-22765 Hamburg, Germany
- *
- * Tel.: +49 (0)40.333 102 92 
- * Fax.: +49 (0)40.333 102 93 
+ * 
+ * Tel.: +49 (0)40.333 102 92  
  * http://www.arcusx.com
  * mailto:info@arcusx.com
- *
  */
 
 package com.arcusx.chrono;
 
 import java.io.*;
+import java.text.*;
 import java.util.*;
 
 /**
- * Month sequence is an possibly uncontinuos sequence of months,
- * technically {@see Month} and {@see Months} objects.
+ * Limited month based timespan.
  * 
- * Created on 22.02.2005, 16:33:23.
- *
+ * Created 02.10.2003, 16:47:07.
+ * 
  * @author conni
  * @version $Id$
  */
-public class MonthSequence implements Sequence, Serializable
+public class MonthSequence implements Serializable, Collection
 {
+
 	private static final long serialVersionUID = 1L;
-	
-	private List parts = new ArrayList();
+
+	private Month firstMonth;
+
+	private int size;
 
 	/**
-	 * Create a new empty month sequence.
-	 */
-	public MonthSequence()
-	{
-	}
-
-	public void addMonth(Month month)
-	{
-		addMonths(new Months(month, 1));
-	}
-
-	public void addMonths(Months months)
-	{
-		if (months.size() == 0)
-			return;
-
-		this.parts.add(months);
-
-		// sort by months start
-		Collections.sort(this.parts, new Comparator()
-		{
-			public int compare(Object o1, Object o2)
-			{
-				return ((Months) o1).getFirstMonth().compareTo(((Months) o2).getFirstMonth());
-			}
-		});
-
-		// compact
-		for (int i = 0; i < this.parts.size() - 1;)
-		{
-			Months curr = (Months) this.parts.get(i);
-			Months next = (Months) this.parts.get(i + 1);
-			if (overlapOrMeet(curr, next))
-			{
-				curr = new Months(curr.getFirstMonth(), Month.maxOf(curr.getLastMonth(), next.getLastMonth()));
-				this.parts.set(i, curr);
-				this.parts.remove(i + 1);
-				continue;
-			}
-
-			++i;
-		}
-	}
-
-	public void addMonthSequence(MonthSequence seq)
-	{
-		for (Iterator iter = seq.getMonthsParts().iterator(); iter.hasNext();)
-		{
-			Object curr = iter.next();
-			if (curr instanceof Month)
-				addMonth((Month) curr);
-			else
-				addMonths((Months) curr);
-		}
-	}
-
-	/**
-	 * Get collection of {@see Month Month objects}.
+	 * Get a months period.
 	 * 
-	 * @return The collection.
+	 * @param firstMonth The first month in period. 
+	 * @param lastMonth The last month in period, possibly null.
+	 * @return A month period from firstMonth to lastMonth or an open period starting
+	 * with firstMonth if lastMonth is null.
 	 */
-	public Collection getMonths()
+	public static MonthSequence valueOf(Month firstMonth, Month lastMonth)
 	{
-		List months = new ArrayList();
-		for (int i = 0; i < this.parts.size(); ++i)
-		{
-			Months curr = (Months) this.parts.get(i);
-			months.addAll(curr);
-		}
+		if (lastMonth == null)
+			return new OpenMonthSequence(firstMonth);
 
-		return months;
+		return new MonthSequence(firstMonth, lastMonth);
 	}
 
-	public boolean isEmpty()
+	/**
+	 * A factory method to build this type via refelction
+	 * from string.
+	 * 
+	 * @param s The string.
+	 * @return The months.
+	 * @throws ParseException if the string could not be parsed.
+	 */
+	public static MonthSequence valueOf(String s) throws ParseException
 	{
-		return this.parts.isEmpty();
+		if (s.startsWith("Months{") && s.endsWith("}"))
+			s = s.substring("Months{".length(), s.length() - 1);
+
+		return SimpleMonthSequenceFormat.INSTANCE.parse(s);
+	}
+
+	/**
+	 * Create a new months period.
+	 * 
+	 * @param firstMonth First month in period.
+	 * @param lastMonth Last month in period.
+	 * @throws IllegalArgumentException if one is null or lastMonth is before firstMonth.
+	 */
+	public MonthSequence(Month firstMonth, Month lastMonth) throws IllegalArgumentException
+	{
+		if (firstMonth == null)
+			throw new IllegalArgumentException("Start month may not be null.");
+
+		if (lastMonth != null && lastMonth.before(firstMonth))
+			throw new IllegalArgumentException("First month (" + firstMonth + ") must be before last month ("
+					+ lastMonth + ").");
+
+		// FIXME broken with years <= 0
+		if (firstMonth.getYearValue() <= 0)
+			throw new UnsupportedOperationException("Calculating with years equal or less than zero is broken.");
+
+		this.firstMonth = firstMonth;
+		this.size = distanceBetween(firstMonth, lastMonth);
+	}
+
+	/**
+	 * Create a new months period by start month and size.
+	 * 
+	 * @param firstMonth First month in period.
+	 * @param size Count of months in period.
+	 * @throws IllegalArgumentException if firstMonth is null or size < 0.
+	 */
+	public MonthSequence(Month firstMonth, int size) throws IllegalArgumentException
+	{
+		if (firstMonth == null)
+			throw new IllegalArgumentException("Start month may not be null.");
+
+		// FIXME broken with years <= 0
+		if (firstMonth.getYearValue() <= 0)
+			throw new UnsupportedOperationException("Calculating with years equal or less than zero is broken.");
+
+		if (size < 0)
+			throw new IllegalArgumentException("Size must be 0 or greater.");
+
+		this.firstMonth = firstMonth;
+		this.size = size;
+	}
+
+	/**
+	 * Create a months instance withount last month.
+	 * 
+	 * <b>For internal use only.</b>
+	 * 
+	 * @param firstMonth 
+	 */
+	MonthSequence(Month firstMonth) throws IllegalArgumentException
+	{
+		if (firstMonth == null)
+			throw new IllegalArgumentException("Start month may not be null.");
+
+		// FIXME broken with years <= 0
+		if (firstMonth.getYearValue() <= 0)
+			throw new UnsupportedOperationException("Calculating with years equal or less than zero is broken.");
+
+		this.firstMonth = firstMonth;
+	}
+
+	public boolean isOpen()
+	{
+		return false;
 	}
 
 	public Month getFirstMonth()
 	{
-		return this.parts.isEmpty() ? null : ((Months) this.parts.get(0)).getFirstMonth();
+		return this.firstMonth;
 	}
 
+	/**
+	 * The last month or null if period has zero length or is open.
+	 * 
+	 * @return The last month or null.
+	 */
 	public Month getLastMonth()
 	{
-		return this.parts.isEmpty() ? null : ((Months) this.parts.get(this.parts.size() - 1)).getLastMonth();
+		return monthFor(this.firstMonth, this.size);
+	}
+
+	public boolean contains(Day day)
+	{
+		if (isEmpty())
+			return false;
+
+		return day.afterOrEqual(this.firstMonth.getFirstDay()) && day.beforeOrEqual(getLastMonth().getLastDay());
+	}
+
+	public boolean contains(Month month)
+	{
+		if (isEmpty())
+			return false;
+
+		return month.afterOrEqual(this.firstMonth) && month.beforeOrEqual(getLastMonth());
+	}
+
+	public boolean contains(MonthSequence months)
+	{
+		return !(months instanceof OpenMonthSequence) && contains(months.getFirstMonth()) && contains(months.getLastMonth());
+	}
+
+	public MonthSequence limitBy(MonthSequence months)
+	{
+		return limitBy(months.getFirstMonth(), months.getLastMonth());
+	}
+
+	public Months toMonthSequence()
+	{
+		Months seq = new Months();
+		seq.addMonths(this);
+
+		return seq;
 	}
 
 	/**
-	 * Get the months parts of the sequence.
+	 * Limit the months period so it is between min and max.
 	 * 
-	 * @return Collection of Month and Months objects.
+	 * @param min The minimum month, if null it means let period as is.
+	 * @param max The maximum month the period may contain, if null it means let period as is.
+	 * @return The new months period.
 	 */
-	public Collection getMonthsParts()
+	public MonthSequence limitBy(Month min, Month max)
 	{
-		return Collections.unmodifiableCollection(this.parts);
+		if (min == null && max == null)
+			return this;
+
+		if (min != null && max != null && !min.beforeOrEqual(max))
+			throw new IllegalArgumentException("Min may not be after max.");
+
+		if (min != null && min.after(getLastMonth()))
+			return new MonthSequence(min, 0);
+
+		if (max != null && max.before(this.firstMonth))
+			return new MonthSequence(min, 0);
+
+		// check if min is given and keep it if it is set after firstMonth
+		Month newFirstMonth = null;
+		if (min == null)
+			newFirstMonth = this.firstMonth;
+		else
+			newFirstMonth = Month.maxOf(min, this.firstMonth);
+
+		// check if max is given and keep it if it is set before lastMonth
+		Month newLastMonth = null;
+		if (max == null)
+			newLastMonth = getLastMonth();
+		else
+			newLastMonth = max.before(getLastMonth()) ? max : getLastMonth();
+
+		// create new months period if firstMonth and lastMonth changed
+		if (this.firstMonth.equals(newFirstMonth) && getLastMonth().equals(newLastMonth))
+			return this;
+
+		return new MonthSequence(newFirstMonth, newLastMonth);
 	}
 
-	/**
-	 * Test if the month sequence is continuos.
-	 * 
-	 * @return True if it is, else false.
-	 */
-	public boolean isContinous()
+	public boolean overlaps(MonthSequence otherMonths)
 	{
-		boolean continous = true;
-		Months lastPart = null;
-		for (int i = 0; continous && i < this.parts.size(); i++)
-		{
-			Object currPartObj = this.parts.get(i);
+		if (otherMonths.firstMonth.before(this.firstMonth) && otherMonths.getLastMonth().before(this.firstMonth))
+			return false;
 
-			// convert Month to Months for simplicity
-			if (currPartObj instanceof Month)
-				currPartObj = new Months((Month) currPartObj, 1);
+		if (otherMonths.firstMonth.after(otherMonths.getLastMonth()))
+			return false;
 
-			Months currPart = (Months) currPartObj;
-			if (lastPart != null)
-			{
-				if (!lastPart.getLastMonth().add(1).equals(currPart.getFirstMonth()))
-					continous = false;
-			}
-			lastPart = currPart;
-		}
-		return continous;
+		return true;
 	}
 
-	/**
-	 * Test if to months parts meet or overlap. Helper for
-	 * compaction.
-	 * 
-	 * @param earlier The earlier part.
-	 * @param later The later part.
-	 * @return True if they meet or overlap, else false.
-	 */
-	private boolean overlapOrMeet(Months earlier, Months later)
+	public boolean equals(Object other)
 	{
-		if (later.getFirstMonth().beforeOrEqual(earlier.getLastMonth()) || later.getFirstMonth().add(-1).equals(earlier.getLastMonth()))
-			return true;
+		if (other == null)
+			return false;
 
-		return false;
+		if (!MonthSequence.class.equals(other.getClass()))
+			return false;
+
+		MonthSequence otherMonths = (MonthSequence) other;
+
+		if (size() == 0 && otherMonths.size() == 0)
+			return this.firstMonth.equals(otherMonths.firstMonth);
+
+		return this.firstMonth.equals(otherMonths.firstMonth) && this.size == otherMonths.size;
+	}
+
+	public int hashCode()
+	{
+		return this.firstMonth.hashCode() ^ size;
 	}
 
 	public String toString()
 	{
-		return "MonthSequence{parts=" + parts + "}";
+		return "Months{" + SimpleMonthSequenceFormat.INSTANCE.format(this) + "}";
 	}
 
-	/**
-	 * Test if the sequence contains a month.
-	 * 
-	 * @param month Month to test for.
-	 * @return True if contains, else false.
-	 */
-	public boolean contains(Month month)
+	//
+	// from Collection
+	//
+
+	public Iterator iterator()
 	{
-		for (int i = 0; i < this.parts.size(); ++i)
-		{
-			if (((Months) parts.get(i)).contains(month))
-				return true;
-		}
+		return new Iter(this.firstMonth, size);
+	}
+
+	public boolean add(Object o)
+	{
+		throw new UnsupportedOperationException("Immutable.");
+	}
+
+	public boolean addAll(Collection c)
+	{
+		throw new UnsupportedOperationException("Immutable.");
+	}
+
+	public void clear()
+	{
+		throw new UnsupportedOperationException("Immutable.");
+	}
+
+	public boolean contains(Object o)
+	{
+		if (o instanceof Month)
+			return contains((Month) o);
+		if (o instanceof MonthSequence)
+			return contains((MonthSequence) o);
 
 		return false;
+	}
+
+	public boolean containsAll(Collection c)
+	{
+		Iterator iter = c.iterator();
+		while (iter.hasNext())
+		{
+			if (!contains(iter.next()))
+				return false;
+		}
+
+		return true;
+	}
+
+	public boolean isEmpty()
+	{
+		return size() == 0;
+	}
+
+	public boolean remove(Object o)
+	{
+		throw new UnsupportedOperationException("Immutable.");
+	}
+
+	public boolean removeAll(Collection c)
+	{
+		throw new UnsupportedOperationException("Immutable.");
+	}
+
+	public boolean retainAll(Collection c)
+	{
+		throw new UnsupportedOperationException("Immutable.");
+	}
+
+	public int size()
+	{
+		return this.size;
+	}
+
+	public Object[] toArray()
+	{
+		return toArray(new Object[size()]);
+	}
+
+	public Object[] toArray(Object[] array)
+	{
+		Iterator iter = iterator();
+		for (int i = 0; iter.hasNext(); ++i)
+		{
+			array[i] = iter.next();
+		}
+
+		return array;
+	}
+
+	private static Month monthFor(Month firstMonth, int count)
+	{
+		if (count == 0)
+			return null;
+
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(firstMonth.getFirstDay().toDate());
+		cal.add(Calendar.MONTH, count - 1);
+
+		return Month.valueOf(cal.getTime());
+	}
+
+	private static int distanceBetween(Month one, Month other)
+	{
+		if (one.equals(other))
+			return 1;
+
+		if (!one.before(other))
+			throw new IllegalArgumentException("First month must be before or equal to last month.");
+
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(one.getFirstDay().toDate());
+		Date otherDate = other.getFirstDay().toDate();
+		int count = 1;
+		while (!cal.getTime().equals(otherDate))
+		{
+			cal.add(Calendar.MONTH, 1);
+			count++;
+		}
+
+		return count;
+	}
+
+	private static final class Iter implements Iterator
+	{
+
+		private Calendar cal;
+
+		private int count;
+
+		private Iter(Month firstMonth, int count)
+		{
+			this.cal = firstMonth.getFirstDay().toCalendar();
+			this.count = count;
+		}
+
+		public boolean hasNext()
+		{
+			return this.count > 0;
+		}
+
+		public Object next()
+		{
+			Month month = Month.valueOf(cal);
+			cal.add(Calendar.MONTH, 1);
+			count--;
+
+			return month;
+		}
+
+		public void remove()
+		{
+			throw new UnsupportedOperationException("Cannot remove Month from Months.");
+		}
 	}
 }

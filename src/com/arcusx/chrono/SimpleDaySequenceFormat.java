@@ -26,16 +26,16 @@ import java.text.*;
  * @author conni
  * @version $Id$
  */
-public class SimpleDaysFormat extends DaysFormat
+public class SimpleDaySequenceFormat extends DaySequenceFormat
 {
 
-	public static final SimpleDaysFormat INSTANCE = new SimpleDaysFormat();
+	public static final SimpleDaySequenceFormat INSTANCE = new SimpleDaySequenceFormat();
 
-	public SimpleDaysFormat()
+	public SimpleDaySequenceFormat()
 	{
 	}
 
-	public Days parse(String s) throws ParseException
+	public DaySequence parse(String s) throws ParseException
 	{
 		String[] parts = s.split("-");
 		if (parts.length != 6)
@@ -43,10 +43,10 @@ public class SimpleDaysFormat extends DaysFormat
 		Day start = SimpleDayFormat.INSTANCE.parse(parts[0]+"-"+parts[1]+"-"+parts[2]);
 		Day end = SimpleDayFormat.INSTANCE.parse(parts[3]+"-"+parts[4]+"-"+parts[5]);
 
-		return new Days(start, end);
+		return new DaySequence(start, end);
 	}
 
-	public void format(Days days, StringBuffer buf)
+	public void format(DaySequence days, StringBuffer buf)
 	{
 		// format first day into buffer
 		SimpleDayFormat.INSTANCE.format(days.getFirstDay(), buf);

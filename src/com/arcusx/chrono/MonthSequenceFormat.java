@@ -8,12 +8,10 @@
  * arcus(x) GmbH
  * Bergiusstrasse 27
  * D-22765 Hamburg, Germany
- *
- * Tel.: +49 (0)40.333 102 92 
- * Fax.: +49 (0)40.333 102 93 
+ * 
+ * Tel.: +49 (0)40.333 102 92  
  * http://www.arcusx.com
  * mailto:info@arcusx.com
- *
  */
 
 package com.arcusx.chrono;
@@ -21,9 +19,10 @@ package com.arcusx.chrono;
 import java.text.*;
 
 /**
+ * Formatting and parsing of month based timespan.
  * 
- * Created on 22.02.2005, 17:13:16.
- *
+ * Created 05.10.2003, 16:58:48.
+ * 
  * @author conni
  * @version $Id$
  */
@@ -33,15 +32,15 @@ public abstract class MonthSequenceFormat
 	{
 	}
 
-	public abstract MonthSequence parse( String s ) throws ParseException;
-	
-	public String format( MonthSequence seq )
+	public String format(MonthSequence months)
 	{
-		StringBuffer buf = new StringBuffer();
-		format( seq, buf );
-		
+		StringBuffer buf = new StringBuffer(10);
+		format(months, buf);
+
 		return buf.toString();
 	}
 
-	public abstract void format( MonthSequence seq, StringBuffer buf );
-}	
+	public abstract MonthSequence parse(String s) throws ParseException;
+
+	public abstract void format(MonthSequence month, StringBuffer buf);
+}

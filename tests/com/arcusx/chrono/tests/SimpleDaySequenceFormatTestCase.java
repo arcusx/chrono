@@ -29,21 +29,21 @@ import junit.framework.*;
  * @author conni
  * @version $Id$
  */
-public class SimpleDaysFormatTestCase extends TestCase
+public class SimpleDaySequenceFormatTestCase extends TestCase
 {
 
 	public void testParse() throws Exception
 	{
-		Days days = new Days( new Day(2003,MonthOfYear.JANUARY, 1), new Day(2003,MonthOfYear.JANUARY, 5) );
-		Days parsed = SimpleDaysFormat.INSTANCE.parse("2003-01-01-2003-01-05");
+		DaySequence days = new DaySequence( new Day(2003,MonthOfYear.JANUARY, 1), new Day(2003,MonthOfYear.JANUARY, 5) );
+		DaySequence parsed = SimpleDaySequenceFormat.INSTANCE.parse("2003-01-01-2003-01-05");
 		
 		assertEquals(days,parsed);
 	}
 
 	public void testFormat() throws Exception
 	{
-		Days days = new Days( new Day(2003,MonthOfYear.JANUARY, 1), new Day(2003,MonthOfYear.JANUARY, 5) );
-		String formatted = SimpleDaysFormat.INSTANCE.format(days);
+		DaySequence days = new DaySequence( new Day(2003,MonthOfYear.JANUARY, 1), new Day(2003,MonthOfYear.JANUARY, 5) );
+		String formatted = SimpleDaySequenceFormat.INSTANCE.format(days);
 		String expected = "2003-01-01-2003-01-05";
 		
 		assertEquals(expected,formatted);

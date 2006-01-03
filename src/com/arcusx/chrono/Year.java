@@ -127,9 +127,9 @@ public class Year implements Serializable, Comparable
 		return this.year >= other.year;
 	}
 
-	public Months toMonths()
+	public MonthSequence toMonths()
 	{
-		return new Months(getFirstMonth(), getLastMonth());
+		return new MonthSequence(getFirstMonth(), getLastMonth());
 	}
 
 	public Year add(int years)

@@ -26,13 +26,13 @@ import java.text.*;
  * @author conni
  * @version $Id$
  */
-public abstract class DaysFormat
+public abstract class DaySequenceFormat
 {
-	protected DaysFormat()
+	protected DaySequenceFormat()
 	{
 	}
 
-	public String format(Days days)
+	public String format(DaySequence days)
 	{
 		StringBuffer buf = new StringBuffer(10);
 		format(days, buf);
@@ -40,7 +40,7 @@ public abstract class DaysFormat
 		return buf.toString();
 	}
 
-	public abstract Days parse(String s) throws ParseException;
+	public abstract DaySequence parse(String s) throws ParseException;
 
-	public abstract void format(Days month, StringBuffer buf);
+	public abstract void format(DaySequence month, StringBuffer buf);
 }

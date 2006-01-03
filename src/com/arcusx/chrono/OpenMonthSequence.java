@@ -27,7 +27,7 @@ import java.util.*;
  * @author conni
  * @version $Id$
  */
-public class OpenMonths extends Months implements Serializable
+public class OpenMonthSequence extends MonthSequence implements Serializable
 {
 
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class OpenMonths extends Months implements Serializable
 	 * 
 	 * @param firstMonth 
 	 */
-	public OpenMonths(Month firstMonth)
+	public OpenMonthSequence(Month firstMonth)
 	{
 		super(firstMonth);
 	}
@@ -67,7 +67,7 @@ public class OpenMonths extends Months implements Serializable
 		return month.afterOrEqual(getFirstMonth());
 	}
 
-	public boolean contains(Months months)
+	public boolean contains(MonthSequence months)
 	{
 		return months.getFirstMonth().afterOrEqual(getFirstMonth());
 	}
@@ -79,7 +79,7 @@ public class OpenMonths extends Months implements Serializable
 	 * @param max The maximum month the period may contain, if null it means let period as is.
 	 * @return The new months period.
 	 */
-	public Months limitBy(Month min, Month max)
+	public MonthSequence limitBy(Month min, Month max)
 	{
 		if (min != null && max != null && !min.beforeOrEqual(max))
 			throw new IllegalArgumentException("Min may not be after max.");
@@ -97,10 +97,10 @@ public class OpenMonths extends Months implements Serializable
 		if (max != null)
 			newMax = max;
 
-		return newMax == null ? new OpenMonths(newMin) : new Months(newMin, newMax);
+		return newMax == null ? new OpenMonthSequence(newMin) : new MonthSequence(newMin, newMax);
 	}
 
-	public boolean overlaps(Months otherMonths)
+	public boolean overlaps(MonthSequence otherMonths)
 	{
 		throw new UnsupportedOperationException("Not implemented,yet."); // FIXME implement for open Months
 	}
@@ -110,10 +110,10 @@ public class OpenMonths extends Months implements Serializable
 		if (other == null)
 			return false;
 
-		if (!OpenMonths.class.equals(other.getClass()))
+		if (!OpenMonthSequence.class.equals(other.getClass()))
 			return false;
 
-		OpenMonths otherMonths = (OpenMonths) other;
+		OpenMonthSequence otherMonths = (OpenMonthSequence) other;
 		return otherMonths.getFirstMonth().equals(getFirstMonth());
 	}
 

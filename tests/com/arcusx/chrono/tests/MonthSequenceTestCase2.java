@@ -30,36 +30,36 @@ import com.arcusx.chrono.*;
  * @author conni
  * @version $Id$
  */
-public class MonthsTestCase2 extends TestCase
+public class MonthSequenceTestCase2 extends TestCase
 {
 
 	public void testInnerYearMonths() throws Exception
 	{
-		Months period = new Months(new Month(2000, Calendar.JANUARY), new Month(2000, Calendar.DECEMBER));
+		MonthSequence period = new MonthSequence(new Month(2000, Calendar.JANUARY), new Month(2000, Calendar.DECEMBER));
 		assertEquals(12, period.size());
 
-		period = new Months(new Month(2000, Calendar.JANUARY), new Month(2000, Calendar.JUNE));
+		period = new MonthSequence(new Month(2000, Calendar.JANUARY), new Month(2000, Calendar.JUNE));
 		assertEquals(6, period.size());
 
-		period = new Months(new Month(2000, Calendar.JULY), new Month(2000, Calendar.DECEMBER));
+		period = new MonthSequence(new Month(2000, Calendar.JULY), new Month(2000, Calendar.DECEMBER));
 		assertEquals(6, period.size());
 
-		period = new Months(new Month(2000, Calendar.DECEMBER), new Month(2000, Calendar.DECEMBER));
+		period = new MonthSequence(new Month(2000, Calendar.DECEMBER), new Month(2000, Calendar.DECEMBER));
 		assertEquals(1, period.size());
 	}
 
 	public void testYearSpanningMonths() throws Exception
 	{
-		Months period = new Months(new Month(2000, Calendar.JANUARY), new Month(2001, Calendar.DECEMBER));
+		MonthSequence period = new MonthSequence(new Month(2000, Calendar.JANUARY), new Month(2001, Calendar.DECEMBER));
 		assertEquals(24, period.size());
 
-		period = new Months(new Month(2000, Calendar.JANUARY), new Month(2001, Calendar.DECEMBER));
+		period = new MonthSequence(new Month(2000, Calendar.JANUARY), new Month(2001, Calendar.DECEMBER));
 		assertEquals(24, period.size());
 	}
 
 	public void testLimitMonthsMinNoMax() throws Exception
 	{
-		Months period = new Months(new Month(2001, Month.JANUARY), new Month(2001, Month.MARCH));
+		MonthSequence period = new MonthSequence(new Month(2001, Month.JANUARY), new Month(2001, Month.MARCH));
 		assertEquals(3, period.size());
 
 		// limit
@@ -75,7 +75,7 @@ public class MonthsTestCase2 extends TestCase
 
 	public void testMonthsIteratorOne()
 	{
-		Months months = new Months(new Month(2000, Month.JANUARY), new Month(2000, Month.JANUARY));
+		MonthSequence months = new MonthSequence(new Month(2000, Month.JANUARY), new Month(2000, Month.JANUARY));
 		List monthList = new ArrayList();
 		Iterator iter = months.iterator();
 		while (iter.hasNext())
@@ -93,7 +93,7 @@ public class MonthsTestCase2 extends TestCase
 
 	public void testMonthsIteratorMany()
 	{
-		Months months = new Months(new Month(2000, Month.JANUARY), new Month(2000, Month.DECEMBER));
+		MonthSequence months = new MonthSequence(new Month(2000, Month.JANUARY), new Month(2000, Month.DECEMBER));
 		List monthList = new ArrayList();
 		Iterator iter = months.iterator();
 		while (iter.hasNext())
@@ -118,7 +118,7 @@ public class MonthsTestCase2 extends TestCase
 	{
 		Day entryDate = new Day(2003, 0, 1); // jan, 1st
 		Day exitDate = new Day(2003, 5, 30); // jun, 30st
-		Months period = new Months(entryDate.getMonth(), exitDate.getMonth());
+		MonthSequence period = new MonthSequence(entryDate.getMonth(), exitDate.getMonth());
 		Day testStartDay = new Day(2002, 11, 31);
 		Day testEndDay = new Day(2003, 6, 1);
 		Day testCurrDay = testStartDay;
@@ -137,7 +137,7 @@ public class MonthsTestCase2 extends TestCase
 
 	public void testLimitMonthsMinAndMax() throws Exception
 	{
-		Months origPeriod = new Months(new Month(2001, Calendar.JANUARY), 3);
+		MonthSequence origPeriod = new MonthSequence(new Month(2001, Calendar.JANUARY), 3);
 
 		// check period
 		assertEquals("MonthsPeriod must keep year.", 2001, origPeriod.getFirstMonth().getYearValue());
@@ -148,7 +148,7 @@ public class MonthsTestCase2 extends TestCase
 		assertEquals("MonthsPeriod must be aligned.", 3, origPeriod.size());
 
 		// limit to lower border
-		Months period = origPeriod.limitBy(new Month(2001, Calendar.JANUARY), new Month(2001, Calendar.FEBRUARY));
+		MonthSequence period = origPeriod.limitBy(new Month(2001, Calendar.JANUARY), new Month(2001, Calendar.FEBRUARY));
 
 		assertEquals("MonthsPeriod must keep year.", 2001, period.getFirstMonth().getYearValue());
 		assertEquals("MonthsPeriod must start in Jan.", Calendar.JANUARY, period.getFirstMonth().getMonthValue());
@@ -188,10 +188,10 @@ public class MonthsTestCase2 extends TestCase
 	
 	public void testLimitClosedPeriodWithOpen() throws Exception
 	{
-		Months period = new Months(new Month(2001, Calendar.JANUARY), 10);
-		Months limitPeriod = new OpenMonths(new Month(2001,Month.FEBRUARY));
-		Months expectedPeriod = new Months(new Month(2001, Month.FEBRUARY), 9);
-		Months calculatedPeriod = period.limitBy(limitPeriod);
+		MonthSequence period = new MonthSequence(new Month(2001, Calendar.JANUARY), 10);
+		MonthSequence limitPeriod = new OpenMonthSequence(new Month(2001,Month.FEBRUARY));
+		MonthSequence expectedPeriod = new MonthSequence(new Month(2001, Month.FEBRUARY), 9);
+		MonthSequence calculatedPeriod = period.limitBy(limitPeriod);
 		assertEquals( expectedPeriod, calculatedPeriod );
 	}
 

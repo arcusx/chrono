@@ -259,9 +259,9 @@ public class Month implements Serializable, Comparable
 	// conversions
 	//
 
-	public Days toDays()
+	public DaySequence toDays()
 	{
-		return new Days(getFirstDay(), getLastDay());
+		return new DaySequence(getFirstDay(), getLastDay());
 	}
 
 	//
