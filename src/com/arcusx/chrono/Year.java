@@ -146,4 +146,30 @@ public class Year implements Serializable, Comparable
 	{
 		return "Year{" + this.year + "}";
 	}
+
+	public boolean isLeapYear(int year)
+	{
+
+		// Test for leapyear
+		if (((year % 400) == 0) || ((year % 4) == 0) && ((year % 100) != 0))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	public int amountOfLeapYears(int firstYear, int lastYear)
+	{
+
+		int count = 0;
+
+		for (int year = firstYear; year < lastYear; year++)
+		{
+			if (this.isLeapYear(year)) count++;
+		}
+
+		return count;
+	}
+
 }

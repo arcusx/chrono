@@ -232,16 +232,49 @@ public class DaySequence implements Serializable, Collection
 
 	public int size()
 	{
-		// FIXME could this be done for efficiently?
-		Iterator iter = iterator();
+
 		int i = 0;
-		while (iter.hasNext())
+
+		Month startMonth = this.firstDay.getMonth();
+		Month endMonth = this.lastDay.getMonth();
+
+		if (startMonth.equals(endMonth) && ((startMonth.getYear()).equals(endMonth.getYear())))
 		{
-			++i;
-			iter.next();
+			return this.lastDay.getDayValue();
 		}
 
+		// Calculate without first and last month, they are added later
+		Month startnextMonth = new Month(startMonth.getYearValue(), startMonth.getMonthValue() + 1);
+		Month endlastMonth = new Month(endMonth.getYearValue(), endMonth.getMonthValue() - 1);
+
+		if ((endMonth.getMonthValue() - startMonth.getMonthValue() > 1) || !(startMonth.getYear()).equals(endMonth.getYear()) )
+		{
+			MonthSequence months = new MonthSequence(startnextMonth, endlastMonth);
+			i += this.calcDays(months);
+		}
+
+		// add days of first month
+		i += (startMonth.getDayCount() - this.firstDay.getDayValue()) + 1;
+		
+		// add days of lastmonth
+		i += this.lastDay.getDayValue();
+
 		return i;
+	}
+
+	public int calcDays(MonthSequence months)
+	{
+
+		int sum = 0;
+		Iterator iter = months.iterator();
+
+		while (iter.hasNext())
+		{
+			Month next = (Month) iter.next();
+			sum += next.getDayCount();
+		}
+
+		return sum;
 	}
 
 	public Iterator iterator()

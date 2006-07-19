@@ -180,6 +180,15 @@ public class Month implements Serializable, Comparable
 
 		return Day.valueOf(cal);
 	}
+	
+	public int getDayCount()
+	{
+		Calendar cal = new GregorianCalendar();
+		cal.set(this.year, this.month, 1, 0, 0, 0);
+		cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+		return (Day.valueOf(cal)).getDayValue();
+	}
 
 	//
 	// comparison
