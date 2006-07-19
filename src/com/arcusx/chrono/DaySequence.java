@@ -232,39 +232,38 @@ public class DaySequence implements Serializable, Collection
 
 	public int size()
 	{
-
-		int i = 0;
+		int size = 0;
 
 		Month startMonth = this.firstDay.getMonth();
 		Month endMonth = this.lastDay.getMonth();
 
-		if (startMonth.equals(endMonth) && ((startMonth.getYear()).equals(endMonth.getYear())))
+		if (startMonth.equals(endMonth))
 		{
 			return this.lastDay.getDayValue();
 		}
 
-		// Calculate without first and last month, they are added later
-		Month startnextMonth = new Month(startMonth.getYearValue(), startMonth.getMonthValue() + 1);
-		Month endlastMonth = new Month(endMonth.getYearValue(), endMonth.getMonthValue() - 1);
+		// calculate without first and last month, they are added later
+		Month startnextMonth = startMonth.add(1);
+		Month endlastMonth = endMonth.subtract(1);
 
-		if ((endMonth.getMonthValue() - startMonth.getMonthValue() > 1) || !(startMonth.getYear()).equals(endMonth.getYear()) )
+		// is there a middle part?
+		if (!endlastMonth.equals(startMonth))
 		{
 			MonthSequence months = new MonthSequence(startnextMonth, endlastMonth);
-			i += this.calcDays(months);
+			size = size + calcDays(months);
 		}
 
 		// add days of first month
-		i += (startMonth.getDayCount() - this.firstDay.getDayValue()) + 1;
-		
-		// add days of lastmonth
-		i += this.lastDay.getDayValue();
+		size = size + (startMonth.getDayCount() - this.firstDay.getDayValue()) + 1;
 
-		return i;
+		// add days of last month
+		size = size + this.lastDay.getDayValue();
+
+		return size;
 	}
 
-	public int calcDays(MonthSequence months)
+	private int calcDays(MonthSequence months)
 	{
-
 		int sum = 0;
 		Iterator iter = months.iterator();
 

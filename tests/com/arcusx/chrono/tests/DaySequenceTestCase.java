@@ -135,7 +135,6 @@ public class DaySequenceTestCase extends TestCase
 		Day last = new Day(2005, Month.MARCH, 1);
 
 		DaySequence seq = new DaySequence(first, last);
-		System.err.println(seq.size());
 		assertTrue(seq.size() == 369);
 	}
 
@@ -147,7 +146,9 @@ public class DaySequenceTestCase extends TestCase
 		DaySequence seq = new DaySequence(first, last);
 		assertTrue(seq.size() == 369);
 	}
-
+/*
+ * DaySequence.calcDays not public for now
+ * 
 	public void testCountDaysinMonths() throws Exception
 	{
 
@@ -171,4 +172,5 @@ public class DaySequenceTestCase extends TestCase
 
 		assertTrue(seq.calcDays(months) == 366);
 	}
+	*/
 }
