@@ -388,7 +388,7 @@ public class Month implements Serializable, Comparable
 	 * @return Sequence of months.
 	 * @deprecated Is in wrong place.
 	 */
-	public static int[] getPeriodStartMonths(int periodLenInMonths, int offMonth)
+	/*public static int[] getPeriodStartMonths(int periodLenInMonths, int offMonth)
 	{
 		if (12 % periodLenInMonths != 0)
 			throw new IllegalArgumentException("Period len in months must divide the year into equal pieces.");
@@ -404,7 +404,7 @@ public class Month implements Serializable, Comparable
 		}
 
 		return months;
-	}
+	}*/
 
 	public String toString()
 	{
