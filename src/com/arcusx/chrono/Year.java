@@ -172,4 +172,8 @@ public class Year implements Serializable, Comparable
 		return count;
 	}
 
+	public Long toLong()
+	{
+		return new Long(this.year);
+	}
 }
