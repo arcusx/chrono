@@ -102,7 +102,13 @@ public class OpenMonthSequence extends MonthSequence implements Serializable
 
 	public boolean overlaps(MonthSequence otherMonths)
 	{
-		throw new UnsupportedOperationException("Not implemented,yet."); // FIXME implement for open Months
+		if (otherMonths.getLastMonth() != null)
+		{
+			if (otherMonths.getLastMonth().before(getFirstMonth()))
+				return false;
+		}
+
+		return true;
 	}
 
 	public boolean equals(Object other)

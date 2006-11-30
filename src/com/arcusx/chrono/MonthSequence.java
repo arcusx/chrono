@@ -82,8 +82,11 @@ public class MonthSequence implements Serializable, Collection
 			throw new IllegalArgumentException("Start month may not be null.");
 
 		if (lastMonth != null && lastMonth.before(firstMonth))
-			throw new IllegalArgumentException("First month (" + firstMonth + ") must be before last month ("
-					+ lastMonth + ").");
+			throw new IllegalArgumentException("First month ("
+					+ firstMonth
+					+ ") must be before last month ("
+					+ lastMonth
+					+ ").");
 
 		// FIXME broken with years <= 0
 		if (firstMonth.getYearValue() <= 0)
@@ -173,7 +176,9 @@ public class MonthSequence implements Serializable, Collection
 
 	public boolean contains(MonthSequence months)
 	{
-		return !(months instanceof OpenMonthSequence) && contains(months.getFirstMonth()) && contains(months.getLastMonth());
+		return !(months instanceof OpenMonthSequence)
+				&& contains(months.getFirstMonth())
+				&& contains(months.getLastMonth());
 	}
 
 	public MonthSequence limitBy(MonthSequence months)
@@ -231,14 +236,22 @@ public class MonthSequence implements Serializable, Collection
 		return new MonthSequence(newFirstMonth, newLastMonth);
 	}
 
+	/**
+	 * WARNING works only with a month sequence of the same kind (i.e. a closed sequence).  
+	 * @param otherMonths
+	 * @return true if month sequences overlap
+	 */
 	public boolean overlaps(MonthSequence otherMonths)
 	{
-		if (otherMonths.firstMonth.before(this.firstMonth) && otherMonths.getLastMonth().before(this.firstMonth))
+		// sequences do not overlap, if this sequence starts after other ends
+		if (otherMonths.getLastMonth().before(this.firstMonth))
 			return false;
 
-		if (otherMonths.firstMonth.after(otherMonths.getLastMonth()))
+		// sequences do not overlap, if other sequence starts after this sequence end 
+		if (otherMonths.firstMonth.after(getLastMonth()))
 			return false;
 
+		// otherwise sequences overlap
 		return true;
 	}
 
