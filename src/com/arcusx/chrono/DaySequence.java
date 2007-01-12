@@ -27,7 +27,7 @@ import java.util.*;
  * @author conni
  * @version $Id$
  */
-public class DaySequence implements Serializable, Collection
+public class DaySequence implements Serializable, Collection<Day>, Iterable<Day>
 {
 
 	private static final long serialVersionUID = 1L;
@@ -118,7 +118,7 @@ public class DaySequence implements Serializable, Collection
 	 * 
 	 * @throws UnsupportedOperationException if invoked.
 	 */
-	public boolean add(Object arg0)
+	public boolean add(Day arg0)
 	{
 		throw new UnsupportedOperationException("Days are immutable.");
 	}

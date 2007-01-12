@@ -28,9 +28,8 @@ import java.util.*;
  * @author conni
  * @version $Id$
  */
-public class MonthSequence implements Serializable, Collection
+public class MonthSequence implements Serializable, Collection<Month>, Iterable<Month>
 {
-
 	private static final long serialVersionUID = 1L;
 
 	private Month firstMonth;
@@ -290,7 +289,7 @@ public class MonthSequence implements Serializable, Collection
 		return new Iter(this.firstMonth, size);
 	}
 
-	public boolean add(Object o)
+	public boolean add(Month o)
 	{
 		throw new UnsupportedOperationException("Immutable.");
 	}
