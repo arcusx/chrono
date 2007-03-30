@@ -2,8 +2,8 @@
 <!-- $Id$ -->
 <project>
 	<parent>
-		<groupId>com.arcusx.build</groupId>
-		<artifactId>project-parent</artifactId>
+		<groupId>com.arcusx.build.maven</groupId>
+		<artifactId>jar-project-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
