@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!-- $Id$ -->
 <project>
 	<parent>
 		<groupId>com.arcusx.build</groupId>
@@ -10,11 +11,5 @@
 	<artifactId>chrono</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<dependencies>
-	<dependency>
-  		<groupId>junit</groupId>
-  		<artifactId>junit</artifactId>
-  		<version>3.8.2</version>
-  	</dependency>
-  </dependencies>
+	<dependencies></dependencies>
 </project>
