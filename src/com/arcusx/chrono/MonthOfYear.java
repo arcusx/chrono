@@ -49,7 +49,7 @@ public class MonthOfYear implements Serializable
 			new MonthOfYear(Calendar.NOVEMBER, "NOVEMBER", "NOV"), //
 			new MonthOfYear(Calendar.DECEMBER, "DECEMBER", "DEC"), };
 
-	public static final List ALL = Collections.unmodifiableList(Arrays.asList(MONTHS_OF_YEAR));
+	public static final List<MonthOfYear> ALL = Collections.unmodifiableList(Arrays.asList(MONTHS_OF_YEAR));
 
 	public static final MonthOfYear JANUARY = MONTHS_OF_YEAR[Calendar.JANUARY];
 
