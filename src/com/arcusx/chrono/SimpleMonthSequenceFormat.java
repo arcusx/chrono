@@ -59,7 +59,11 @@ public class SimpleMonthSequenceFormat extends MonthSequenceFormat
 		if (!months.getFirstMonth().equals(months.getLastMonth()))
 		{
 			buf.append('-');
-			monthFormat.format(months.getLastMonth(), buf);
+			// if month sequence is not "open" (i.e. last month is not null)
+			if (months.getLastMonth() != null)
+				monthFormat.format(months.getLastMonth(), buf);
+			else
+				buf.append("<null>");
 		}
 	}
 }
