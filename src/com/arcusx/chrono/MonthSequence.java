@@ -277,6 +277,9 @@ public class MonthSequence implements Serializable, Collection<Month>, Iterable<
 
 	public String toString()
 	{
+		if ( this.size == 0)
+			return "Months{}";
+			
 		return "Months{" + SimpleMonthSequenceFormat.INSTANCE.format(this) + "}";
 	}
 
