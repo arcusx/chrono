@@ -8,12 +8,6 @@
 	<groupId>com.arcusx</groupId>
 	<artifactId>chrono</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<dependencies />
-
-  <scm>
-    <connection>scm:svn:svn://svn.arcusx.local/repository/arcusx/build/tags/chrono-1.0.0</connection>
-    <developerConnection>scm:svn:svn://svn.arcusx.local/repository/arcusx/build/tags/chrono-1.0.0</developerConnection>
-    <url>http://127.0.0.1/websvn/my-project/tags/chrono-1.0.0</url>
-  </scm>
 </project>
