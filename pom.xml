@@ -1,13 +1,42 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<parent>
-		<groupId>com.arcusx.build.maven</groupId>
-		<artifactId>jar-project-parent</artifactId>
-		<version>1.0.0</version>
-	</parent>
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- $Id$ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.arcusx</groupId>
+	<groupId>com.arcusx.chrono</groupId>
 	<artifactId>chrono</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.1-SNAPSHOT</version>
-	<dependencies />
+	<version>1.0.0-SNAPSHOT</version>
+	<scm>
+		<developerConnection>
+			scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/trunk/
+		</developerConnection>
+		<connection>
+			scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/tags/${project.version}/
+		</connection>
+	</scm>
+	<build>
+		<finalName>arcusx-chrono</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>
