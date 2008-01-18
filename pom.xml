@@ -15,7 +15,7 @@
 			scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/trunk/
 		</developerConnection>
 		<connection>
-			scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/tags/${project.version}/
+			scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/trunk/
 		</connection>
 	</scm>
 	<build>
