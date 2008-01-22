@@ -31,6 +31,15 @@
 					<encoding>utf-8</encoding>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<buildOutputDirectory>bin</buildOutputDirectory>
+					<projectNameTemplate>arcusx-chrono</projectNameTemplate>
+					<downloadSources>true</downloadSources>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
