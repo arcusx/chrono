@@ -4,10 +4,10 @@
 
 <project name="arcusx-chrono" default="build">
 	
-	<import file="${basedir}/../../../arcusx/build/include/std-jar.xml"/>
+	<import file="${basedir}/../../arcusx/build/include/std-jar.xml"/>
 	
 	<target name="__init" depends="std-jar::__init">
-		<property name="build-repository.dir" location="${basedir}/../../../build"/>
+		<property name="build-repository.dir" location="${basedir}/../../build"/>
 		<path id="lib.path">
 			<!-- empty -->
 		</path>
