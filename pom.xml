@@ -5,10 +5,10 @@
 	<artifactId>chrono</artifactId>
 	<name>arcus(x) chrono</name>
 	<packaging>jar</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<scm>
-		<developerConnection>scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/trunk</developerConnection>
-		<connection>scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/trunk</connection>
+		<developerConnection>scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/tags/chrono-1.0.0</developerConnection>
+		<connection>scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/tags/chrono-1.0.0</connection>
 	</scm>
 	<build>
 		<finalName>arcusx-chrono</finalName>
