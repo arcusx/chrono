@@ -1,23 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<!-- $Id$ -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.arcusx.chrono</groupId>
 	<artifactId>chrono</artifactId>
 	<name>arcus(x) chrono</name>
 	<packaging>jar</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<scm>
-		<developerConnection>
-			scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/trunk/
-		</developerConnection>
-		<connection>
-			scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/trunk/
-		</connection>
+		<developerConnection>scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/tags/chrono-1.0.0</developerConnection>
+		<connection>scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/tags/chrono-1.0.0</connection>
 	</scm>
 	<build>
 		<finalName>arcusx-chrono</finalName>
@@ -40,6 +31,15 @@
 					<downloadSources>true</downloadSources>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.0-beta-7</version>
+				<configuration>
+					<tagBase>svn://svn.arcusx.local/repository/arcusx/chrono/tags</tagBase>
+					<useReleaseProfile>false</useReleaseProfile>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -50,4 +50,11 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<distributionManagement>
+		<repository>
+			<id>arcusx</id>
+      			<name>arcusx maven repository</name>
+      			<url>scp://maven.arcusx.local/var/local/maven/repository/</url>
+    		</repository>
+	</distributionManagement>
 </project>
