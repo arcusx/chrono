@@ -8,7 +8,8 @@
 	</parent>
 	<groupId>com.arcusx.chrono</groupId>
 	<artifactId>arcusx-chrono</artifactId>
-	<name>arcus(x) chrono</name>
+	<name>${artifactId}</name>
+	<description>${artifactId}</description>
 	<packaging>jar</packaging>
 	<version>1.0.1-SNAPSHOT</version>
 	<scm>
@@ -33,7 +34,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
