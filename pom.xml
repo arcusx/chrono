@@ -3,8 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.arcusx.parent</groupId>
-		<artifactId>parent</artifactId>
-		<version>1.0.0</version>
+		<artifactId>arcusx-parent</artifactId>
+		<version>1.0.1</version>
 	</parent>
 	<groupId>com.arcusx.chrono</groupId>
 	<artifactId>chrono</artifactId>
