@@ -25,7 +25,6 @@
 				<version>2.0-beta-7</version>
 				<configuration>
 					<tagBase>svn://svn.arcusx.local/repository/arcusx/chrono/tags</tagBase>
-					<useReleaseProfile>false</useReleaseProfile>
 				</configuration>
 			</plugin>
 		</plugins>
