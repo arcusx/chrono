@@ -4,14 +4,14 @@
 	<parent>
 		<groupId>com.arcusx.parent</groupId>
 		<artifactId>arcusx-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.3</version>
 	</parent>
 	<groupId>com.arcusx.chrono</groupId>
 	<artifactId>arcusx-chrono</artifactId>
 	<name>${artifactId}</name>
 	<description>${artifactId}</description>
 	<packaging>jar</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<scm>
 		<developerConnection>scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/trunk</developerConnection>
 		<connection>scm:svn:svn://svn.arcusx.local/repository/arcusx/chrono/trunk</connection>
