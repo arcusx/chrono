@@ -40,11 +40,7 @@ public class Quarter implements Serializable
 	public Quarter(int year, int quarter)
 	{
 		if (quarter < FIRST || quarter > FORTH)
-			throw new IllegalArgumentException("Quarter value must be between "
-					+ FIRST
-					+ " and "
-					+ FORTH
-					+ ".");
+			throw new IllegalArgumentException("Quarter value must be between " + FIRST + " and " + FORTH + ".");
 		this.year = year;
 		this.quarter = quarter;
 	}
@@ -72,9 +68,7 @@ public class Quarter implements Serializable
 		if (cal == null)
 			throw new IllegalArgumentException("Calendar may not be null.");
 
-		return new Quarter(
-				cal.get(Calendar.YEAR),
-				Quarter.getQuarterValueFor(cal.get(Calendar.MONTH)));
+		return new Quarter(cal.get(Calendar.YEAR), Quarter.getQuarterValueFor(cal.get(Calendar.MONTH)));
 	}
 
 	/**
@@ -178,5 +172,10 @@ public class Quarter implements Serializable
 	public int getQuarterValue()
 	{
 		return this.quarter;
+	}
+
+	public String toString()
+	{
+		return "Quarter{" + this.year + "." + this.quarter + "}";
 	}
 }
