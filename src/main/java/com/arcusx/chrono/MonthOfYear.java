@@ -103,7 +103,7 @@ public class MonthOfYear implements Serializable
 	public static MonthOfYear valueOf(int month)
 	{
 		if (month < 0 || month >= MONTHS_OF_YEAR.length)
-			throw new IllegalArgumentException("Must be between 1 and 11 (is " + month + ")");
+			throw new IllegalArgumentException("Must be between 0 and 11 (is " + month + ")");
 
 		return MONTHS_OF_YEAR[month];
 	}
