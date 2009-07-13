@@ -70,9 +70,7 @@ public class MonthSequenceTestCase extends TestCase
 		// check count
 		assertEquals("Iterating on one months must return 1 month.", 1, monthList.size());
 
-		assertEquals(
-				"Month at " + 0 + " must have month " + Month.JANUARY,
-				((Month) monthList.get(0)).getMonthValue(),
+		assertEquals("Month at " + 0 + " must have month " + Month.JANUARY, ((Month) monthList.get(0)).getMonthValue(),
 				Month.JANUARY);
 	}
 
@@ -110,13 +108,11 @@ public class MonthSequenceTestCase extends TestCase
 		while (testCurrDay.beforeOrEqual(testEndDay))
 		{
 			if (testCurrDay.equals(testStartDay) || testCurrDay.equals(testEndDay))
-				assertFalse(
-						"Curr month " + testCurrDay.getMonth() + " must not be in period." + period,
-						period.contains(testCurrDay.getMonth()));
+				assertFalse("Curr month " + testCurrDay.getMonth() + " must not be in period." + period, period
+						.contains(testCurrDay.getMonth()));
 			else
-				assertTrue(
-						"Curr month " + testCurrDay.getMonth() + " must be in period." + period,
-						period.contains(testCurrDay.getMonth()));
+				assertTrue("Curr month " + testCurrDay.getMonth() + " must be in period." + period, period
+						.contains(testCurrDay.getMonth()));
 
 			testCurrDay = testCurrDay.add(1);
 		}
@@ -334,7 +330,7 @@ public class MonthSequenceTestCase extends TestCase
 		MonthSequence one = new MonthSequence(new Month(2003, Month.JANUARY), new Month(2003, Month.DECEMBER));
 		MonthSequence other = new OpenMonthSequence(new Month(2003, Month.APRIL));
 		assertTrue(other.overlaps(one));
-//		assertTrue(one.overlaps(other));
+		//		assertTrue(one.overlaps(other));
 	}
 
 	public void testOpenSequenceNotOverlapsClosedSequence() throws Exception
@@ -342,7 +338,7 @@ public class MonthSequenceTestCase extends TestCase
 		MonthSequence one = new MonthSequence(new Month(2003, Month.JANUARY), new Month(2003, Month.MARCH));
 		MonthSequence other = new OpenMonthSequence(new Month(2003, Month.APRIL));
 		assertFalse(other.overlaps(one));
-//		assertFalse(one.overlaps(other));
+		//		assertFalse(one.overlaps(other));
 	}
 
 	public void testOpenSequencesOverlap() throws Exception

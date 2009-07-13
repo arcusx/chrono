@@ -30,7 +30,7 @@ import java.util.*;
  * @author conni
  * @version $Id$
  */
-public class Day implements Serializable, Comparable
+public final class Day implements Serializable, Comparable
 {
 
 	private static final long serialVersionUID = 1L;

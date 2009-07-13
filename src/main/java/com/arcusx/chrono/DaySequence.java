@@ -27,7 +27,7 @@ import java.util.*;
  * @author conni
  * @version $Id$
  */
-public class DaySequence implements Serializable, Collection<Day>, Iterable<Day>
+public final class DaySequence implements Serializable, Collection<Day>, Iterable<Day>
 {
 
 	private static final long serialVersionUID = 1L;

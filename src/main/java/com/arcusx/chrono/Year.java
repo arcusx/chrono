@@ -27,7 +27,7 @@ import java.util.*;
  * @author conni
  * @version $Id$
  */
-public class Year implements Serializable, Comparable
+public final class Year implements Serializable, Comparable
 {
 	private static final long serialVersionUID = 1L;
 
@@ -166,7 +166,8 @@ public class Year implements Serializable, Comparable
 
 		for (int year = firstYear; year < lastYear; year++)
 		{
-			if (this.isLeapYear(year)) count++;
+			if (this.isLeapYear(year))
+				count++;
 		}
 
 		return count;
@@ -174,6 +175,6 @@ public class Year implements Serializable, Comparable
 
 	public Long toLong()
 	{
-		return new Long(this.year);
+		return Long.valueOf(this.year);
 	}
 }

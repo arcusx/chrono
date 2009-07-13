@@ -27,7 +27,7 @@ import java.util.*;
  * @author conni
  * @version $Id$
  */
-public class OpenMonthSequence extends MonthSequence implements Serializable
+public final class OpenMonthSequence extends MonthSequence implements Serializable
 {
 
 	private static final long serialVersionUID = 1L;
