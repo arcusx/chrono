@@ -11,10 +11,10 @@
 	<name>${artifactId}</name>
 	<description>${artifactId}</description>
 	<packaging>jar</packaging>
-	<version>1.0.4</version>
+	<version>1.0.5-SNAPSHOT</version>
 	<scm>
-		<developerConnection>scm:svn:svn://svn.arcusx.lan/repository/arcusx/chrono/tags/arcusx-chrono-1.0.4</developerConnection>
-		<connection>scm:svn:svn://svn.arcusx.lan/repository/arcusx/chrono/tags/arcusx-chrono-1.0.4</connection>
+		<developerConnection>scm:svn:svn://svn.arcusx.lan/repository/arcusx/chrono/trunk</developerConnection>
+		<connection>scm:svn:svn://svn.arcusx.lan/repository/arcusx/chrono/trunk</connection>
 	</scm>
 	<build>
 		<finalName>arcusx-chrono</finalName>
