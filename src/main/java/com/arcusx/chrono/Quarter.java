@@ -17,6 +17,7 @@
 package com.arcusx.chrono;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -115,6 +116,35 @@ public class Quarter implements Serializable
 		return new Quarter(year, quarter);
 	}
 
+	/**
+	 * A factory method to build this type via refelction
+	 * from string.
+	 * 
+	 * @param s The string.
+	 * @return The quarter.
+	 * @throws ParseException if the string could not be parsed.
+	 */
+	public static Quarter valueOf(String s) throws ParseException
+	{
+		if (s.startsWith("Quarter{") && s.endsWith("}"))
+			s = s.substring("Quarter{".length(), s.length() - 1);
+		else
+			throw new ParseException("'" + s + "' not of format Quarter{YYYY.Q}.", 0);
+
+		String[] parts = s.split("\\.");
+		if (parts.length != 2)
+			throw new ParseException("'" + s + "' not of format Quarter{YYYY.Q}.", 8);
+
+		int year = Integer.parseInt(parts[0]);
+		int quarter = Integer.parseInt(parts[1]);
+
+		if (quarter < FIRST || quarter > FORTH)
+			throw new ParseException("Quarter " + quarter + " out of range (first: " + FIRST + ", forth: " + FORTH
+					+ ").", 13);
+
+		return new Quarter(year, quarter);
+	}
+
 	public static int getQuarterValueFor(MonthOfYear month)
 	{
 		return getQuarterValueFor(month.getMonthValue());
@@ -172,6 +202,46 @@ public class Quarter implements Serializable
 	public int getQuarterValue()
 	{
 		return this.quarter;
+	}
+
+	/**
+	*{@inheritDoc}
+	*/
+	@Override
+	public int hashCode()
+	{
+		return this.year * 4 + this.quarter;
+	}
+
+	/**
+	 *{@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object otherObj)
+	{
+		// same means equal
+		if (this == otherObj)
+		{
+			return true;
+		}
+
+		// this is never equal to null
+		if (null == otherObj)
+		{
+			return false;
+		}
+
+		// same class is required for equality
+		if (!getClass().equals(otherObj.getClass()))
+		{
+			return false;
+		}
+
+		// calculate equality
+		Quarter other = (Quarter) otherObj;
+		boolean equals = true;
+		equals = equals && this.year == other.year && this.quarter == other.quarter;
+		return equals;
 	}
 
 	public String toString()

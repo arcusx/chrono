@@ -55,6 +55,31 @@ public class QuarterTestCase extends TestCase
 		assertEquals(month.add(2), result.getLastMonth());
 	}
 
+	public void testEquals() throws Exception
+	{
+		Month month = new Month(2001, MonthOfYear.APRIL);
+		Quarter oneQuarter = Quarter.valueOf(month);
+		Quarter otherQuarter = new Quarter(2001, Quarter.SECOND);
+
+		assertTrue(oneQuarter.equals(otherQuarter));
+		assertTrue(otherQuarter.equals(oneQuarter));
+		assertEquals(oneQuarter, otherQuarter);
+		assertEquals(otherQuarter, oneQuarter);
+	}
+
+	public void testValueOfString() throws Exception
+	{
+		Month month = new Month(2001, MonthOfYear.APRIL);
+		Quarter expected = Quarter.valueOf(month);
+
+		String value = "Quarter{2001.1}";
+		Quarter actual = new Quarter(2001, Quarter.SECOND);
+
+		assertEquals(2001, actual.getYearValue());
+		assertEquals(Quarter.SECOND, actual.getQuarterValue());
+		assertEquals(expected, actual);
+	}
+
 	public void testAddition() throws Exception
 	{
 		Month month = new Month(2001, MonthOfYear.APRIL);
