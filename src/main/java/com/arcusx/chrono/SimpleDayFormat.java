@@ -16,7 +16,10 @@
 
 package com.arcusx.chrono;
 
-import java.text.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.regex.Pattern;
 
 /**
  * Simple implementation of formatting parsing of
@@ -27,19 +30,37 @@ import java.text.*;
  * @author conni
  * @version $Id$
  */
-public class SimpleDayFormat extends DayFormat
+public final class SimpleDayFormat extends DayFormat
 {
 	public static final SimpleDayFormat INSTANCE = new SimpleDayFormat("yyyy-MM-dd");
 
+	private Pattern regex;
 	private DateFormat dateFormat;
 
 	public SimpleDayFormat(String pattern)
 	{
-		this.dateFormat = new SimpleDateFormat(pattern);
+		this(pattern, null);
+	}
+
+	SimpleDayFormat(String dateFormatPattern, Pattern regexPattern)
+	{
+		this.dateFormat = new SimpleDateFormat(dateFormatPattern);
+		this.regex = regexPattern;
 	}
 
 	public Day parse(String s) throws ParseException
 	{
+		if (s == null)
+			throw new ParseException("Cannot parse date " + s + ".", 0);
+
+		if (regex != null)
+		{
+			if (!this.regex.matcher(s).matches())
+			{
+				throw new ParseException("Unparsable date '" + s + "'.", 0);
+			}
+		}
+
 		return Day.valueOf(dateFormat.parse(s));
 	}
 

@@ -18,6 +18,8 @@
 
 package com.arcusx.chrono.tests;
 
+import java.util.Locale;
+
 import com.arcusx.chrono.*;
 
 import junit.framework.*;
@@ -62,4 +64,37 @@ public class SimpleDayFormatTestCase extends TestCase
 		String dayStr = SimpleDayFormat.INSTANCE.format(day);
 		assertEquals("2003-03-01", dayStr);
 	}
+
+	public void testParseGermany() throws Exception
+	{
+		Day expectedDay = new Day(2003, MonthOfYear.FEBRUARY, 1);
+		DayFormat dayFormat = DayFormat.newInstanceFor(Locale.GERMANY);
+		Day day = dayFormat.parse("01.02.2003");
+		assertEquals(expectedDay, day);
+
+		dayFormat = DayFormat.newInstanceFor(Locale.GERMAN);
+		day = dayFormat.parse("01.02.2003");
+		assertEquals(expectedDay, day);
+	}
+
+	public void testParseUk() throws Exception
+	{
+		Day expectedDay = new Day(2003, MonthOfYear.FEBRUARY, 1);
+		DayFormat dayFormat = DayFormat.newInstanceFor(Locale.UK);
+		Day day = dayFormat.parse("02/01/2003");
+		assertEquals(expectedDay, day);
+
+		dayFormat = DayFormat.newInstanceFor(Locale.ENGLISH);
+		day = dayFormat.parse("02/01/2003");
+		assertEquals(expectedDay, day);
+	}
+
+	public void testParseUs() throws Exception
+	{
+		Day expectedDay = new Day(2003, MonthOfYear.FEBRUARY, 1);
+		DayFormat dayFormat = DayFormat.newInstanceFor(Locale.US);
+		Day day = dayFormat.parse("01/02/2003");
+		assertEquals(expectedDay, day);
+	}
+
 }

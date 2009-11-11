@@ -17,6 +17,8 @@
 package com.arcusx.chrono;
 
 import java.text.*;
+import java.util.Locale;
+import java.util.NoSuchElementException;
 
 /**
  * Day formatting and parsing.
@@ -28,6 +30,21 @@ import java.text.*;
  */
 public abstract class DayFormat
 {
+	/**
+	 * Get a day format for a given locale.
+	 * 
+	 * @param locale The locale, not null.
+	 * @return Day format, never null.
+	 * @throws NoSuchElementException if no instance for locale is known.
+	 */
+	public static DayFormat newInstanceFor(Locale locale)
+	{
+		SimpleDayFormatData formatData = SimpleDayFormatData.instanceFor(locale);
+		if (formatData == null)
+			throw new NoSuchElementException("No day format for " + locale + " known.");
+
+		return new SimpleDayFormat(formatData.getDateFormatPattern(), formatData.getStringPattern());
+	}
 
 	protected DayFormat()
 	{
