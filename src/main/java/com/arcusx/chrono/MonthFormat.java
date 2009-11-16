@@ -17,6 +17,8 @@
 package com.arcusx.chrono;
 
 import java.text.*;
+import java.util.Locale;
+import java.util.NoSuchElementException;
 
 /**
  * Month formatting and parsing.
@@ -28,6 +30,23 @@ import java.text.*;
  */
 public abstract class MonthFormat
 {
+	/**
+	 * Get a day format for a given locale.
+	 * 
+	 * @param locale The locale, not null.
+	 * @return Day format, never null.
+	 * @throws NoSuchElementException if no instance for locale is known.
+	 */
+	public static MonthFormat newInstanceFor(Locale locale)
+	{
+		SimpleMonthFormatData formatData = SimpleMonthFormatData.instanceFor(locale);
+		if (formatData == null)
+			throw new NoSuchElementException("No day format for " + locale + " known.");
+
+		return new SimpleMonthFormat(new SimpleDateFormat(formatData.getDateFormatPattern()), formatData
+				.getStringPattern());
+	}
+
 	protected MonthFormat()
 	{
 	}

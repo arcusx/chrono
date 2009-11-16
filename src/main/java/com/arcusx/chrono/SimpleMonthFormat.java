@@ -17,6 +17,7 @@
 package com.arcusx.chrono;
 
 import java.text.*;
+import java.util.regex.Pattern;
 
 /**
  * Simple implementation of formatting parsing of
@@ -29,26 +30,31 @@ import java.text.*;
  */
 public class SimpleMonthFormat extends MonthFormat
 {
-	private static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy/MM");
+	private static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy/MM");
 
-	public static final SimpleMonthFormat INSTANCE = new SimpleMonthFormat(DEFAULT_DATE_FORMAT);
+	public static final SimpleMonthFormat INSTANCE = new SimpleMonthFormat(DEFAULT_DATE_FORMAT, null);
 
 	private DateFormat dateFormat;
+	private Pattern regex;
 
 	public SimpleMonthFormat(String pattern)
 	{
-		this(new SimpleDateFormat(pattern));
+		this(new SimpleDateFormat(pattern), null);
 	}
 
-	private SimpleMonthFormat(DateFormat dateFormat)
+	SimpleMonthFormat(DateFormat dateFormat, Pattern regex)
 	{
 		this.dateFormat = dateFormat;
+		this.regex = regex;
 	}
 
 	public Month parse(String s) throws ParseException
 	{
+		if (s == null)
+			throw new ParseException("Cannot parse month " + s + ".", 0);
+
 		// FIXME this is for compatibility, check it (care for MonthSequenceFormat!)
-		if (this.dateFormat == DEFAULT_DATE_FORMAT)
+		if (this.dateFormat.equals(DEFAULT_DATE_FORMAT))
 		{
 			int slashPos = s.indexOf('/');
 			if (slashPos == -1)
@@ -76,14 +82,22 @@ public class SimpleMonthFormat extends MonthFormat
 
 			return new Month(year, month);
 		}
-		else
-			return Month.valueOf(this.dateFormat.parse(s));
+
+		if (regex != null)
+		{
+			if (!this.regex.matcher(s).matches())
+			{
+				throw new ParseException("Unparsable month '" + s + "'.", 0);
+			}
+		}
+
+		return Month.valueOf(this.dateFormat.parse(s));
 	}
 
 	public void format(Month month, StringBuffer buf)
 	{
 		// FIXME this is for compatibility, check it (care for MonthSequenceFormat!)
-		if (this.dateFormat == DEFAULT_DATE_FORMAT)
+		if (this.dateFormat.equals(DEFAULT_DATE_FORMAT))
 		{
 			buf.append(month.getYearValue()).append("/").append(month.getMonthValue() + 1);
 		}

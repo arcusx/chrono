@@ -18,6 +18,8 @@
 
 package com.arcusx.chrono.tests;
 
+import java.util.Locale;
+
 import com.arcusx.chrono.*;
 
 import junit.framework.*;
@@ -50,4 +52,33 @@ public class SimpleMonthFormatTestCase extends TestCase
 		String monthStr = SimpleMonthFormat.INSTANCE.format(month);
 		assertEquals("2003/3", monthStr);
 	}
+
+	public void testParseGermany() throws Exception
+	{
+		Month expectedMonth = new Month(2003, MonthOfYear.FEBRUARY);
+		MonthFormat monthFormat = MonthFormat.newInstanceFor(Locale.GERMANY);
+		Month month = monthFormat.parse("02/2003");
+		assertEquals(expectedMonth, month);
+
+		monthFormat = MonthFormat.newInstanceFor(Locale.GERMAN);
+		month = monthFormat.parse("02/2003");
+		assertEquals(expectedMonth, month);
+	}
+
+	public void testParseUsUkEnglish() throws Exception
+	{
+		Month expectedMonth = new Month(2003, MonthOfYear.FEBRUARY);
+		MonthFormat monthFormat = MonthFormat.newInstanceFor(Locale.US);
+		Month month = monthFormat.parse("2003/02");
+		assertEquals(expectedMonth, month);
+
+		monthFormat = MonthFormat.newInstanceFor(Locale.UK);
+		month = monthFormat.parse("2003/02");
+		assertEquals(expectedMonth, month);
+
+		monthFormat = MonthFormat.newInstanceFor(Locale.ENGLISH);
+		month = monthFormat.parse("2003/02");
+		assertEquals(expectedMonth, month);
+	}
+
 }
