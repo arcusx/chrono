@@ -41,6 +41,7 @@ final class SimpleMonthFormatData implements Serializable
 		try
 		{
 			register(Locale.GERMAN, "[0-9][0-9]/[0-9][0-9][0-9][0-9]", "MM/yyyy");
+			register(Locale.GERMANY, "[0-9][0-9]/[0-9][0-9][0-9][0-9]", "MM/yyyy");
 			register(Locale.ENGLISH, "[0-9][0-9][0-9][0-9]\\/[0-9][0-9]", "yyyy/MM");
 			register(Locale.UK, "[0-9][0-9][0-9][0-9]\\/[0-9][0-9]", "yyyy/MM");
 			register(Locale.US, "[0-9][0-9][0-9][0-9]\\/[0-9][0-9]", "yyyy/MM");
