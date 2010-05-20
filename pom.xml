@@ -27,6 +27,14 @@
 					<tagBase>svn://svn.arcusx.lan/repository/arcusx/chrono/tags</tagBase>
 				</configuration>
 			</plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>**/SimpleMonthFormatTestCase.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
 		</plugins>
 	</build>
 	<dependencies>
