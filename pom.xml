@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.arcusx.parent</groupId>
 		<artifactId>arcusx-parent</artifactId>
-		<version>1.0.8</version>
+		<version>1.0.9</version>
 	</parent>
 	<groupId>com.arcusx.chrono</groupId>
 	<artifactId>arcusx-chrono</artifactId>
@@ -13,20 +13,11 @@
 	<packaging>jar</packaging>
 	<version>1.0.6-SNAPSHOT</version>
 	<scm>
-		<developerConnection>scm:svn:svn://svn.arcusx.lan/main/arcusx/chrono/trunk</developerConnection>
-		<connection>scm:svn:svn://svn.arcusx.lan/main/arcusx/chrono/trunk</connection>
+		<developerConnection>scm:git:ssh://scm.arcusx.lan/srv/git/arcusx/chrono.git</developerConnection>
+		<connection>scm:git:ssh://scm.arcusx.lan/srv/git/arcusx/chrono.git</connection>
 	</scm>
 	<build>
 		<finalName>arcusx-chrono</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>svn://svn.arcusx.lan/main/arcusx/chrono/tags</tagBase>
-				</configuration>
-			</plugin>
-		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
