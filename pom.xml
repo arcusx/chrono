@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.arcusx.parent</groupId>
 		<artifactId>arcusx-parent</artifactId>
-		<version>1.0.9</version>
+		<version>1.0.11</version>
 	</parent>
 	<groupId>com.arcusx.chrono</groupId>
 	<artifactId>arcusx-chrono</artifactId>
