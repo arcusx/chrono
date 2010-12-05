@@ -11,7 +11,7 @@
 	<name>${artifactId}</name>
 	<description>${artifactId}</description>
 	<packaging>jar</packaging>
-	<version>1.0.7</version>
+	<version>1.0.8-SNAPSHOT</version>
 	<scm>
 		<developerConnection>scm:git:ssh://scm.arcusx.lan/srv/git/arcusx/chrono.git</developerConnection>
 		<connection>scm:git:ssh://scm.arcusx.lan/srv/git/arcusx/chrono.git</connection>
