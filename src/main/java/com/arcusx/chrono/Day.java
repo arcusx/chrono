@@ -42,38 +42,26 @@ public final class Day implements Serializable, Comparable
 	private int day;
 
 	/**
-	 * Get the smaller one of two days.
+	 * Get the earliest one of two days.
 	 * 
 	 * @param one One day, not null.
-	 * @param one Othe day, not null.
-	 * @return The smaller day.
+	 * @param one Other day, not null.
+	 * @return The earlier day.
 	 */
-	public static Day minOf(Day one, Day other)
+	public static Day earliestOf(Day... days)
 	{
-		return minOf(new Day[]
-		{ one, other }, false);
-	}
-
-	public static Day minOf(Day one, Day second, Day third)
-	{
-		return minOf(new Day[]
-		{ one, second, third }, false);
-	}
-
-	public static Day minOf(Day[] months)
-	{
-		return minOf(months, false);
+		return earliestOf(days, false);
 	}
 
 	/**
-	 * Get minimum of multiple days.
+	 * Get earliest of multiple days.
 	 * 
-	 * @param days Array of days to get minimum from.
+	 * @param days Array of days to get earliest from.
 	 * @return ignoreNulls If false null leads to an error.
-	 * @return The minimum or null if array is of length 0 or contains nulls only.
+	 * @return The earliest or null if array is of length 0 or contains nulls only.
 	 * @throws IllegalArgumentException if ignoreNulls is false and an array element is null.
 	 */
-	public static Day minOf(Day[] days, boolean nullAllowed)
+	public static Day earliestOf(Day[] days, boolean nullAllowed)
 	{
 		Day min = null;
 		for (int i = 0; i < days.length; ++i)
@@ -89,38 +77,58 @@ public final class Day implements Serializable, Comparable
 	}
 
 	/**
+	 * @deprecated use earliestOf instead  
+	 */
+	public static Day minOf(Day one, Day other)
+	{
+		return minOf(new Day[] { one, other}, false);
+	}
+
+	/**
+	 * @deprecated use earliestOf instead  
+	 */
+	public static Day minOf(Day one, Day second, Day third)
+	{
+		return minOf(new Day[] { one, second, third}, false);
+	}
+
+	/**
+	 * @deprecated use earliestOf instead  
+	 */
+	public static Day minOf(Day[] days)
+	{
+		return minOf(days, false);
+	}
+
+	/**
+	 * @deprecated use earliestOf instead  
+	 */
+	public static Day minOf(Day[] days, boolean nullAllowed)
+	{
+		return earliestOf(days, nullAllowed);
+	}
+
+	/**
 	 * Get the later one of two days.
 	 * 
 	 * @param one One day, not null.
 	 * @param one Othe day, not null.
 	 * @return The later day.
 	 */
-	public static Day maxOf(Day one, Day other)
+	public static Day latestOf(Day... days)
 	{
-		return maxOf(new Day[]
-		{ one, other }, false);
-	}
-
-	public static Day maxOf(Day one, Day second, Day third)
-	{
-		return maxOf(new Day[]
-		{ one, second, third }, false);
-	}
-
-	public static Day maxOf(Day[] days)
-	{
-		return maxOf(days, false);
+		return latestOf(days, false);
 	}
 
 	/**
-	 * Get maximum of multiple days.
+	 * Get latest of multiple days.
 	 * 
-	 * @param days Array of days to get maximum from.
+	 * @param days Array of days to get latest from.
 	 * @return ignoreNulls If false null leads to an error.
-	 * @return The maximum or null if array is of length 0 or contains nulls only.
+	 * @return The latest or null if array is of length 0 or contains nulls only.
 	 * @throws IllegalArgumentException if ignoreNulls is false and an array element is null.
 	 */
-	public static Day maxOf(Day[] days, boolean nullAllowed)
+	public static Day latestOf(Day[] days, boolean nullAllowed)
 	{
 		Day max = null;
 		for (int i = 0; i < days.length; ++i)
@@ -133,6 +141,38 @@ public final class Day implements Serializable, Comparable
 		}
 
 		return max;
+	}
+
+	/**
+	 * @deprecated use lastestOf
+	 */
+	public static Day maxOf(Day one, Day other)
+	{
+		return maxOf(new Day[] { one, other}, false);
+	}
+
+	/**
+	 * @deprecated use lastestOf
+	 */
+	public static Day maxOf(Day one, Day second, Day third)
+	{
+		return maxOf(new Day[] { one, second, third}, false);
+	}
+
+	/**
+	 * @deprecated use lastestOf
+	 */
+	public static Day maxOf(Day[] days)
+	{
+		return maxOf(days, false);
+	}
+
+	/**
+	 * @deprecated use lastestOf
+	 */
+	public static Day maxOf(Day[] days, boolean nullAllowed)
+	{
+		return latestOf(days, nullAllowed);
 	}
 
 	public static Day today()

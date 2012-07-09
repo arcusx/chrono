@@ -16,6 +16,8 @@
 
 package com.arcusx.chrono.tests;
 
+import org.junit.Test;
+
 import com.arcusx.chrono.*;
 
 import junit.framework.*;
@@ -89,4 +91,52 @@ public class DayTestCase extends TestCase
 		assertEquals(x, result);
 	}
 
+	public void testEarliestOf() throws Exception
+	{
+		Day oneDay = new Day(2000, Month.JANUARY, 1);
+		Day otherDay = new Day(1990, Month.JULY, 20);
+
+		Day earlierDay = Day.earliestOf(oneDay, otherDay);
+
+		assertNotNull(earlierDay);
+		assertEquals(otherDay, earlierDay);
+	}
+
+	public void testEarliestOfWithNullValuesNotAllowed() throws Exception
+	{
+		Day oneDay = new Day(2000, Month.JANUARY, 1);
+		Day otherDay = null;
+
+		try
+		{
+			Day earlierDay = Day.earliestOf(oneDay, otherDay);
+			fail("IllegalArgumentException expected but not caught.");
+		}
+		catch (IllegalArgumentException ex)
+		{
+			// ok expected
+		}
+
+	}
+
+	public void testEarliestOfWithNullValuesAllowed() throws Exception
+	{
+		Day oneDay = new Day(2000, Month.JANUARY, 1);
+		Day otherDay = null;
+		Day thirdDay = new Day(1990, Month.JULY, 20);
+
+		Day earlierDay = Day.earliestOf(new Day[] { oneDay, otherDay, thirdDay}, true);
+		assertNotNull(earlierDay);
+		assertEquals(thirdDay, earlierDay);
+	}
+
+	public void testEarliestOfWithOnlyNullValuesAndNullAllowed() throws Exception
+	{
+		Day oneDay = null;
+		Day otherDay = null;
+		Day thirdDay = null;
+
+		Day earlierDay = Day.earliestOf(new Day[] { oneDay, otherDay, thirdDay}, true);
+		assertNull(earlierDay);
+	}
 }

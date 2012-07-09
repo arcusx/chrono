@@ -180,7 +180,7 @@ public class Month implements Serializable, Comparable
 
 		return Day.valueOf(cal);
 	}
-	
+
 	public int getDayCount()
 	{
 		Calendar cal = new GregorianCalendar();
@@ -278,44 +278,66 @@ public class Month implements Serializable, Comparable
 	//
 
 	/**
-	 * Get the smaller one of two months.
+	 * Get the earliest one of two months.
 	 * 
 	 * @param one One month, not null.
-	 * @param one Othe month, not null.
-	 * @return The smaller month.
+	 * @param one Other month, not null.
+	 * @return The earliest month.
 	 */
-	public static Month minOf(Month one, Month other)
+	public static Month earliestOf(Month... months)
 	{
-		return minOf(new Month[]
-		{ one, other }, false);
+		return earliestOf(months, false);
 	}
 
 	/**
-	 * Get the smallest one of three months.
+	 * Get earliest of multiple months.
 	 * 
-	 * @param one One month, not null.
-	 * @param second Othe month, not null.
-	 * @param third Othe month, not null.
-	 * @return The smallest month.
+	 * @param months Array of months to get earliest from.
+	 * @return ignoreNulls If false null leads to an error.
+	 * @return The earliest or null if array is of length 0 or contains nulls only.
+	 * @throws IllegalArgumentException if ignoreNulls is false and an array element is null.
+	 */
+	public static Month earliestOf(Month[] months, boolean ignoreNulls)
+	{
+		Month min = null;
+		for (int i = 0; i < months.length; ++i)
+		{
+			if (!ignoreNulls && months[i] == null)
+				throw new IllegalArgumentException("Month may not be null.");
+
+			if (min == null || (months[i] != null && months[i].before(min)))
+				min = months[i];
+		}
+
+		return min;
+	}
+
+	/**
+	 * @deprecated use earliestOf instead.
+	 */
+	public static Month minOf(Month one, Month other)
+	{
+		return minOf(new Month[] { one, other}, false);
+	}
+
+	/**
+	 * @deprecated use earliestOf instead.
 	 */
 	public static Month minOf(Month one, Month second, Month third)
 	{
-		return minOf(new Month[]
-		{ one, second, third }, false);
+		return minOf(new Month[] { one, second, third}, false);
 	}
 
+	/**
+	 * @deprecated use earliestOf instead.
+	 */
 	public static Month minOf(Month[] months)
 	{
 		return minOf(months, false);
 	}
 
 	/**
-	 * Get minimum of multiple months.
-	 * 
-	 * @param months Array of months to get minimum from.
-	 * @return ignoreNulls If false null leads to an error.
-	 * @return The minimum or null if array is of length 0 or contains nulls only.
-	 * @throws IllegalArgumentException if ignoreNulls is false and an array element is null.
+	 * @deprecated use earliestOf instead.
 	 */
 	public static Month minOf(Month[] months, boolean ignoreNulls)
 	{
@@ -336,35 +358,23 @@ public class Month implements Serializable, Comparable
 	 * Get the later one of two months.
 	 * 
 	 * @param one One month, not null.
-	 * @param one Othe month, not null.
+	 * @param one Other month, not null.
 	 * @return The latest month.
 	 */
-	public static Month maxOf(Month one, Month other)
+	public static Month latestOf(Month... months)
 	{
-		return maxOf(new Month[]
-		{ one, other }, false);
-	}
-
-	public static Month maxOf(Month one, Month second, Month third)
-	{
-		return maxOf(new Month[]
-		{ one, second, third }, false);
-	}
-
-	public static Month maxOf(Month[] months)
-	{
-		return maxOf(months, false);
+		return latestOf(months, false);
 	}
 
 	/**
-	 * Get maximum of multiple months.
+	 * Get latest of multiple months.
 	 * 
-	 * @param months Array of months to get maximum from.
+	 * @param months Array of months to get latest from.
 	 * @return ignoreNulls If false null leads to an error.
-	 * @return The maximum or null if array is of length 0 or contains nulls only.
+	 * @return The latest or null if array is of length 0 or contains nulls only.
 	 * @throws IllegalArgumentException if ignoreNulls is false and an array element is null.
 	 */
-	public static Month maxOf(Month[] months, boolean nullAllowed)
+	public static Month latestOf(Month[] months, boolean nullAllowed)
 	{
 		Month max = null;
 		for (int i = 0; i < months.length; ++i)
@@ -380,31 +390,36 @@ public class Month implements Serializable, Comparable
 	}
 
 	/**
-	 * Calculate a sequence of n months that are first of a period splitting
-	 * the year into pieces of equal months count.
-	 * 
-	 * @param periodLenInMonths Length in months of a period. Must split the year into equal pieces.
-	 * @param offMonth The month offset.
-	 * @return Sequence of months.
-	 * @deprecated Is in wrong place.
+	 * @deprecated use latestOf
 	 */
-	/*public static int[] getPeriodStartMonths(int periodLenInMonths, int offMonth)
+	public static Month maxOf(Month one, Month other)
 	{
-		if (12 % periodLenInMonths != 0)
-			throw new IllegalArgumentException("Period len in months must divide the year into equal pieces.");
+		return maxOf(new Month[] { one, other}, false);
+	}
 
-		int[] months = new int[12 / periodLenInMonths];
-		int monthsI = 0;
-		for (int i = 0; i < 12; ++i)
-		{
-			if (((i + offMonth) % periodLenInMonths) == (offMonth % periodLenInMonths))
-			{
-				months[monthsI++] = (i + offMonth) % 12;
-			}
-		}
+	/**
+	 * @deprecated use latestOf
+	 */
+	public static Month maxOf(Month one, Month second, Month third)
+	{
+		return maxOf(new Month[] { one, second, third}, false);
+	}
 
-		return months;
-	}*/
+	/**
+	 * @deprecated use latestOf
+	 */
+	public static Month maxOf(Month[] months)
+	{
+		return maxOf(months, false);
+	}
+
+	/**
+	 * @deprecated use latestOf
+	 */
+	public static Month maxOf(Month[] months, boolean nullAllowed)
+	{
+		return latestOf(months, nullAllowed);
+	}
 
 	public String toString()
 	{
