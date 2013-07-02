@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.arcusx.parent</groupId>
 		<artifactId>arcusx-parent</artifactId>
-		<version>1.0.21</version>
+		<version>28</version>
 	</parent>
 	<groupId>com.arcusx.chrono</groupId>
 	<artifactId>arcusx-chrono</artifactId>
@@ -13,8 +13,8 @@
 	<packaging>jar</packaging>
 	<version>1.0.8-SNAPSHOT</version>
 	<scm>
-		<developerConnection>scm:git:ssh://scm.arcusx.lan/srv/git/arcusx/chrono.git</developerConnection>
-		<connection>scm:git:ssh://scm.arcusx.lan/srv/git/arcusx/chrono.git</connection>
+		<developerConnection>scm:git:ssh://git@scm.arcusx.lan/arcusx/chrono</developerConnection>
+		<connection>scm:git:ssh://git@scm.arcusx.lan/arcusx/chrono</connection>
 	</scm>
 	<build>
 		<finalName>arcusx-chrono</finalName>
