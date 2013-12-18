@@ -16,8 +16,10 @@
 
 package com.arcusx.chrono;
 
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * A date with year part only.
@@ -59,6 +61,25 @@ public final class Year implements Serializable, Comparable
 	public static Year valueOf(Calendar cal)
 	{
 		return new Year(cal.get(Calendar.YEAR));
+	}
+
+	public static Year latestOf(Year... years)
+	{
+		return latestOf(years, false);
+	}
+
+	public static Year latestOf(Year[] years, boolean nullAllowed)
+	{
+		Year max = null;
+		for (Year year : years)
+		{
+			if (!nullAllowed && year == null)
+				throw new IllegalArgumentException("Year may not be null.");
+
+			if (max == null || (year != null && year.after(max)))
+				max = year;
+		}
+		return max;
 	}
 
 	public Year(int year)
@@ -166,7 +187,7 @@ public final class Year implements Serializable, Comparable
 
 		for (int year = firstYear; year < lastYear; year++)
 		{
-			if (this.isLeapYear(year))
+			if (isLeapYear(year))
 				count++;
 		}
 
