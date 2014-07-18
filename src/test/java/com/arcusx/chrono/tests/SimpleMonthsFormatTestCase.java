@@ -18,11 +18,15 @@
 
 package com.arcusx.chrono.tests;
 
-import java.util.*;
+import java.util.Iterator;
 
-import junit.framework.*;
+import junit.framework.TestCase;
 
-import com.arcusx.chrono.*;
+import com.arcusx.chrono.Month;
+import com.arcusx.chrono.MonthOfYear;
+import com.arcusx.chrono.MonthSequence;
+import com.arcusx.chrono.Months;
+import com.arcusx.chrono.SimpleMonthsFormat;
 
 /**
  * 

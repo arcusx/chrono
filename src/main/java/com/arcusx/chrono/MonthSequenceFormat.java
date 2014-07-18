@@ -16,7 +16,6 @@
 
 package com.arcusx.chrono;
 
-import java.text.*;
 
 /**
  * Formatting and parsing of month based timespan.
@@ -40,7 +39,7 @@ public abstract class MonthSequenceFormat
 		return buf.toString();
 	}
 
-	public abstract MonthSequence parse(String s) throws ParseException;
+	public abstract MonthSequence parse(String s);
 
 	public abstract void format(MonthSequence month, StringBuffer buf);
 }

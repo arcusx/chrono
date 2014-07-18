@@ -16,7 +16,6 @@
 
 package com.arcusx.chrono;
 
-import java.text.*;
 
 /**
  * This a very simple month based timespan format.
@@ -35,11 +34,11 @@ public class SimpleMonthSequenceFormat extends MonthSequenceFormat
 	{
 	}
 
-	public MonthSequence parse(String s) throws ParseException
+	public MonthSequence parse(String s)
 	{
 		String[] parts = s.split("-");
 		if (parts.length != 2)
-			throw new ParseException("Not of the form yyyy/mm-yyyy/mm", -1);
+			throw new IllegalArgumentException("Not of the form yyyy/mm-yyyy/mm");
 		Month start = SimpleMonthFormat.INSTANCE.parse(parts[0]);
 		Month end = SimpleMonthFormat.INSTANCE.parse(parts[1]);
 		return MonthSequence.valueOf(start, end);

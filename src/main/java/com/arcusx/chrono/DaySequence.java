@@ -16,8 +16,10 @@
 
 package com.arcusx.chrono;
 
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * A days based timespan.

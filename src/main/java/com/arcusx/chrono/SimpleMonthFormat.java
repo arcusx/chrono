@@ -16,7 +16,9 @@
 
 package com.arcusx.chrono;
 
-import java.text.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.regex.Pattern;
 
 /**
@@ -48,17 +50,17 @@ public class SimpleMonthFormat extends MonthFormat
 		this.regex = regex;
 	}
 
-	public Month parse(String s) throws ParseException
+	public Month parse(String s)
 	{
 		if (s == null)
-			throw new ParseException("Cannot parse month " + s + ".", 0);
+			throw new IllegalArgumentException("Cannot parse month " + s + ".");
 
 		// FIXME this is for compatibility, check it (care for MonthSequenceFormat!)
 		if (this.dateFormat.equals(DEFAULT_DATE_FORMAT))
 		{
 			int slashPos = s.indexOf('/');
 			if (slashPos == -1)
-				throw new ParseException("Invalid format. Expected yyyy/mm; is " + s, 0);
+				throw new IllegalArgumentException("Invalid format. Expected yyyy/mm; is " + s);
 
 			int year = -1;
 			try
@@ -67,7 +69,7 @@ public class SimpleMonthFormat extends MonthFormat
 			}
 			catch (NumberFormatException ex)
 			{
-				throw new ParseException("Invalid format. Expected yyyy/mm; is " + s, 0);
+				throw new IllegalArgumentException("Invalid format. Expected yyyy/mm; is " + s, ex);
 			}
 
 			int month = -1;
@@ -77,7 +79,7 @@ public class SimpleMonthFormat extends MonthFormat
 			}
 			catch (NumberFormatException ex)
 			{
-				throw new ParseException("Invalid format. Expected yyyy/mm; is " + s, 0);
+				throw new IllegalArgumentException("Invalid format. Expected yyyy/mm; is " + s, ex);
 			}
 
 			return new Month(year, month);
@@ -87,11 +89,18 @@ public class SimpleMonthFormat extends MonthFormat
 		{
 			if (!this.regex.matcher(s).matches())
 			{
-				throw new ParseException("Unparsable month '" + s + "'.", 0);
+				throw new IllegalArgumentException("Unparsable month '" + s + "'.");
 			}
 		}
 
-		return Month.valueOf(this.dateFormat.parse(s));
+		try
+		{
+			return Month.valueOf(this.dateFormat.parse(s));
+		}
+		catch (ParseException ex)
+		{
+			throw new IllegalArgumentException("Unparsable month '" + s + "'.", ex);
+		}
 	}
 
 	public void format(Month month, StringBuffer buf)

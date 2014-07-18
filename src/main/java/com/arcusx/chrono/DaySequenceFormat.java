@@ -16,7 +16,6 @@
 
 package com.arcusx.chrono;
 
-import java.text.*;
 
 /**
  * Formatting and parsing of day based timespan.
@@ -40,7 +39,7 @@ public abstract class DaySequenceFormat
 		return buf.toString();
 	}
 
-	public abstract DaySequence parse(String s) throws ParseException;
+	public abstract DaySequence parse(String s);
 
 	public abstract void format(DaySequence month, StringBuffer buf);
 }

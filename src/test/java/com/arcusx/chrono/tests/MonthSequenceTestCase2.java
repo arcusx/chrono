@@ -16,10 +16,17 @@
 
 package com.arcusx.chrono.tests;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 
-import junit.framework.*;
-import com.arcusx.chrono.*;
+import junit.framework.TestCase;
+
+import com.arcusx.chrono.Day;
+import com.arcusx.chrono.Month;
+import com.arcusx.chrono.MonthSequence;
+import com.arcusx.chrono.OpenMonthSequence;
 
 /**
  * 

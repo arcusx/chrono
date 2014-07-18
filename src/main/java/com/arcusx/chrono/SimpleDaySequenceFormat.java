@@ -16,7 +16,6 @@
 
 package com.arcusx.chrono;
 
-import java.text.*;
 
 /**
  * This a very simple day based timespan format.
@@ -35,13 +34,13 @@ public class SimpleDaySequenceFormat extends DaySequenceFormat
 	{
 	}
 
-	public DaySequence parse(String s) throws ParseException
+	public DaySequence parse(String s)
 	{
 		String[] parts = s.split("-");
 		if (parts.length != 6)
-			throw new ParseException("Not of the form yyyy-mm-dd-yyyy-mm-dd", -1);
-		Day start = SimpleDayFormat.INSTANCE.parse(parts[0]+"-"+parts[1]+"-"+parts[2]);
-		Day end = SimpleDayFormat.INSTANCE.parse(parts[3]+"-"+parts[4]+"-"+parts[5]);
+			throw new IllegalArgumentException("Not of the form yyyy-mm-dd-yyyy-mm-dd");
+		Day start = SimpleDayFormat.INSTANCE.parse(parts[0] + "-" + parts[1] + "-" + parts[2]);
+		Day end = SimpleDayFormat.INSTANCE.parse(parts[3] + "-" + parts[4] + "-" + parts[5]);
 
 		return new DaySequence(start, end);
 	}

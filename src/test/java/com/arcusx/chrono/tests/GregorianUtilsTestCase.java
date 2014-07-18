@@ -19,9 +19,9 @@
 
 package com.arcusx.chrono.tests;
 
-import com.arcusx.chrono.GregorianUtils;
-
 import junit.framework.TestCase;
+
+import com.arcusx.chrono.GregorianUtils;
 
 /**
  *

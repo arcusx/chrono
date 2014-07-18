@@ -18,8 +18,7 @@
 
 package com.arcusx.chrono;
 
-import java.text.*;
-import java.util.*;
+import java.util.Iterator;
 
 /**
  * 
@@ -36,7 +35,7 @@ public class SimpleMonthsFormat extends MonthsFormat
 	{
 	}
 
-	public Months parse(String s) throws ParseException
+	public Months parse(String s)
 	{
 		Months seq = new Months();
 		int pos = 0;
@@ -65,7 +64,7 @@ public class SimpleMonthsFormat extends MonthsFormat
 			{
 			}
 
-			throw new ParseException("Invalid month or months format.", pos);
+			throw new IllegalArgumentException("Invalid month or months format.");
 		}
 
 		return seq;

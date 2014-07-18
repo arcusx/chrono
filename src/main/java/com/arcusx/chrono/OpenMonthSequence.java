@@ -16,8 +16,9 @@
 
 package com.arcusx.chrono;
 
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Iterator;
 
 /**
  * Unlimited month based timespan.

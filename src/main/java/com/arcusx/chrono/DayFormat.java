@@ -16,7 +16,6 @@
 
 package com.arcusx.chrono;
 
-import java.text.*;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 
@@ -50,7 +49,7 @@ public abstract class DayFormat
 	{
 	}
 
-	public abstract Day parse(String s) throws ParseException;
+	public abstract Day parse(String s);
 
 	public String format(Day day)
 	{

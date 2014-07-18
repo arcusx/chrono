@@ -16,7 +16,7 @@
 
 package com.arcusx.chrono;
 
-import java.text.*;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 
@@ -51,7 +51,7 @@ public abstract class MonthFormat
 	{
 	}
 
-	public abstract Month parse(String s) throws ParseException;
+	public abstract Month parse(String s);
 
 	public String format(Month month)
 	{

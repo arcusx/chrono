@@ -17,8 +17,9 @@
 package com.arcusx.chrono;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created on 25.07.2007.
@@ -122,25 +123,24 @@ public class Quarter implements Serializable
 	 * 
 	 * @param s The string.
 	 * @return The quarter.
-	 * @throws ParseException if the string could not be parsed.
 	 */
-	public static Quarter valueOf(String s) throws ParseException
+	public static Quarter valueOf(String s)
 	{
 		if (s.startsWith("Quarter{") && s.endsWith("}"))
 			s = s.substring("Quarter{".length(), s.length() - 1);
 		else
-			throw new ParseException("'" + s + "' not of format Quarter{YYYY.Q}.", 0);
+			throw new IllegalArgumentException("'" + s + "' not of format Quarter{YYYY.Q}.");
 
 		String[] parts = s.split("\\.");
 		if (parts.length != 2)
-			throw new ParseException("'" + s + "' not of format Quarter{YYYY.Q}.", 8);
+			throw new IllegalArgumentException("'" + s + "' not of format Quarter{YYYY.Q}.");
 
 		int year = Integer.parseInt(parts[0]);
 		int quarter = Integer.parseInt(parts[1]);
 
 		if (quarter < FIRST || quarter > FORTH)
-			throw new ParseException("Quarter " + quarter + " out of range (first: " + FIRST + ", forth: " + FORTH
-					+ ").", 13);
+			throw new IllegalArgumentException("Quarter " + quarter + " out of range (first: " + FIRST + ", forth: " + FORTH
+					+ ").");
 
 		return new Quarter(year, quarter);
 	}

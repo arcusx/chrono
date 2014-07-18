@@ -16,9 +16,10 @@
 
 package com.arcusx.chrono;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * A concrete month of a concrete year.<br>
@@ -120,9 +121,8 @@ public class Month implements Serializable, Comparable
 	 * 
 	 * @param s The string.
 	 * @return The month.
-	 * @throws ParseException if the string could not be parsed.
 	 */
-	public static Month valueOf(String s) throws ParseException
+	public static Month valueOf(String s)
 	{
 		if (s.startsWith("Month{") && s.endsWith("}"))
 			s = s.substring("Month{".length(), s.length() - 1);

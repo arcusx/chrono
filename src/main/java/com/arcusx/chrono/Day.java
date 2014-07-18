@@ -16,9 +16,10 @@
 
 package com.arcusx.chrono;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * A day is a date describing a day by
@@ -222,9 +223,8 @@ public final class Day implements Serializable, Comparable
 	 * 
 	 * @param s The string.
 	 * @return The day.
-	 * @throws ParseException if the string could not be parsed.
 	 */
-	public static Day valueOf(String s) throws ParseException
+	public static Day valueOf(String s)
 	{
 		if (s.startsWith("Day{") && s.endsWith("}"))
 			s = s.substring("Day{".length(), s.length() - 1);

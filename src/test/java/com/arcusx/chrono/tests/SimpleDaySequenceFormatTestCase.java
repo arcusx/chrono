@@ -18,9 +18,12 @@
 
 package com.arcusx.chrono.tests;
 
-import com.arcusx.chrono.*;
+import junit.framework.TestCase;
 
-import junit.framework.*;
+import com.arcusx.chrono.Day;
+import com.arcusx.chrono.DaySequence;
+import com.arcusx.chrono.MonthOfYear;
+import com.arcusx.chrono.SimpleDaySequenceFormat;
 
 /**
  * 

@@ -16,11 +16,11 @@
 
 package com.arcusx.chrono.tests;
 
-import org.junit.Test;
+import junit.framework.TestCase;
 
-import com.arcusx.chrono.*;
-
-import junit.framework.*;
+import com.arcusx.chrono.Day;
+import com.arcusx.chrono.Month;
+import com.arcusx.chrono.MonthOfYear;
 
 /**
  * 

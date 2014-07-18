@@ -20,9 +20,12 @@ package com.arcusx.chrono.tests;
 
 import java.util.Locale;
 
-import com.arcusx.chrono.*;
+import junit.framework.TestCase;
 
-import junit.framework.*;
+import com.arcusx.chrono.Month;
+import com.arcusx.chrono.MonthFormat;
+import com.arcusx.chrono.MonthOfYear;
+import com.arcusx.chrono.SimpleMonthFormat;
 
 /**
  * 

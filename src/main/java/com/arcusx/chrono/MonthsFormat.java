@@ -18,7 +18,6 @@
 
 package com.arcusx.chrono;
 
-import java.text.*;
 
 /**
  * 
@@ -33,7 +32,7 @@ public abstract class MonthsFormat
 	{
 	}
 
-	public abstract Months parse( String s ) throws ParseException;
+	public abstract Months parse( String s );
 	
 	public String format( Months seq )
 	{

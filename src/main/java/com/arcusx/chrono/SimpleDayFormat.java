@@ -48,20 +48,27 @@ public final class SimpleDayFormat extends DayFormat
 		this.regex = regexPattern;
 	}
 
-	public Day parse(String s) throws ParseException
+	public Day parse(String s)
 	{
 		if (s == null)
-			throw new ParseException("Cannot parse date " + s + ".", 0);
+			throw new IllegalArgumentException("Cannot parse date " + s + ".");
 
 		if (regex != null)
 		{
 			if (!this.regex.matcher(s).matches())
 			{
-				throw new ParseException("Unparsable date '" + s + "'.", 0);
+				throw new IllegalArgumentException("Unparsable date '" + s + "'.");
 			}
 		}
 
-		return Day.valueOf(dateFormat.parse(s));
+		try
+		{
+			return Day.valueOf(dateFormat.parse(s));
+		}
+		catch (ParseException ex)
+		{
+			throw new IllegalArgumentException("Unparsable date '" + s + "'.", ex);
+		}
 	}
 
 	public void format(Day day, StringBuffer buf)

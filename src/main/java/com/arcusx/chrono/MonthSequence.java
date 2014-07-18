@@ -16,9 +16,12 @@
 
 package com.arcusx.chrono;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 /**
  * Limited month based timespan.
@@ -58,9 +61,8 @@ public class MonthSequence implements Serializable, Collection<Month>, Iterable<
 	 * 
 	 * @param s The string.
 	 * @return The months.
-	 * @throws ParseException if the string could not be parsed.
 	 */
-	public static MonthSequence valueOf(String s) throws ParseException
+	public static MonthSequence valueOf(String s)
 	{
 		if (s.startsWith("Months{") && s.endsWith("}"))
 			s = s.substring("Months{".length(), s.length() - 1);
