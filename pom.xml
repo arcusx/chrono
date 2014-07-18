@@ -11,11 +11,11 @@
 	<name>${project.artifactId}</name>
 	<description>${project.artifactId}</description>
 	<packaging>jar</packaging>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.2</version>
 	<scm>
 		<developerConnection>scm:git:ssh://git@scm.arcusx.lan/arcusx/chrono</developerConnection>
 		<connection>scm:git:ssh://git@scm.arcusx.lan/arcusx/chrono</connection>
-	  <tag>HEAD</tag>
+	  <tag>arcusx-chrono-1.2</tag>
   </scm>
 	<build>
 		<finalName>arcusx-chrono</finalName>
