@@ -6,7 +6,7 @@
     <name>${project.artifactId}</name>
     <description>${project.artifactId}</description>
     <packaging>jar</packaging>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.3</version>
     <properties>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,7 +14,7 @@
     <scm>
         <developerConnection>scm:git:ssh://git@github.com/arcusx/chrono</developerConnection>
         <connection>scm:git:ssh://git@github.com/arcusx/chrono</connection>
-        <tag>HEAD</tag>
+        <tag>arcusx-chrono-1.3</tag>
         <url>https://github.com/arcusx/chrono</url>
     </scm>
     <url>https://github.com/arcusx/chrono</url>
