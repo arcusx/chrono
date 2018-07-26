@@ -15,6 +15,7 @@
         <developerConnection>scm:git:ssh://git@github.com/arcusx/chrono</developerConnection>
         <connection>scm:git:ssh://git@github.com/arcusx/chrono</connection>
         <tag>HEAD</tag>
+        <url>https://github.com/arcusx/chrono</url>
     </scm>
     <url>https://github.com/arcusx/chrono</url>
     <developers>
