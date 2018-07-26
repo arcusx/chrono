@@ -7,6 +7,7 @@ chrono is a date/time library
 * used in production
 * applied across several industries, e.g. insurance, banks, medical and project planning
 * open sourced for our customers (and all people interested in the project)
+* no interoperability with threeten/java.time
 
 ## Requirements
 * Java >= 7
