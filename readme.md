@@ -12,9 +12,14 @@
 </dependency>
 ```
 
+## History
+* written in 2004
+* driven by business needs
+* used in production since 2004
+* used in systems of several industries, e.g. insurance, banks, medical, project planning, etc.
+
 ## Author
 This software is written by arcus(x).
 
 ## License
 [Apache 2.0](license.txt)
-
