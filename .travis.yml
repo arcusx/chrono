@@ -3,6 +3,8 @@ jdk:
   - oraclejdk8
 sudo: false
 script: mvn clean install
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 cache:
   directories:
     - '$HOME/.m2/repository'
