@@ -62,7 +62,7 @@
                     <version>1.6.7</version>
                     <extensions>true</extensions>
                     <configuration>
-                        <serverId>sonatype</serverId>
+                        <serverId>sonatype-com.arcusx</serverId>
                         <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                         <autoReleaseAfterClose>false</autoReleaseAfterClose>
                     </configuration>
