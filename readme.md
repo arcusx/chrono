@@ -4,5 +4,5 @@
 This software written by arcus(x).
 
 ## License
-[Apache 2.0](doc/license.txt)
+[Apache 2.0](license.txt)
 
