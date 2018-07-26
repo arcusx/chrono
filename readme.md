@@ -9,7 +9,7 @@ chrono is a date/time library
 * open sourced for our customers (and all people interested in the project)
 
 ## Requirements
-* Java >= 5
+* Java >= 7
 
 ## Maven Dependency
 ```xml
